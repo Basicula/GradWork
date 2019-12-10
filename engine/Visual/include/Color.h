@@ -22,9 +22,59 @@ public:
   bool operator==(const Color& i_other) const;
   bool operator!=(const Color& i_other) const;
   
-  inline uchar Red()    const { return static_cast<uchar>((m_rgb & 0xff0000) >> 16); };
-  inline uchar Green()  const { return static_cast<uchar>((m_rgb & 0x00ff00) >> 8 ); };
-  inline uchar Blue()   const { return static_cast<uchar>((m_rgb & 0x0000ff) >> 0 ); };
+  uchar GetRed()   const;
+  uchar GetGreen() const;
+  uchar GetBlue()  const;
+  
+  void SetRed(uchar i_red)    ;
+  void SetGreen(uchar i_green);
+  void SetBlue(uchar i_blue)  ;
+  
+  uint GetRGB() const;
+  void SetRGB(uint i_rgb);
 private:
   uint m_rgb;
 };
+
+inline uchar Color::GetRed() const
+  {
+  return static_cast<uchar>((m_rgb & 0xff0000) >> 16);
+  }
+  
+inline uchar Color::GetGreen() const 
+  { 
+  return static_cast<uchar>((m_rgb & 0x00ff00) >> 8 ); 
+  };
+  
+inline uchar Color::GetBlue() const 
+  { 
+  return static_cast<uchar>(m_rgb & 0x0000ff); 
+  };
+  
+inline void Color::SetRed(uchar i_red)
+  {
+  m_rgb &= 0x00ffff;
+  m_rgb |= (i_red << 16);
+  }
+
+inline void Color::SetGreen(uchar i_green)
+  {
+  m_rgb &= 0xff00ff;
+  m_rgb |= (i_green << 8);
+  }
+  
+inline void Color::SetBlue(uchar i_blue)
+  {
+  m_rgb &= 0xffff00;
+  m_rgb |= i_blue;
+  }
+  
+inline uint Color::GetRGB() const
+  {
+  return m_rgb;
+  }
+  
+inline void Color::SetRGB(uint i_rgb)
+  {
+  m_rgb = i_rgb;
+  }

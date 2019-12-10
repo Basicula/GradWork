@@ -17,8 +17,15 @@ class ColorMaterial
       double i_reflection = 0.0,
       double i_refraction = 0.0);
 
-    Color GetResultColor(const Vector3d& i_normal, const Vector3d& i_light, const Vector3d& i_view) const;
-    Color GetResultColor(const Vector3d& i_normal, const Vector3d& i_point, const std::vector<SpotLight*>& i_light, const Vector3d& i_view) const;
+    Color GetResultColor(
+      const Vector3d& i_normal, 
+      const Vector3d& i_light, 
+      const Vector3d& i_view) const;
+    Color GetResultColor(
+      const Vector3d& i_normal, 
+      const Vector3d& i_point, 
+      const std::vector<SpotLight*>& i_light, 
+      const Vector3d& i_view) const;
 
     inline Color GetBaseColor() const { return m_color; };
     inline Color GetAmbientColor() const { return m_color * m_ambient; };

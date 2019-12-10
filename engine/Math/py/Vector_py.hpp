@@ -44,7 +44,8 @@ namespace
             std::string res = "(";
             for (auto i = 0u; i < i_num_components; ++i)
             {
-                res += std::to_string(i_class[i]) + ( i == i_num_components - 1 ? "" : ", " );
+                res += std::to_string(i_class[i]) + 
+                        ( i == i_num_components - 1 ? "" : ", " );
             }
             res += ")";
             return res;
