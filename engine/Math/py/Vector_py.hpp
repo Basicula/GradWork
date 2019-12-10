@@ -1,7 +1,4 @@
-#include <pybind11/operators.h>
 #include <Vector.h>
-
-namespace py = pybind11;
 
 namespace
 {
@@ -22,6 +19,10 @@ namespace
                 .def(py::self *= float())
                 .def(py::self / float())
                 .def(py::self /= float())
+                .def(py::self * int())
+                .def(py::self *= int())
+                .def(py::self / int())
+                .def(py::self /= int())
                 .def("dot", &Class::Dot)
                 .def("normalize", &Class::Normalize)
                 .def("normalized", &Class::Normalized)

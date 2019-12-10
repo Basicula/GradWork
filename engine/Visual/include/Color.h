@@ -3,14 +3,15 @@
 
 #include <Vector.h>
 
+using uchar = unsigned char;
+using uint = unsigned int;
+
 class Color
 {
 public:
   Color();
-  Color(unsigned char i_red, unsigned char i_green, unsigned char i_blue);
-
-  template<class T1, class T2, class T3>
-  Color(T1 i_red, T2 i_green, T3 i_blue);
+  Color(uint i_rgb);
+  Color(uchar i_red, uchar i_green, uchar i_blue);
 
   Color(const Color& i_other);
 
@@ -19,17 +20,11 @@ public:
   Color operator+(const Color& i_other) const;
 
   bool operator==(const Color& i_other) const;
-  std::initializer_list<unsigned char> ColorToRGB() const;
-  std::initializer_list<unsigned char> ColorToBGR() const;
+  bool operator!=(const Color& i_other) const;
+  
+  inline uchar Red()    const { return static_cast<uchar>((m_rgb & 0xff0000) >> 16); };
+  inline uchar Green()  const { return static_cast<uchar>((m_rgb & 0x00ff00) >> 8 ); };
+  inline uchar Blue()   const { return static_cast<uchar>((m_rgb & 0x0000ff) >> 0 ); };
 private:
-  unsigned char m_red;
-  unsigned char m_green;
-  unsigned char m_blue;
+  uint m_rgb;
 };
-
-template<class T1,class T2, class T3>
-Color::Color(T1 i_red, T2 i_green, T3 i_blue)
-  : m_red(static_cast<unsigned char>(std::max(T1(0), std::min(i_red, T1(255)))))
-  , m_green(static_cast<unsigned char>(std::max(T2(0), std::min(i_green, T2(255)))))
-  , m_blue(static_cast<unsigned char>(std::max(T3(0), std::min(i_blue, T3(255)))))
-  {};

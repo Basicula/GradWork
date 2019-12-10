@@ -1,49 +1,51 @@
-#include "Color.h"
+#include <Color.h>
 
 Color::Color()
-  : m_red(0)
-  , m_green(0)
-  , m_blue(0)
+  : m_rgb(0)
+  {};
+
+Color::Color(uint i_rgb)
+  : m_rgb(i_rgb)
   {};
 
 Color::Color(unsigned char i_red, unsigned char i_green, unsigned char i_blue)
-  : m_red(i_red)
-  , m_green(i_green)
-  , m_blue(i_blue)
+  : m_rgb(i_red << 16 | i_green << 8 | i_blue)
   {};
 
 Color::Color(const Color& i_other)
-  : m_red(i_other.m_red)
-  , m_green(i_other.m_green)
-  , m_blue(i_other.m_blue)
+  : m_rgb(i_other.m_rgb)
   {};
 
 bool Color::operator==(const Color& i_other) const
   {
-  return m_red == i_other.m_red && m_green == i_other.m_green && m_blue == i_other.m_blue;
+  return m_rgb == i_other.m_rgb;
   }
-
-std::initializer_list<unsigned char> Color::ColorToRGB() const
+  
+bool Color::operator!=(const Color& i_other) const
   {
-  return { m_red, m_green, m_blue };
-  };
-
-std::initializer_list<unsigned char> Color::ColorToBGR() const
-  {
-  return { m_blue, m_green, m_red };
-  };
+  return m_rgb != i_other.m_rgb;
+  }
 
 Color Color::operator*(double i_factor) const
   {
-  return Color(m_red * i_factor, m_green * i_factor, m_blue * i_factor);
+  const uchar r = static_cast<uchar>(std::min(255.0,i_factor * Red())  );
+  const uchar g = static_cast<uchar>(std::min(255.0,i_factor * Green()));
+  const uchar b = static_cast<uchar>(std::min(255.0,i_factor * Blue()) );
+  return Color(r,g,b);
   }
 
 Color Color::operator*(const Vector3d& i_factor) const
   {
-  return Color(m_red * i_factor[0], m_green * i_factor[1], m_blue * i_factor[2]);
+  const uchar r = static_cast<uchar>(std::min(255.0,i_factor[0] * Red())  );
+  const uchar g = static_cast<uchar>(std::min(255.0,i_factor[1] * Green()));
+  const uchar b = static_cast<uchar>(std::min(255.0,i_factor[2] * Blue()) );
+  return Color(r,g,b);
   }
 
 Color Color::operator+(const Color & i_other) const
   {
-  return Color(int(m_red)+int(i_other.m_red), int(m_green) + int(i_other.m_green), int(m_blue) + int(i_other.m_blue));
+  const uchar r = static_cast<uchar>(std::min(255, int(Red())   + int(i_other.Red())  ));
+  const uchar g = static_cast<uchar>(std::min(255, int(Green()) + int(i_other.Green())));  
+  const uchar b = static_cast<uchar>(std::min(255, int(Blue())  + int(i_other.Blue()) ));
+  return Color(r, g, b);
   }

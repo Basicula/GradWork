@@ -33,7 +33,6 @@ class ColorMaterial
     inline double GetReflection() const { return m_reflection; };
     inline double GetRefraction() const { return m_refraction; };
 
-
   private:
     Color m_color;
     double m_shinines;
