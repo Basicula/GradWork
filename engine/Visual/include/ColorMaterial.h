@@ -21,10 +21,12 @@ class ColorMaterial
       const Vector3d& i_light, 
       const Vector3d& i_view) const;
 
-    Color GetBaseColor() const;
     Color GetAmbientColor() const;
     Color GetDiffuseColor() const;
     Color GetSpecularColor() const;
+    
+    Color GetColor() const;
+    void SetColor(const Color& i_color);
     
     Vector3d GetAmbient() const;
     void SetAmbient(const Vector3d& i_ambient);
@@ -40,6 +42,9 @@ class ColorMaterial
     
     double GetRefraction() const;
     void SetRefraction(double i_refraction);
+    
+    double GetShinines() const;
+    void SetShinines(double i_shinines);
 
   private:
     Color m_color;
@@ -58,9 +63,14 @@ class ColorMaterial
 
 const ColorMaterial g_DefaultMaterial(Color(255,255,255));
 
-inline Color ColorMaterial::GetBaseColor() const 
+inline Color ColorMaterial::GetColor() const 
   { 
   return m_color; 
+  };
+  
+inline void ColorMaterial::SetColor(const Color& i_color)
+  { 
+  m_color = i_color;
   };
   
 inline Color ColorMaterial::GetAmbientColor() const 
@@ -127,3 +137,12 @@ inline void ColorMaterial::SetRefraction(double i_refraction)
   { 
   m_refraction = i_refraction; 
   };
+  
+inline double ColorMaterial::GetShinines() const
+  {
+  return m_shinines;
+  }
+inline void ColorMaterial::SetShinines(double i_shinines)
+  {
+  m_shinines = i_shinines;
+  }
