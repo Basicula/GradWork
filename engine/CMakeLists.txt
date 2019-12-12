@@ -1,6 +1,6 @@
 add_subdirectory(Math)
 add_subdirectory(Visual)
-#add_subdirectory(Primitives)
+add_subdirectory(Primitives)
 
 pybind11_add_module(engine engine_module.cpp)
 target_link_libraries(
@@ -10,6 +10,6 @@ target_link_libraries(
     
     Math
     Visual
-    #Primitives
+    Primitives
     
     pybind11)

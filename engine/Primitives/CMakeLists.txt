@@ -1,25 +1,23 @@
 set(
     SOURCES
 	
-	src/IntersectionUtilities.cpp
-	src/Sphere.cpp
+	#src/Sphere.cpp
 	src/Ray.cpp
-	src/Plane.cpp
-	src/Torus.cpp
-	src/Cylinder.cpp
+	#src/Plane.cpp
+	#src/Torus.cpp
+	#src/Cylinder.cpp
 )
 
 set(
     HEADERS
 
-	include/IntersectionUtilities.h
-	include/Sphere.h
+	#include/Sphere.h
 	include/Ray.h
-	include/Plane.h
-	include/Torus.h
-	include/Cylinder.h
-
-	include/IObject.h
+	#include/Plane.h
+	#include/Torus.h
+	#include/Cylinder.h
+  #
+	#include/IObject.h
 )
 
 add_library(

@@ -6,16 +6,35 @@ class Ray
 {
 public:
   Ray() = delete;
-  Ray(const Vector3d& i_start, const Vector3d& i_dir, double i_environment = 1.0);
-  Ray(const Ray& i_other);
+  Ray(const Vector3d& i_origin, const Vector3d& i_dir);
 
-  inline Vector3d GetStart() const { return m_start; };
-  inline Vector3d GetDirection() const { return m_direction; };
-  inline double GetEnvironment() const { return m_environment; };
-  inline void SetEnvironment(double i_environment) { m_environment = i_environment; };
+  Vector3d GetOrigin() const;
+  void SetOrigin(const Vector3d& i_origin);
+  
+  Vector3d GetDirection() const;
+  void SetDirection(const Vector3d& i_direction);
 
 private:
-  Vector3d m_start;
+  Vector3d m_origin;
   Vector3d m_direction;
-  double m_environment;
 };
+
+inline Vector3d Ray::GetOrigin() const 
+  { 
+  return m_origin; 
+  };
+  
+inline void Ray::SetOrigin(const Vector3d& i_origin)
+  { 
+  m_origin = i_origin; 
+  };
+  
+inline Vector3d Ray::GetDirection() const 
+  { 
+  return m_direction; 
+  };
+  
+inline void Ray::SetDirection(const Vector3d& i_direction)
+  { 
+  m_direction = i_direction; 
+  };
