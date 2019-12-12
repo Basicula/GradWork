@@ -30,7 +30,45 @@ class TestColorMaterialConstructors(unittest.TestCase):
         self.assertEqual(ruby_material.reflection, 0)
         self.assertEqual(ruby_material.refraction, 0)
 
-
+class TestColorMaterialProperties(unittest.TestCase):
+    def test_properties(self):
+        ruby_material = ColorMaterial(Color(255, 0, 0)
+                                    , Vector3d(0.1745, 0.01175, 0.01175)
+                                    , Vector3d(0.61424, 0.04136, 0.04136)
+                                    , Vector3d(0.727811, 0.626959, 0.626959)
+                                    , 76.8)
+        
+        self.assertEqual(ruby_material.color, Color(0xff0000))
+        self.assertEqual(ruby_material.ambient, Vector3d(0.1745, 0.01175, 0.01175))
+        self.assertEqual(ruby_material.diffuse, Vector3d(0.61424, 0.04136, 0.04136))
+        self.assertEqual(ruby_material.specular, Vector3d(0.727811, 0.626959, 0.626959))
+        self.assertEqual(ruby_material.shinines, 76.8)
+        self.assertEqual(ruby_material.reflection, 0)
+        self.assertEqual(ruby_material.refraction, 0)
+        
+        ruby_material.color = Color(0x00ff00)
+        self.assertEqual(ruby_material.color, Color(0x00ff00))
+        
+        ruby_material.ambient = Vector3d(0,0,0)
+        self.assertEqual(ruby_material.ambient, Vector3d(0,0,0))
+        self.assertEqual(ruby_material.acolor(), Color(0))
+        
+        ruby_material.diffuse = Vector3d(0,0,0)
+        self.assertEqual(ruby_material.diffuse, Vector3d(0,0,0))
+        self.assertEqual(ruby_material.dcolor(), Color(0))
+        
+        ruby_material.specular = Vector3d(0,0,0)
+        self.assertEqual(ruby_material.specular, Vector3d(0,0,0))
+        self.assertEqual(ruby_material.scolor(), Color(0))
+        
+        ruby_material.shinines = 0
+        self.assertEqual(ruby_material.shinines, 0)
+        
+        ruby_material.reflection= 1
+        self.assertEqual(ruby_material.reflection, 1)
+        
+        ruby_material.refraction = 1
+        self.assertEqual(ruby_material.refraction, 1)
 
 if __name__ == "__main__":
     unittest.main()

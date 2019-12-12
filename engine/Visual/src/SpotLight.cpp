@@ -1,6 +1,9 @@
 #include <SpotLight.h>
 
-SpotLight::SpotLight(const Vector3d& i_location, const Color& i_color, double i_intensity)
+SpotLight::SpotLight(
+  const Vector3d& i_location, 
+  const Color& i_color, 
+  double i_intensity)
   : m_location(i_location)
   , m_color(i_color)
   , m_intensity(i_intensity)
