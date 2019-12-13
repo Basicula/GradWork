@@ -4,6 +4,7 @@ import engine.Math.Vector as vec
 
 class TestVectorOutput(unittest.TestCase):
     def test_str(self):
+        print("\nVector as str", end = "")
         vec2d = vec.Vector2d()
         vec3d = vec.Vector3d()
         vec4d = vec.Vector4d()
@@ -14,6 +15,7 @@ class TestVectorOutput(unittest.TestCase):
     
 class TestVectorConstructors(unittest.TestCase):
     def test_vec2_constructors(self):
+        print("\nVector2d constructor", end = "")
         vec2d = vec.Vector2d()
         self.assertEqual(vec2d.x, 0.0)
         self.assertEqual(vec2d.y, 0.0)
@@ -27,6 +29,7 @@ class TestVectorConstructors(unittest.TestCase):
         self.assertEqual(vec2d.y, 1.0)
         
     def test_vec3_constructors(self):
+        print("\nVector3d constructor", end = "")
         vec3d = vec.Vector3d()
         self.assertEqual(vec3d.x, 0.0)
         self.assertEqual(vec3d.y, 0.0)
@@ -46,6 +49,7 @@ class TestVectorConstructors(unittest.TestCase):
             vec.Vector3d(1,2)
             
     def test_vec4_constructors(self):
+        print("\nVector4d constructor", end = "")
         vec4d = vec.Vector4d()
         self.assertEqual(vec4d.x, 0.0)
         self.assertEqual(vec4d.y, 0.0)
@@ -72,6 +76,7 @@ class TestVectorConstructors(unittest.TestCase):
 
 class TestVectorOperations(unittest.TestCase):
     def test_vec2_simple_operations(self):
+        print("\nVector2d simple operations", end = "")
         v1, v2 = vec.Vector2d(1,2), vec.Vector2d(2,1)
         
         actual = v1 + v2
@@ -111,6 +116,7 @@ class TestVectorOperations(unittest.TestCase):
         self.assertEqual(actual, expected)
         
     def test_vec3_simple_operations(self):
+        print("\nVector3d simple operations", end = "")
         v1, v2 = vec.Vector3d(1,2,3), vec.Vector3d(3,2,1)
         
         actual = v1 + v2
@@ -150,6 +156,7 @@ class TestVectorOperations(unittest.TestCase):
         self.assertEqual(actual, expected)
         
     def test_vec4_simple_operations(self):
+        print("\nVector4d simple operations", end = "")
         v1, v2 = vec.Vector4d(1,2,3,4), vec.Vector4d(4,3,2,1)
         
         actual = v1 + v2
@@ -189,6 +196,7 @@ class TestVectorOperations(unittest.TestCase):
         self.assertEqual(actual, expected)
         
     def test_vec2_vector_operations(self):
+        print("\nVector2d vector operations", end = "")
         v1, v2 = vec.Vector2d(1,2),vec.Vector2d(2,1)
         
         actual1 = v1.dot(v2)
@@ -224,6 +232,7 @@ class TestVectorOperations(unittest.TestCase):
         self.assertEqual(actual, expected)
         
     def test_vec3_vector_operations(self):
+        print("\nVector3d vector operations", end = "")
         v1, v2 = vec.Vector3d(1,2,3),vec.Vector3d(3,2,1)
         
         actual1 = v1.dot(v2)
@@ -269,6 +278,7 @@ class TestVectorOperations(unittest.TestCase):
         self.assertEqual(actual1,expected)
         
     def test_vec4_vector_operations(self):
+        print("\nVector4d vector operations", end = "")
         v1, v2 = vec.Vector4d(1,2,3,4),vec.Vector4d(4,3,2,1)
         
         actual1 = v1.dot(v2)
@@ -305,4 +315,6 @@ class TestVectorOperations(unittest.TestCase):
         self.assertEqual(actual, expected)
 
 if __name__ == "__main__":
+    print("\n-------------------------")
+    print("...Test Vector submodule...")
     unittest.main()

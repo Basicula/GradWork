@@ -6,6 +6,7 @@ from engine.Visual.Light import SpotLight
 
 class TestPotLightConstructor(unittest.TestCase):
     def test_default_constructor(self):
+        print("\nDefault constructor", end = "")
         light = SpotLight(Vector3d(0,0,0))
         
         self.assertEqual(light.location, Vector3d(0,0,0))
@@ -13,6 +14,7 @@ class TestPotLightConstructor(unittest.TestCase):
         self.assertEqual(light.intensity, 1)
         
     def test_custom_construtor(self):
+        print("\nCustom constructor", end = "")
         light = SpotLight(Vector3d(1,2,3),Color(0xff00ff),23)
         
         self.assertEqual(light.location, Vector3d(1,2,3))
@@ -21,6 +23,7 @@ class TestPotLightConstructor(unittest.TestCase):
         
 class TestSpotLightProperties(unittest.TestCase):
     def test_properties(self):
+        print("\nProperties", end = "")
         light = SpotLight(Vector3d(1))
         
         light.location = Vector3d(1,2,3)
@@ -33,4 +36,6 @@ class TestSpotLightProperties(unittest.TestCase):
         self.assertEqual(light.intensity, 23)
         
 if __name__ == "__main__":
+    print("\n------------------")
+    print("...Test SpotLight...")
     unittest.main()

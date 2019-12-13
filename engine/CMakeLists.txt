@@ -13,3 +13,5 @@ target_link_libraries(
     Primitives
     
     pybind11)
+    
+set_target_properties(Primitives PROPERTIES POSITION_INDEPENDENT_CODE TRUE)

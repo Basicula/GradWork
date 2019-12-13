@@ -4,6 +4,7 @@ from engine.Math import Vector as vec
 
 class TestColorConstructors(unittest.TestCase):
     def test_creation(self):
+        print("\nConstructors", end = "")
         color = Color()
         self.assertEqual(color.red,   0)
         self.assertEqual(color.green, 0)
@@ -21,6 +22,7 @@ class TestColorConstructors(unittest.TestCase):
         
 class TestColorOperations(unittest.TestCase):
     def test_multuplication_by_factor(self):
+        print("\nMultiplication by factor", end = "")
         color = Color(12,32,42)
         
         actual= color * 10
@@ -40,6 +42,7 @@ class TestColorOperations(unittest.TestCase):
         self.assertEqual(actual, expected)
         
     def test_multiplication_by_vector(self):
+        print("\nMultiplication by vector", end = "")
         color = Color(123,231,42)
         
         common_vec = vec.Vector3d(0.3,0.5,0.7)
@@ -58,6 +61,7 @@ class TestColorOperations(unittest.TestCase):
         self.assertEqual(actual, expected)
         
     def test_color_sum(self):
+        print("\nColor sum", end = "")
         color1 = Color(0xff0000)
         color2 = Color(0x00ff00)
         
@@ -74,6 +78,7 @@ class TestColorOperations(unittest.TestCase):
         
 class TestColorProperties(unittest.TestCase):
     def test_color_properties(self):
+        print("\nProperties", end = "")
         color = Color()
         
         self.assertEqual(color.red,   0)
@@ -97,4 +102,6 @@ class TestColorProperties(unittest.TestCase):
         
     
 if __name__ == "__main__":
+    print("\n--------------")
+    print("...Test Color...")
     unittest.main()

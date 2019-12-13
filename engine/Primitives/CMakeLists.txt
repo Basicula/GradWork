@@ -1,8 +1,10 @@
 set(
     SOURCES
 	
-	#src/Sphere.cpp
-	src/Ray.cpp
+    src/Ray.cpp
+    src/Intersection.cpp
+    
+	src/Sphere.cpp
 	#src/Plane.cpp
 	#src/Torus.cpp
 	#src/Cylinder.cpp
@@ -11,13 +13,15 @@ set(
 set(
     HEADERS
 
-	#include/Sphere.h
 	include/Ray.h
+	include/Intersection.h
+
+	include/Sphere.h
 	#include/Plane.h
 	#include/Torus.h
 	#include/Cylinder.h
-  #
-	#include/IObject.h
+    
+	include/IObject.h
 )
 
 add_library(

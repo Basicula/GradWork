@@ -6,16 +6,51 @@
 class Sphere : public IObject
   {
   public:
-    Sphere(const ColorMaterial& i_material = g_DefaultMaterial);
-    Sphere(double i_radius, const ColorMaterial& i_material = g_DefaultMaterial);
-    Sphere(const Vector3d& i_center, double i_radius, const ColorMaterial& i_material = g_DefaultMaterial);
+    Sphere(const Vector3d& i_center, double i_radius, const ColorMaterial& i_material = ColorMaterial());
 
-    inline Vector3d GetCenter() const { return m_center; };
-    inline double GetRadius() const { return m_radius; };
+    virtual bool IntersectWithRay(Intersection& o_intersection, const Ray& i_ray) const override;
 
-    bool GetNormalInPoint(Vector3d& o_normal, const Vector3d& i_point) const override;
-    bool IntersectWithRay(Vector3d& o_intersection, double& o_distance, const Ray& i_ray) const override;
+    Vector3d GetCenter() const;
+    void SetCenter(const Vector3d& i_center);
+
+    double GetRadius() const;
+    void SetRadius(double i_radius);
+
+    ColorMaterial GetMaterial() const;
+    void SetMaterial(const ColorMaterial& i_material);
+
   private:
     Vector3d m_center;
     double m_radius;
+    ColorMaterial m_material;
   };
+
+inline Vector3d Sphere::GetCenter() const 
+  { 
+  return m_center; 
+  };
+
+inline void Sphere::SetCenter(const Vector3d& i_center)
+  {
+  m_center = i_center;
+  };
+
+inline double Sphere::GetRadius() const 
+  { 
+  return m_radius; 
+  };
+
+inline void Sphere::SetRadius(double i_radius)
+  {
+  m_radius = i_radius;
+  };
+
+inline ColorMaterial Sphere::GetMaterial() const
+  {
+  return m_material;
+  }
+
+inline void Sphere::SetMaterial(const ColorMaterial& i_material)
+  {
+  m_material = i_material;
+  }

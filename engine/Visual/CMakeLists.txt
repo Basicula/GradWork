@@ -1,15 +1,15 @@
 set(
-    SOURCES
+  SOURCES
     
-    src/SpotLight.cpp
+  src/SpotLight.cpp
 	src/Color.cpp
 	src/ColorMaterial.cpp
 )
 
 set(
-    HEADERS
+  HEADERS
     
-    include/SpotLight.h
+  include/SpotLight.h
 	include/Color.h
 	include/ColorMaterial.h
 )
@@ -17,8 +17,8 @@ set(
 add_library(
 	Visual
 	
-    ${SOURCES}
-    ${HEADERS}
+  ${SOURCES}
+  ${HEADERS}
 )
 
 target_include_directories(Visual PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

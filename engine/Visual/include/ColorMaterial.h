@@ -6,9 +6,8 @@
 class ColorMaterial
   {
   public:
-    ColorMaterial() = delete;
     ColorMaterial(
-      const Color& i_color,
+      const Color& i_color = Color(0xaaaaaa),
       const Vector3d& i_ambient = Vector3d(1.0, 1.0, 1.0),
       const Vector3d& i_diffuse = Vector3d(1.0, 1.0, 1.0),
       const Vector3d& i_specular = Vector3d(1.0, 1.0, 1.0),
@@ -60,8 +59,6 @@ class ColorMaterial
 
     double m_refraction;
   };
-
-const ColorMaterial g_DefaultMaterial(Color(255,255,255));
 
 inline Color ColorMaterial::GetColor() const 
   { 

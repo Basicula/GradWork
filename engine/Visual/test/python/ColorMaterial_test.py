@@ -5,6 +5,7 @@ from engine.Math.Vector import Vector3d
 
 class TestColorMaterialConstructors(unittest.TestCase):
     def test_simple_constructor(self):
+        print("\nSimple constructor", end = "")
         cm = ColorMaterial(Color(0x00ff00))
         
         self.assertEqual(cm.color, Color(0x00ff00))
@@ -16,6 +17,7 @@ class TestColorMaterialConstructors(unittest.TestCase):
         self.assertEqual(cm.refraction, 0)
         
     def test_full_constructor(self):
+        print("\nFull constructor", end = "")
         ruby_material = ColorMaterial(Color(255, 0, 0)
                                     , Vector3d(0.1745, 0.01175, 0.01175)
                                     , Vector3d(0.61424, 0.04136, 0.04136)
@@ -32,6 +34,7 @@ class TestColorMaterialConstructors(unittest.TestCase):
 
 class TestColorMaterialProperties(unittest.TestCase):
     def test_properties(self):
+        print("\nProperties", end = "")
         ruby_material = ColorMaterial(Color(255, 0, 0)
                                     , Vector3d(0.1745, 0.01175, 0.01175)
                                     , Vector3d(0.61424, 0.04136, 0.04136)
@@ -71,4 +74,6 @@ class TestColorMaterialProperties(unittest.TestCase):
         self.assertEqual(ruby_material.refraction, 1)
 
 if __name__ == "__main__":
+    print("\n----------------------")
+    print("...Test ColorMaterial...")
     unittest.main()
