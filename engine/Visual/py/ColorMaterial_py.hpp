@@ -1,10 +1,16 @@
 #include <ColorMaterial.h>
 
-namespace py = pybind11;
+namespace
+  {
+  class PyColorMaterial : public ColorMaterial
+    {
+    using ColorMaterial::ColorMaterial;
+    };
+  }
 
 static void AddColorMaterial(py::module& io_module)
   {
-  py::class_<ColorMaterial>(io_module, "ColorMaterial")
+  py::class_<ColorMaterial, IMaterial, PyColorMaterial>(io_module, "ColorMaterial")
     .def(py::init<Color,
       Vector3d,
       Vector3d,

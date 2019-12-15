@@ -1,6 +1,7 @@
 import unittest
 
-from engine.Visual import ColorMaterial, Color
+from engine.Visual import Color
+from engine.Visual.Material import ColorMaterial
 from engine.Math.Vector import Vector3d
 
 class TestColorMaterialConstructors(unittest.TestCase):

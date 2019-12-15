@@ -1,9 +1,10 @@
 #pragma once
 
+#include <IMaterial.h>
 #include <Color.h>
 #include <Vector.h>
 
-class ColorMaterial
+class ColorMaterial : public IMaterial
   {
   public:
     ColorMaterial(

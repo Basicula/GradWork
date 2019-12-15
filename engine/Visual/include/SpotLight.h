@@ -1,9 +1,10 @@
 #pragma once
 
+#include <ILight.h>
 #include <Vector.h>
 #include <Color.h>
 
-class SpotLight
+class SpotLight : public ILight
   {
   public:
     SpotLight(

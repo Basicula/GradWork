@@ -9,6 +9,9 @@ set(
 
 set(
   HEADERS
+  
+  include/ILight.h
+  include/IMaterial.h
 
   include/Camera.h
   include/Color.h
