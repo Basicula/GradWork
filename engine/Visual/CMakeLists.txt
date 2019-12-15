@@ -1,22 +1,24 @@
 set(
   SOURCES
-    
+
+  src/Camera.cpp
+  src/Color.cpp
+  src/ColorMaterial.cpp
   src/SpotLight.cpp
-	src/Color.cpp
-	src/ColorMaterial.cpp
 )
 
 set(
   HEADERS
-    
+
+  include/Camera.h
+  include/Color.h
+  include/ColorMaterial.h
   include/SpotLight.h
-	include/Color.h
-	include/ColorMaterial.h
 )
 
 add_library(
-	Visual
-	
+  Visual
+
   ${SOURCES}
   ${HEADERS}
 )
