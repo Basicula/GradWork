@@ -6,7 +6,7 @@ import traceback
 import time
 
 import Pyro4
-from parcs_py.file_utils import get_solution_path, get_output_path, get_input_path
+from .file_utils import get_solution_path, get_output_path, get_input_path
 import requests
 
 

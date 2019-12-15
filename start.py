@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.7
-from parcs_py import parcs, Config
+from parcs import parcs, Config
 import argparse
 
 parser = argparse.ArgumentParser(description='PARCS Python launcher...')

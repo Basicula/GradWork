@@ -10,7 +10,7 @@ from .job import Job
 import logging
 from queue import Queue
 from .network_utils import find_free_port, get_ip
-from parcs_py.scheduler import Scheduler
+from .scheduler import Scheduler
 
 
 class Config:
