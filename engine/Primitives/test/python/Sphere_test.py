@@ -1,4 +1,5 @@
 import unittest
+import math
 
 from engine.Primitives import Sphere, Ray, Intersection
 from engine.Math.Vector import Vector3d
@@ -13,7 +14,7 @@ class TestSphereConstructor(unittest.TestCase):
         self.assertEqual(sphere.center, Vector3d(0,0,0))
         self.assertEqual(sphere.radius, 10)
         self.assertEqual(sphere.material.color, Color(0xaaaaaa))
-        
+
     def test_full_constructor(self):
         print("\nFull constructor", end = "")
         sphere = Sphere(Vector3d(0,0,0), 10, ColorMaterial(Color(0xff0000)))
@@ -21,7 +22,7 @@ class TestSphereConstructor(unittest.TestCase):
         self.assertEqual(sphere.center, Vector3d(0,0,0))
         self.assertEqual(sphere.radius, 10)
         self.assertEqual(sphere.material.color, Color(0xff0000))
-        
+
 class TestSphereProperties(unittest.TestCase):
     def test_properties(self):
         print("\nProperties", end = "")
@@ -35,18 +36,65 @@ class TestSphereProperties(unittest.TestCase):
         
         sphere.material = ColorMaterial(Color(0xff00ff))
         self.assertEqual(sphere.material.color, Color(0xff00ff))
-        
+
 class TestSphereRayIntersection(unittest.TestCase):
     def test_two_intersections(self):
-        print("\nRay intersects Sphere", end = "")
-        sphere = Sphere(Vector3d(0,0,30), 10)
+        print("\nRay intersects Sphere (two intersections)", end = "")
+        sphere = Sphere(Vector3d(0,0,30), 10, ColorMaterial(Color(0xff0000)))
         ray = Ray(Vector3d(0,0,0),Vector3d(0,0,1))
         intersection = Intersection()
         
         hitted = sphere.hitRay(intersection,ray)
         self.assertEqual(hitted, True)
         self.assertEqual(intersection.distance, 20)
+        self.assertEqual(intersection.intersection, Vector3d(0,0,20))
+        self.assertEqual(intersection.normal, Vector3d(0,0,-1))
+        self.assertEqual(intersection.material.color, Color(0xff0000))
         
+        
+        sphere = Sphere(Vector3d(0,0,0), 1, ColorMaterial(Color(0xff0000)))
+        x = 1/math.sqrt(2)
+        ray = Ray(Vector3d(x,0,-5),Vector3d(0,0,1))
+        hitted = sphere.hitRay(intersection,ray)
+        self.assertEqual(hitted, True)
+        self.assertEqual(intersection.distance, 5-x)
+        
+        self.assertEqual(round(intersection.intersection.x,12), round(x,12))
+        self.assertEqual(intersection.intersection.y, 0)
+        self.assertEqual(round(intersection.intersection.z,12), round(-x,12))
+        
+        self.assertEqual(round(intersection.normal.x,12), round(x,12))
+        self.assertEqual(intersection.normal.y, 0)
+        self.assertEqual(round(intersection.normal.z,12), round(-x,12))
+        
+        self.assertEqual(intersection.material.color, Color(0xff0000))
+
+    def test_no_intersection(self):
+        print("\nNo intersections", end = "")
+        sphere = Sphere(Vector3d(0,0,30), 10, ColorMaterial(Color(0xff0000)))
+        ray = Ray(Vector3d(0,0,0),Vector3d(0,0,-1))
+        intersection = Intersection()
+        
+        hitted = sphere.hitRay(intersection,ray)
+        self.assertEqual(hitted, False)
+        
+        ray = Ray(Vector3d(10.0001,0,0),Vector3d(0,0,1))
+        hitted = sphere.hitRay(intersection,ray)
+        self.assertEqual(hitted, False)
+
+    def test_tangent(self):
+        print("\nTanget ray", end = "")
+        sphere = Sphere(Vector3d(0,0,30), 10, ColorMaterial(Color(0xff0000)))
+        ray = Ray(Vector3d(10,0,0),Vector3d(0,0,1))
+        intersection = Intersection()
+        
+        hitted = sphere.hitRay(intersection,ray)
+        self.assertEqual(hitted, True)
+        self.assertEqual(intersection.distance, 30)
+        self.assertEqual(intersection.intersection, Vector3d(10,0,30))
+        self.assertEqual(intersection.normal, Vector3d(1,0,0))
+        self.assertEqual(intersection.material.color, Color(0xff0000))
+
 if __name__ == "__main__":
     print("\n---------------")
     print("...Test Sphere...")

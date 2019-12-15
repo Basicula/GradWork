@@ -8,8 +8,8 @@ namespace py = pybind11;
 #include <primitives_py.hpp>
 
 PYBIND11_MODULE(engine, m)
-{
-    AddMathSubmodule(m);
-    AddVisualSubmodule(m);
-    AddPrimitivesSubmodule(m);
-}
+  {
+  AddMathSubmodule(m);
+  AddVisualSubmodule(m);
+  AddPrimitivesSubmodule(m);
+  }
