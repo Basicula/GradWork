@@ -45,8 +45,6 @@ class Config:
 
 def start(conf):
     log.info("Starting...")
-    log.info("Configuring Pyro4...")
-    log.info("Pyro4 configured.")
     app.node = Node.create_node(conf)
     if app.node.is_master_node():
         app.scheduler = Scheduler(app.node, app.scheduled_jobs)
@@ -84,133 +82,13 @@ def ok():
 def index_page():
     return render_template('index.html')
 
-
-@app.route('/workers', methods=['GET'])
-def workers_page():
-    if not app.node.is_master_node():
-        return render_template('error.html', title='This is not master node.'), 400
-    return render_template("workers.html", title='Workers', workers=app.node.workers)
-
-
-@app.route('/jobs', methods=['GET'])
-def jobs_page():
-    if not app.node.is_master_node():
-        return render_template('error.html', title='This is not master node.'), 400
-    return render_template("jobs.html", title='Jobs', jobs=app.node.jobs)
-
-
-@app.route('/add_job', methods=['GET'])
-def add_job_page():
-    return render_template('add_job.html',
-                           title='Add Job')
-
-
 @app.route('/about')
 def about_page():
     return render_template("about.html")
 
-
-# Public API
-@app.route('/api/worker')
-def get_workers():
-    if not app.node.is_master_node():
-        return bad_request()
-    return jsonify(workers=[w.serialize() for w in app.node.workers])
-
-
-@app.route('/api/worker/<int:worker_id>')
-def get_worker(worker_id):
-    if not app.node.is_master_node():
-        return bad_request()
-    worker = app.node.find_worker(worker_id)
-    if worker:
-        return jsonify(workers=worker.serialize())
-    else:
-        return not_found()
-
-
-@app.route('/api/job/<int:job_id>', methods=['DELETE'])
-def delete_job(job_id):
-    pass
-
-@app.route('/api/job/<int:job_id>/abort', methods=['POST'])
-def abort_job(job_id):
-    if not app.node.is_master_node():
-        return bad_request()
-    log.info("Aborting %d job.", job_id)
-    result = app.node.abort_job(job_id)
-    if result:
-        log.info("Job %d aborted.")
-    else:
-        log.info("Unable to find job %d.", job_id)
-    return ok() if result else not_found()
-
-
-@app.route('/api/worker/<int:worker_id>', methods=['DELETE'])
-def delete_worker(worker_id):
-    if not app.node.is_master_node():
-        return bad_request()
-    log.info("Removing %d worker.", worker_id)
-    result = app.node.delete_worker(worker_id)
-    if result:
-        log.info("Worker %d removed.", worker_id)
-    else:
-        log.warn("Unable to find worker %d.", worker_id)
-    return ok() if result else not_found()
-
-
-@app.route('/api/worker/<int:worker_id>/<state>', methods=['POST'])
-def enable_disable_worker(worker_id, state):
-    if not app.node.is_master_node():
-        return bad_request()
-    worker = app.node.find_worker(worker_id)
-    if worker is None:
-        return bad_request()
-    else:
-        worker.enabled = True if state == 'enable' else False
-        return ok()
-
-
-@app.route('/api/job/<int:job_id>/<file_name>')
-def get_job_file(job_id, file_name):
-    if not app.node.is_master_node():
-        return bad_request()
-    job = app.node.find_job(job_id)
-    if not job:
-        return not_found()
-    if file_name == 'solution':
-        return send_from_directory(get_job_directory(app.node.conf.job_home, job.id), SOLUTION_FILE_NAME,
-                                   as_attachment=True)
-    elif file_name == 'input':
-        return send_from_directory(get_job_directory(app.node.conf.job_home, job.id), INPUT_FILE_NAME,
-                                   as_attachment=True)
-    elif file_name == 'output':
-        if job.is_ended():
-            return send_from_directory(get_job_directory(app.node.conf.job_home, job.id), OUTPUT_FILE_NAME,
-                                       as_attachment=True)
-        else:
-            return bad_request()
-    else:
-        return not_found()
-
-
-@app.route('/api/job', methods=['POST'])
-def add_job():
-    job_name = request.form.get('job_name')
-    solution_file = request.files['solution_file']
-    input_file = request.files['input_file']
-
-    job = Job(job_name)
-
-    store_solution(app.node.conf.job_home, solution_file, job.id)
-    store_input(app.node.conf.job_home, input_file, job.id)
-
-    app.node.add_job(job)
-    log.info('Job %d was scheduled. Scheduled queue size - %d.' % (job.id, app.scheduled_jobs.qsize() + 1))
-    app.scheduled_jobs.put(job)
-
-    return render_template('add_job.html', title='Add Job')
-
+@app.route('/simulation', methods=['GET'])
+def simulation():
+    return render_template("simulation.html")
 
 # Inernal api
 @app.route('/api/internal/heartbeat')
@@ -229,36 +107,6 @@ def register_worker():
         return jsonify(worker=node_link.serialize())
     else:
         return bad_request()
-
-
-@app.route('/api/internal/job', methods=['POST'])
-def add_solution():
-    if app.node.is_master_node():
-        return bad_request()
-    solution_file = request.files['solution']
-    job_id = int(request.form.get('job_id'))
-    store_solution(app.node.conf.job_home, solution_file, job_id)
-    return start_job_rpc_server(job_id)
-
-
-@app.route('/api/internal/rpc/<int:job_id>', methods=['DELETE'])
-def stop_job_rpc_server(job_id):
-    if app.node.is_master_node():
-        return bad_request()
-    app.node.stop_rpc()
-    return ok()
-
-
-@app.route('/api/internal/rpc/<int:job_id>', methods=['POST'])
-def start_job_rpc_server(job_id):
-    if app.node.is_master_node():
-        return bad_request()
-    uri = app.node.start_rpc(job_id)
-    return jsonify(uri=str(uri))
-
-@app.route('/simulation', methods=['GET'])
-def simulation():
-    return render_template("simulation.html")
     
     
     
