@@ -3,7 +3,8 @@ import math
 
 from engine.Primitives import Sphere, Ray, Intersection
 from engine.Math.Vector import Vector3d
-from engine.Visual import ColorMaterial, Color
+from engine.Visual import Color
+from engine.Visual.Material import ColorMaterial
 
 
 class TestSphereConstructor(unittest.TestCase):

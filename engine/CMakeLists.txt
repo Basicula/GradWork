@@ -1,6 +1,7 @@
 add_subdirectory(Math)
 add_subdirectory(Visual)
 add_subdirectory(Primitives)
+add_subdirectory(Scene)
 
 pybind11_add_module(engine engine_module.cpp)
 target_link_libraries(
@@ -11,7 +12,9 @@ target_link_libraries(
     Math
     Visual
     Primitives
+    Scene
     
     pybind11)
     
 set_target_properties(Primitives PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+set_target_properties(Visual PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
