@@ -88,7 +88,7 @@ static void AddVectors(py::module& io_module)
   auto vec3d = py::class_<Vec3d>(vector_submodule, "Vector3d");
   vec3d.def(py::init<double, double, double>());
   vec3d.def("__str__", [](const Vec3d&) { return "Vector3d"; });
-  vec3d.def("cross", &Vec3d::CrossProduct);
+  vec3d.def("cross", &Vec3d::CrossProduct<3,double>);
   define_common(vec3d);
   define_individual(vec3d, 3);
 
