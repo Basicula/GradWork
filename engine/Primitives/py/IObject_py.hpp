@@ -19,6 +19,6 @@ namespace
 
 static void AddIObject(py::module& io_module)
   {
-  py::class_<IObject, PyIObject>(io_module, "IObject")
+  py::class_<IObject, std::shared_ptr<IObject>, PyIObject>(io_module, "IObject")
     .def("hitRay", &IObject::IntersectWithRay);
   }

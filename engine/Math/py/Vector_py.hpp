@@ -34,7 +34,7 @@ namespace
 
   const char* g_properties[4] = { "x", "y", "z", "w" };
   template<class Class>
-  static void define_individual(py::class_<Class>& io_class, int i_num_components)
+  static void define_individual(py::class_<Class>& io_class, unsigned int i_num_components)
     {
     if (i_num_components < 2)
       return;

@@ -26,7 +26,7 @@ namespace
 
 static void AddILight(py::module& io_module)
   {
-  py::class_<ILight, PyILight>(io_module, "ILight")
+  py::class_<ILight, std::shared_ptr<ILight>, PyILight>(io_module, "ILight")
     .def_property("state",
       &ILight::GetState,
       &ILight::SetState);

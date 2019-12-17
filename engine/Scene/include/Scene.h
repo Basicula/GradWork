@@ -12,9 +12,13 @@ class Scene
   public:
     Scene(const std::string& i_name = "Unnamed");
 
-    void AddObject(IObject* i_object);
+    void AddObject(std::shared_ptr<IObject> i_object);
     void AddCamera(const Camera& i_camera, bool i_set_active = false);
-    void AddLight(ILight* i_light);
+    void AddLight(std::shared_ptr<ILight> i_light);
+
+    std::size_t GetNumObjects() const;
+    std::size_t GetNumLights() const;
+    std::size_t GetNumCameras() const;
 
     void ClearObjects();
     void ClearCameras();
@@ -30,14 +34,14 @@ class Scene
   private:
     std::size_t m_active_camera;
     std::string m_name;
-    std::vector<std::unique_ptr<IObject>> m_objcts;
+    std::vector<std::shared_ptr<IObject>> m_objcts;
     std::vector<Camera> m_cameras;
-    std::vector<std::unique_ptr<ILight>> m_lights;
+    std::vector<std::shared_ptr<ILight>> m_lights;
   };
 
-inline void Scene::AddObject(IObject* i_object)
+inline void Scene::AddObject(std::shared_ptr<IObject> i_object)
   {
-  m_objcts.emplace_back(i_object);
+  m_objcts.push_back(i_object);
   }
 
 inline void Scene::AddCamera(const Camera& i_camera, bool i_set_active)
@@ -47,9 +51,24 @@ inline void Scene::AddCamera(const Camera& i_camera, bool i_set_active)
   m_cameras.push_back(i_camera);
   }
 
-inline void Scene::AddLight(ILight* i_light)
+inline void Scene::AddLight(std::shared_ptr<ILight> i_light)
   {
-  m_lights.emplace_back(i_light);
+  m_lights.push_back(i_light);
+  }
+
+inline std::size_t Scene::GetNumObjects() const
+  {
+  return m_objcts.size();
+  }
+
+inline std::size_t Scene::GetNumLights() const
+  {
+  return m_lights.size();
+  }
+
+inline std::size_t Scene::GetNumCameras() const
+  {
+  return m_cameras.size();
   }
 
 inline bool Scene::SetActiveCamera(std::size_t i_id)
