@@ -34,6 +34,7 @@ class Scene
   private:
     std::size_t m_active_camera;
     std::string m_name;
+    // TODO create K-d tree
     std::vector<std::shared_ptr<IObject>> m_objcts;
     std::vector<Camera> m_cameras;
     std::vector<std::shared_ptr<ILight>> m_lights;

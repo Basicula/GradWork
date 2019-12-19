@@ -4,6 +4,7 @@ set(
   src/Camera.cpp
   src/Color.cpp
   src/ColorMaterial.cpp
+  src/Image.cpp
   src/SpotLight.cpp
 )
 
@@ -16,6 +17,7 @@ set(
   include/Camera.h
   include/Color.h
   include/ColorMaterial.h
+  include/Image.h
   include/SpotLight.h
 )
 

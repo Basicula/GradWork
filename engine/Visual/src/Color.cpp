@@ -8,7 +8,7 @@ Color::Color(uint i_rgb)
   : m_rgb(i_rgb)
   {};
 
-Color::Color(unsigned char i_red, unsigned char i_green, unsigned char i_blue)
+Color::Color(uchar i_red, uchar i_green, uchar i_blue)
   : m_rgb(i_red << 16 | i_green << 8 | i_blue)
   {};
 

@@ -26,9 +26,9 @@ public:
   uchar GetGreen() const;
   uchar GetBlue()  const;
   
-  void SetRed(uchar i_red)    ;
+  void SetRed(uchar i_red);
   void SetGreen(uchar i_green);
-  void SetBlue(uchar i_blue)  ;
+  void SetBlue(uchar i_blue);
   
   uint GetRGB() const;
   void SetRGB(uint i_rgb);
