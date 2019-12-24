@@ -29,13 +29,7 @@ static void AddColor(py::module& io_module)
     .def_property("green", &Color::GetGreen, &Color::SetGreen)
     .def_property("blue", &Color::GetBlue, &Color::SetBlue)
     .def_property("rgb", &Color::GetRGB, &Color::SetRGB)
-    .def("__repr__", [](const Color& i_color)
-      {
-      return "rgb: (" +
-        std::to_string(i_color.GetRed()) + ", " +
-        std::to_string(i_color.GetGreen()) + ", " +
-        std::to_string(i_color.GetBlue()) + ")";
-      })
+    .def("__repr__", &Color::Serialize)
     .def("__hex__", hex_by_color_rgb)
-        .def("__str__", hex_by_color_rgb);
+    .def("__str__", hex_by_color_rgb);
   }

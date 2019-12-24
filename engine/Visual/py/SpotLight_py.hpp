@@ -21,6 +21,14 @@ namespace
         GetState,
         );
       }
+    std::string Serialize() const override
+      {
+      PYBIND11_OVERLOAD(
+        std::string,
+        SpotLight,
+        Serialize,
+        );
+      }
     };
   }
 

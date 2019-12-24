@@ -6,6 +6,7 @@
 #include <IObject.h>
 #include <ILight.h>
 #include <Camera.h>
+#include <Image.h>
 
 class Scene
   {
@@ -30,6 +31,13 @@ class Scene
 
     std::string GetName() const;
     void SetName(const std::string& i_name);
+
+    bool RenderFrame(Image& o_image) const;
+    bool RenderCameraFrame(Image& o_image, std::size_t i_camera) const;
+
+    std::string Serialize() const;
+  private:
+    bool _Render(Image& o_image, const Camera& i_camera) const;
 
   private:
     std::size_t m_active_camera;
@@ -115,4 +123,22 @@ inline bool Scene::SetOnOffLight(std::size_t i_id, bool i_state)
     return true;
     }
   return false;
+  }
+
+inline std::string Scene::Serialize() const
+  {
+  std::string res = "{ \"Scene\" : { ";
+  res += "\"Name\" : \"" + m_name + "\", ";
+  res += "\"Objects\" : [ ";
+  for (auto i = 0u; i < m_objcts.size(); ++i)
+    res += m_objcts[i]->Serialize() + (i == m_objcts.size() - 1 ? " ], " : ", ");
+  res += "\"Cameras\" : [ ";
+  for (auto i = 0u; i < m_cameras.size(); ++i)
+    res += m_cameras[i].Serialize() + (i == m_cameras.size() - 1 ? " ], " : ", ");
+  res += "\"Lights\" : [ ";
+  for (auto i = 0u; i < m_lights.size(); ++i)
+    res += m_lights[i]->Serialize() + (i == m_lights.size() - 1 ? " ], " : ", ");
+  res += "\"ActiveCamera\" : " + std::to_string(m_active_camera);
+  res += "} }";
+  return res;
   }

@@ -3,7 +3,8 @@
 static void AddCamera(py::module& io_module)
   {
   py::class_<Camera>(io_module, "Camera")
-    .def(py::init<const Vector3d&,
+    .def(py::init<
+      const Vector3d&,
       const Vector3d&,
       const Vector3d&,
       double,
@@ -12,5 +13,6 @@ static void AddCamera(py::module& io_module)
     .def_property("location",
       &Camera::GetLocation,
       &Camera::SetLocation)
-    .def("direction", &Camera::GetDirection);
+    .def("direction", &Camera::GetDirection)
+    .def("__repr__", &Camera::Serialize);
   }

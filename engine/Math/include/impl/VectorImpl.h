@@ -219,3 +219,16 @@ ElementType Vector<Dimension, ElementType>::SquareLength() const
     res += m_coords[i] * m_coords[i];
   return res;
   }
+
+template<ull Dimension, class ElementType>
+std::string Vector<Dimension, ElementType>::Serialize() const
+  {
+  std::string res = "{ \"Vector\" : [";
+  for (auto i = 0u; i < m_dimension; ++i)
+    {
+    res += std::to_string(m_coords[i]);
+    res += (i == m_dimension-1 ? "" : ", ");
+    }
+  res += "] }";
+  return res;
+  }

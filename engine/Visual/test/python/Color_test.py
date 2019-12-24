@@ -1,4 +1,6 @@
 import unittest
+import json
+
 from engine.Visual import Color
 from engine.Math import Vector as vec
 
@@ -93,6 +95,7 @@ class TestColorProperties(unittest.TestCase):
         self.assertEqual(color.green, 52)
         self.assertEqual(color.blue,  86)
         self.assertEqual(str(color), "0x123456")
+        self.assertEqual(json.loads(repr(color)), {"Color" : 0x123456})
         
         with self.assertRaises(TypeError):
             color.red = 1000

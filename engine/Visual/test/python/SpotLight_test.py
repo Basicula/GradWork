@@ -1,4 +1,5 @@
 import unittest
+import json
 
 from engine.Math.Vector import Vector3d
 from engine.Visual import Color
@@ -39,6 +40,19 @@ class TestSpotLightProperties(unittest.TestCase):
         
         light.state = False
         self.assertEqual(light.state, False)
+    
+class TestSpotLightFunctionality(unittest.TestCase):
+    def test_serialization(self):
+        print("\nSpotLight serialization", end = "")
+        light = SpotLight(Vector3d(0))
+        
+        dict = json.loads(repr(light))
+        splight = dict["SpotLight"]
+        self.assertEqual(splight["Location"], json.loads(repr(Vector3d(0))))
+        self.assertEqual(splight["Color"], json.loads(repr(Color(0xffffff))))
+        self.assertEqual(splight["Intensity"], 1)
+        self.assertEqual(splight["State"], True)
+        
         
 if __name__ == "__main__":
     print("\n------------------")

@@ -1,4 +1,5 @@
 import unittest
+import json
 
 from engine.Visual import Color
 from engine.Visual.Material import ColorMaterial
@@ -74,6 +75,25 @@ class TestColorMaterialProperties(unittest.TestCase):
         ruby_material.refraction = 1
         self.assertEqual(ruby_material.refraction, 1)
 
+class TestColorMaterialFunctionality(unittest.TestCase):
+    def test_serialization(self):
+        print("\nColorMaterial serialization", end = "")
+        ruby_material = ColorMaterial(Color(255, 0, 0)
+                                    , Vector3d(0.1745, 0.01175, 0.01175)
+                                    , Vector3d(0.61424, 0.04136, 0.04136)
+                                    , Vector3d(0.727811, 0.626959, 0.626959)
+                                    , 76.8)
+        
+        dict = json.loads(repr(ruby_material))
+        mat = dict["ColorMaterial"]
+        self.assertEqual(mat["Color"], json.loads(repr(Color(255,0,0))))
+        self.assertEqual(mat["Ambient"], json.loads(repr(Vector3d(0.1745, 0.01175, 0.01175))))
+        self.assertEqual(mat["Diffuse"], json.loads(repr(Vector3d(0.61424, 0.04136, 0.04136))))
+        self.assertEqual(mat["Specular"], json.loads(repr(Vector3d(0.727811, 0.626959, 0.626959))))
+        self.assertEqual(mat["Shinines"], 76.8)
+        self.assertEqual(mat["Reflection"], 0)
+        self.assertEqual(mat["Refraction"], 0)
+        
 if __name__ == "__main__":
     print("\n----------------------")
     print("...Test ColorMaterial...")

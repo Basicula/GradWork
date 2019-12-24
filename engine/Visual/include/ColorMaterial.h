@@ -46,6 +46,8 @@ class ColorMaterial : public IMaterial
     double GetShinines() const;
     void SetShinines(double i_shinines);
 
+    virtual std::string Serialize() const override;
+
   private:
     Color m_color;
     double m_shinines;
@@ -143,4 +145,18 @@ inline double ColorMaterial::GetShinines() const
 inline void ColorMaterial::SetShinines(double i_shinines)
   {
   m_shinines = i_shinines;
+  }
+
+inline std::string ColorMaterial::Serialize() const
+  {
+  std::string res = "{ \"ColorMaterial\" : { ";
+  res += "\"Color\" : " + m_color.Serialize() + ", ";
+  res += "\"Ambient\" : " + m_ambient.Serialize() + ", ";
+  res += "\"Diffuse\" : " + m_diffuse.Serialize() + ", ";
+  res += "\"Specular\" : " + m_specular.Serialize() + ", ";
+  res += "\"Shinines\" : " + std::to_string(m_shinines) + ", ";
+  res += "\"Reflection\" : " + std::to_string(m_reflection) + ", ";
+  res += "\"Refraction\" : " + std::to_string(m_refraction);
+  res += "} }";
+  return res;
   }

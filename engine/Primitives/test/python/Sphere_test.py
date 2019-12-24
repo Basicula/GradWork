@@ -1,5 +1,6 @@
 import unittest
 import math
+import json
 
 from engine.Primitives import Sphere, Ray, Intersection
 from engine.Math.Vector import Vector3d
@@ -96,6 +97,17 @@ class TestSphereRayIntersection(unittest.TestCase):
         self.assertEqual(intersection.normal, Vector3d(1,0,0))
         self.assertEqual(intersection.material.color, Color(0xff0000))
 
+class TestSphereFunctionality(unittest.TestCase):
+    def test_serialization(self):
+        print("\nSphere serialization", end = "")
+        sphere = Sphere(Vector3d(0,0,0), 10, ColorMaterial(Color(0xff0000)))
+        
+        dict = json.loads(repr(sphere))
+        obj = dict["Sphere"]
+        self.assertEqual(obj["Center"], json.loads(repr(Vector3d(0))))
+        self.assertEqual(obj["Material"], json.loads(repr(ColorMaterial(Color(0xff0000)))))
+        self.assertEqual(obj["Radius"], 10)        
+        
 if __name__ == "__main__":
     print("\n---------------")
     print("...Test Sphere...")

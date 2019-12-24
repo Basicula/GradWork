@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <string>
 
 #include <Vector.h>
 
@@ -32,6 +33,8 @@ public:
   
   uint GetRGB() const;
   void SetRGB(uint i_rgb);
+
+  std::string Serialize() const;
 private:
   uint m_rgb;
 };
@@ -77,4 +80,9 @@ inline uint Color::GetRGB() const
 inline void Color::SetRGB(uint i_rgb)
   {
   m_rgb = i_rgb;
+  }
+
+inline std::string Color::Serialize() const
+  {
+  return "{ \"Color\" : " + std::to_string(m_rgb) + " }";
   }

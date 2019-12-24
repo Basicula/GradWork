@@ -29,31 +29,15 @@ namespace
       .def("length", &Class::Length)
       .def("sqrlength", &Class::SquareLength)
       .def("distance", &Class::Distance)
-      .def("sqrdistance", &Class::SquareDistance);
-      
+      .def("sqrdistance", &Class::SquareDistance)
+      .def("__repr__", &Class::Serialize);
     }
 
   const char* g_properties[4] = { "x", "y", "z", "w" };
   template<class Class>
   static void define_individual(py::class_<Class>& io_class, unsigned int i_num_components)
     {
-    if (i_num_components < 2)
-      return;
-
-    auto representation = [i_num_components](const Class& i_class)
-      {
-      std::string res = "(";
-      for (auto i = 0u; i < i_num_components; ++i)
-        {
-        res += std::to_string(i_class[i]) +
-          (i == i_num_components - 1 ? "" : ", ");
-        }
-      res += ")";
-      return res;
-      };
-    io_class.def("__repr__", representation);
-
-    if (i_num_components > 4)
+    if (i_num_components < 2 || i_num_components > 4)
       return;
 
     auto i = 0u;

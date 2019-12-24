@@ -1,5 +1,6 @@
 import unittest
 import math
+import json
 import engine.Math.Vector as vec
 
 class TestVectorOutput(unittest.TestCase):
@@ -12,6 +13,32 @@ class TestVectorOutput(unittest.TestCase):
         self.assertEqual(str(vec2d), "Vector2d")
         self.assertEqual(str(vec3d), "Vector3d")
         self.assertEqual(str(vec4d), "Vector4d")
+    
+    def test_srialization(self):
+        print("\nVector serialization", end = "")
+        vec2d = vec.Vector2d()
+        vec3d = vec.Vector3d()
+        vec4d = vec.Vector4d()
+        
+        self.assertEqual(json.loads(repr(vec2d)), {"Vector" : [0, 0]})
+        self.assertEqual(json.loads(repr(vec3d)), {"Vector" : [0, 0, 0]})
+        self.assertEqual(json.loads(repr(vec4d)), {"Vector" : [0, 0, 0, 0]})
+        
+        vec2d = vec.Vector2d(1)
+        vec3d = vec.Vector3d(2)
+        vec4d = vec.Vector4d(3)
+        
+        self.assertEqual(json.loads(repr(vec2d)), {"Vector" : [1, 1]})
+        self.assertEqual(json.loads(repr(vec3d)), {"Vector" : [2, 2, 2]})
+        self.assertEqual(json.loads(repr(vec4d)), {"Vector" : [3, 3, 3, 3]})
+        
+        vec2d = vec.Vector2d(1.23, 32.132)
+        vec3d = vec.Vector3d(2.2, 312.1231, 2431.123)
+        vec4d = vec.Vector4d(3.231, 1231.23, 1231.213, 1231.213)
+        
+        self.assertEqual(json.loads(repr(vec2d)), {"Vector" : [1.23, 32.132]})
+        self.assertEqual(json.loads(repr(vec3d)), {"Vector" : [2.2, 312.1231, 2431.123]})
+        self.assertEqual(json.loads(repr(vec4d)), {"Vector" : [3.231, 1231.23, 1231.213, 1231.213]})
     
 class TestVectorConstructors(unittest.TestCase):
     def test_vec2_constructors(self):
@@ -313,7 +340,6 @@ class TestVectorOperations(unittest.TestCase):
         actual = v1.sqrlength()
         expected = 30
         self.assertEqual(actual, expected)
-
 
 class TestVectorProperties(unittest.TestCase):
     def test_vec2_properties(self):

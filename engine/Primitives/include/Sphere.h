@@ -9,6 +9,7 @@ class Sphere : public IObject
     Sphere(const Vector3d& i_center, double i_radius, const ColorMaterial& i_material = ColorMaterial());
 
     virtual bool IntersectWithRay(Intersection& o_intersection, const Ray& i_ray) const override;
+    virtual std::string Serialize() const override;
 
     Vector3d GetCenter() const;
     void SetCenter(const Vector3d& i_center);
@@ -53,4 +54,14 @@ inline ColorMaterial Sphere::GetMaterial() const
 inline void Sphere::SetMaterial(const ColorMaterial& i_material)
   {
   m_material = i_material;
+  }
+
+inline std::string Sphere::Serialize() const
+  {
+  std::string res = "{ \"Sphere\" : { ";
+  res += "\"Center\" : " + m_center.Serialize() + ", ";
+  res += "\"Material\" : " + m_material.Serialize() + ", ";
+  res += "\"Radius\" : " + std::to_string(m_radius);
+  res += "} }";
+  return res;
   }

@@ -21,5 +21,6 @@ static void AddScene(py::module& io_module)
     .def("clearCameras", &Scene::ClearCameras)
     .def("clearLights", &Scene::ClearLights)
     .def("setActiveCamera", &Scene::SetActiveCamera)
-    .def("setOnOffLight", &Scene::SetOnOffLight);
+    .def("setOnOffLight", &Scene::SetOnOffLight)
+    .def("__repr__", &Scene::Serialize);
   }

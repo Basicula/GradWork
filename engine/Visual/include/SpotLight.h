@@ -22,6 +22,7 @@ class SpotLight : public ILight
 
     virtual void SetState(bool i_state) override;
     virtual bool GetState() const override;
+    virtual std::string Serialize() const override;
     
     double GetIntensityAtPoint(const Vector3d& i_point) const;
 
@@ -71,4 +72,15 @@ inline void SpotLight::SetState(bool i_state)
 inline bool SpotLight::GetState() const
   {
   return m_state;
+  }
+
+inline std::string SpotLight::Serialize() const
+  {
+  std::string res = "{ \"SpotLight\" : { ";
+  res += " \"Location\" : " + m_location.Serialize() + ", ";
+  res += " \"Color\" : " + m_color.Serialize() + ", ";
+  res += " \"Intensity\" : " + std::to_string(m_intensity) + ", ";
+  res += " \"State\" : " + std::to_string(m_state);
+  res += " } }";
+  return res;
   }

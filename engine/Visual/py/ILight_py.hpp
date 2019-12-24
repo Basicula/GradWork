@@ -21,6 +21,14 @@ namespace
         GetState,
         );
       }
+    std::string Serialize() const override
+      {
+      PYBIND11_OVERLOAD_PURE(
+        std::string,
+        ILight,
+        Serialize,
+        );
+      }
     };
   }
 
@@ -29,5 +37,6 @@ static void AddILight(py::module& io_module)
   py::class_<ILight, std::shared_ptr<ILight>, PyILight>(io_module, "ILight")
     .def_property("state",
       &ILight::GetState,
-      &ILight::SetState);
+      &ILight::SetState)
+    .def("__repr__", &ILight::Serialize);
   }

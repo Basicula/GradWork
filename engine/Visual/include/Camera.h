@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 #include <Vector.h>
 
@@ -21,6 +22,7 @@ class Camera
 
     Vector3d GetDirection(double i_u, double i_v) const;
 
+    std::string Serialize() const;
   private:
     Vector3d m_location;
     Vector3d m_direction;
@@ -48,4 +50,21 @@ inline void Camera::SetLocation(const Vector3d& i_location)
 inline Vector3d Camera::GetDirection(double i_u, double i_v) const
   {
   return (m_u * i_u + m_v * i_v - m_corner).Normalized();
+  }
+
+inline std::string Camera::Serialize() const
+  {
+  std::string res = "{ \"Camera\" : { ";
+  res += " \"Location\" : " + m_location.Serialize() + " ,";
+  res += " \"Direction\" : " + m_direction.Serialize() + " ,";
+  res += " \"Up\" : " + m_up.Serialize() + " ,";
+  res += " \"Right\" : " + m_right.Serialize() + " ,";
+  res += " \"Corner\" : " + m_corner.Serialize() + " ,";
+  res += " \"U\" : " + m_u.Serialize() + " ,";
+  res += " \"V\" : " + m_v.Serialize() + " ,";
+  res += " \"FoV\" : " + std::to_string(m_fov) + " ,";
+  res += " \"Aspect\" : " + std::to_string(m_aspect) + " ,";
+  res += " \"FocusDistance\" : " + std::to_string(m_focusDistance);
+  res += " } }";
+  return res;
   }

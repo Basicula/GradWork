@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <string>
 
 using ull = unsigned long long;
 
@@ -58,10 +59,15 @@ class Vector
     double Distance(const Vector& i_other) const;
     ElementType SquareDistance(const Vector& i_other) const;
 
+    std::string Serialize() const;
   protected:
 
   private:
     ElementType m_coords[Dimension];
+
+  public:
+    static const ull m_dimension = Dimension;
+    using m_element_type = ElementType;
   };
 
 #include <VectorImpl.h>

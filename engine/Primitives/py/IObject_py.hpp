@@ -13,12 +13,21 @@ namespace
         IntersectWithRay,
         io_intersection,
         i_ray);
-      };
+      }
+    std::string Serialize() const override
+      {
+      PYBIND11_OVERLOAD_PURE(
+        std::string,
+        IObject,
+        Serialize,
+        );
+      }
     };
   }
 
 static void AddIObject(py::module& io_module)
   {
   py::class_<IObject, std::shared_ptr<IObject>, PyIObject>(io_module, "IObject")
-    .def("hitRay", &IObject::IntersectWithRay);
+    .def("hitRay", &IObject::IntersectWithRay)
+    .def("__repr__", &IObject::Serialize);
   }

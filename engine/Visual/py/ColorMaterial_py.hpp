@@ -5,6 +5,14 @@ namespace
   class PyColorMaterial : public ColorMaterial
     {
     using ColorMaterial::ColorMaterial;
+    std::string Serialize() const override
+      {
+      PYBIND11_OVERLOAD(
+        std::string,
+        ColorMaterial,
+        Serialize,
+        );
+      }
     };
   }
 
