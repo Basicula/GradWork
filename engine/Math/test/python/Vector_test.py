@@ -314,6 +314,56 @@ class TestVectorOperations(unittest.TestCase):
         expected = 30
         self.assertEqual(actual, expected)
 
+
+class TestVectorProperties(unittest.TestCase):
+    def test_vec2_properties(self):
+        print("\nVector2d properties", end = "")
+        vec2 = vec.Vector2d(1)
+        
+        self.assertEqual(vec2.x,1)
+        vec2.x = 2
+        self.assertEqual(vec2.x,2)
+        
+        self.assertEqual(vec2.y, 1)
+        vec2.y = 3
+        self.assertEqual(vec2.y, 3)
+        
+    def test_vec3_properties(self):
+        print("\nVector3d properties", end = "")
+        vec3 = vec.Vector3d(1)
+        
+        self.assertEqual(vec3.x,1)
+        vec3.x = 2
+        self.assertEqual(vec3.x,2)
+        
+        self.assertEqual(vec3.y, 1)
+        vec3.y = 3
+        self.assertEqual(vec3.y, 3)
+        
+        self.assertEqual(vec3.z, 1)
+        vec3.z = 4
+        self.assertEqual(vec3.z, 4)
+        
+    def test_vec4_properties(self):
+        print("\nVector4d properties", end = "")
+        vec4 = vec.Vector4d(1)
+        
+        self.assertEqual(vec4.x,1)
+        vec4.x = 2
+        self.assertEqual(vec4.x,2)
+        
+        self.assertEqual(vec4.y,1)
+        vec4.y = 4
+        self.assertEqual(vec4.y,4)
+        
+        self.assertEqual(vec4.z,1)
+        vec4.z = -2
+        self.assertEqual(vec4.z,-2)
+        
+        self.assertEqual(vec4.w,1)
+        vec4.w = 154
+        self.assertEqual(vec4.w,154)
+        
 if __name__ == "__main__":
     print("\n-------------------------")
     print("...Test Vector submodule...")

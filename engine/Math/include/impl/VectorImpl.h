@@ -46,6 +46,14 @@ Vector<Dimension, ElementType>::Vector(ElementType i_x, ElementType i_y, Element
   };
 
 template<ull Dimension, class ElementType>
+ElementType& Vector<Dimension, ElementType>::operator[](ull i_index)
+  {
+  if (i_index >= Dimension)
+    throw std::out_of_range("Vector have smaller dimension");
+  return m_coords[i_index];
+  }
+
+template<ull Dimension, class ElementType>
 ElementType Vector<Dimension, ElementType>::operator[](ull i_index) const
   {
   if (i_index >= Dimension)

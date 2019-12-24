@@ -25,6 +25,7 @@ class Vector
     Vector(const Vector& i_other) = default;
 
     //can throw exception
+    ElementType& operator[](ull i_index);
     ElementType operator[](ull i_index) const;
     
     bool operator==(const Vector& i_other) const;

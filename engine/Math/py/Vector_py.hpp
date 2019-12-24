@@ -30,6 +30,7 @@ namespace
       .def("sqrlength", &Class::SquareLength)
       .def("distance", &Class::Distance)
       .def("sqrdistance", &Class::SquareDistance);
+      
     }
 
   const char* g_properties[4] = { "x", "y", "z", "w" };
@@ -64,7 +65,7 @@ namespace
         };
       auto set = [i](Class& i_class, double i_s)
         {
-        //i_class[i] = i_s;
+        i_class[i] = i_s;
         };
       io_class.def_property(g_properties[i], get, set);
       }
