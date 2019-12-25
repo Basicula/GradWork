@@ -13,6 +13,38 @@ namespace
         Serialize,
         );
       }
+    Color GetPrimitiveColor() const override
+      {
+      PYBIND11_OVERLOAD(
+        Color,
+        ColorMaterial,
+        GetPrimitiveColor,
+        );
+      }
+    Color GetLightInfluence(
+      const Vector3d& i_point,
+      const Vector3d& i_normal,
+      std::shared_ptr<ILight> i_light) const override
+      {
+      PYBIND11_OVERLOAD_PURE(
+        Color,
+        ColorMaterial,
+        GetLightInfluence,
+        i_light
+      );
+      }
+    Color GetMultiLightInfluence(
+      const Vector3d& i_point,
+      const Vector3d& i_normal, 
+      const std::vector<std::shared_ptr<ILight>>& i_lights) const override
+      {
+      PYBIND11_OVERLOAD_PURE(
+        Color,
+        ColorMaterial,
+        GetMultiLightInfluence,
+        i_lights
+      );
+      }
     };
   }
 

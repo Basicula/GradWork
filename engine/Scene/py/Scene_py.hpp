@@ -5,8 +5,10 @@
 static void AddScene(py::module& io_module)
   {
   py::class_<Scene, std::shared_ptr<Scene>>(io_module, "Scene")
-    .def(py::init<std::string>(),
-      py::arg("name") = "unnamed")
+    .def(py::init<std::string, std::size_t, std::size_t>(),
+      py::arg("name") = "unnamed",
+      py::arg("frameWidth") = 800,
+      py::arg("frameHeight") = 600)
     .def_property("name",
       &Scene::GetName,
       &Scene::SetName)
@@ -24,5 +26,19 @@ static void AddScene(py::module& io_module)
     .def("clearLights", &Scene::ClearLights)
     .def("setActiveCamera", &Scene::SetActiveCamera)
     .def("setOnOffLight", &Scene::SetOnOffLight)
+    .def(
+      "getFrame", 
+      &Scene::RenderFrame,
+      py::arg("image"),
+      py::arg("x_offset") = 0,
+      py::arg("y_offset") = 0)
+    .def_property(
+      "frameWidth",
+      &Scene::GetFrameWidth,
+      &Scene::SetFrameWidth)
+    .def_property(
+      "frameHeight",
+      &Scene::GetFrameHeight,
+      &Scene::SetFrameHeight)
     .def("__repr__", &Scene::Serialize);
   }

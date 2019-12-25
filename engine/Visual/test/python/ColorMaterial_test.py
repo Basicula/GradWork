@@ -2,6 +2,7 @@ import unittest
 import json
 
 from engine.Visual import Color
+from engine.Visual.Light import SpotLight
 from engine.Visual.Material import ColorMaterial
 from engine.Math.Vector import Vector3d
 
@@ -76,6 +77,26 @@ class TestColorMaterialProperties(unittest.TestCase):
         self.assertEqual(ruby_material.refraction, 1)
 
 class TestColorMaterialFunctionality(unittest.TestCase):
+    def test_color_get_functions(self):
+        print("\nColorMaterial get color functions", end = "")
+        ruby_material = ColorMaterial(Color(255, 0, 0)
+                                    , Vector3d(0.1745, 0.01175, 0.01175)
+                                    , Vector3d(0.61424, 0.04136, 0.04136)
+                                    , Vector3d(0.727811, 0.626959, 0.626959)
+                                    , 76.8)
+        light = SpotLight(Vector3d(2,0,0))
+        light1 = SpotLight(Vector3d(4,0,0))
+        
+        self.assertEqual(
+            ruby_material.primitiveColor(), 
+            Color(255,0,0) * Vector3d(0.1745, 0.01175, 0.01175))
+        self.assertEqual(
+            ruby_material.lightInfluence(Vector3d(0),Vector3d(1,0,0),light), 
+            Color(255,0,0) * Vector3d(0.61424, 0.04136, 0.04136))
+        self.assertEqual(
+            ruby_material.multiLightInfluence(Vector3d(0),Vector3d(1,0,0),[light,light1]), 
+            Color(255,0,0) * Vector3d(0.61424, 0.04136, 0.04136))
+        
     def test_serialization(self):
         print("\nColorMaterial serialization", end = "")
         ruby_material = ColorMaterial(Color(255, 0, 0)

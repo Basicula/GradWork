@@ -11,7 +11,10 @@
 class Scene
   {
   public:
-    Scene(const std::string& i_name = "Unnamed");
+    Scene(
+      const std::string& i_name = "Unnamed", 
+      std::size_t i_frame_width = 800, 
+      std::size_t i_frame_height = 600);
 
     void AddObject(std::shared_ptr<IObject> i_object);
     void AddCamera(const Camera& i_camera, bool i_set_active = false);
@@ -32,16 +35,34 @@ class Scene
     std::string GetName() const;
     void SetName(const std::string& i_name);
 
-    bool RenderFrame(Image& o_image) const;
-    bool RenderCameraFrame(Image& o_image, std::size_t i_camera) const;
+    std::size_t GetFrameWidth() const;
+    void SetFrameWidth(std::size_t i_frame_width);
+    std::size_t GetFrameHeight() const;
+    void SetFrameHeight(std::size_t i_frame_height);
+
+    bool RenderFrame(
+      Image& o_image,
+      int i_offset_x = 0,
+      int i_offset_y = 0) const;
+    bool RenderCameraFrame(
+      Image& o_image, 
+      std::size_t i_camera,
+      int i_offset_x = 0,
+      int i_offset_y = 0) const;
 
     std::string Serialize() const;
   private:
-    bool _Render(Image& o_image, const Camera& i_camera) const;
+    bool _Render(
+      Image& o_image, 
+      const Camera& i_camera, 
+      double i_offset_x, 
+      double i_offset_y) const;
 
   private:
     std::size_t m_active_camera;
     std::string m_name;
+    std::size_t m_frame_width;
+    std::size_t m_frame_height;
     // TODO create K-d tree
     std::vector<std::shared_ptr<IObject>> m_objcts;
     std::vector<Camera> m_cameras;
@@ -141,4 +162,24 @@ inline std::string Scene::Serialize() const
   res += "\"ActiveCamera\" : " + std::to_string(m_active_camera);
   res += "} }";
   return res;
+  }
+
+inline std::size_t Scene::GetFrameWidth() const
+  {
+  return m_frame_width;
+  }
+
+inline void Scene::SetFrameWidth(std::size_t i_frame_width)
+  {
+  m_frame_width = i_frame_width;
+  }
+
+inline std::size_t Scene::GetFrameHeight() const
+  {
+  return m_frame_height;
+  }
+
+inline void Scene::SetFrameHeight(std::size_t i_frame_height)
+  {
+  m_frame_height = i_frame_height;
   }

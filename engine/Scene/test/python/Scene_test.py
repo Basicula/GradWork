@@ -1,5 +1,6 @@
 import unittest
 import json
+import matplotlib.pyplot as plt
 
 from engine import Scene
 from engine.Math.Vector import Vector3d
@@ -21,6 +22,41 @@ def create_scene_sample(camera_cnt = 1, obj_cnt = 1, light_cnt = 1):
         scene.addLight(SpotLight(Vector3d(-i*2,i*4,i*5)))
         
     return scene
+    
+def dump_scene_image(scene):
+    width, height = 800, 600
+    image = Image(width, height)
+    scene.getFrame(image)
+    img = []
+    for y in range(height):
+        row = []
+        for x in range(width):
+            pixel = image.getPixel(x,y)
+            row.append([pixel.red, pixel.green, pixel.blue])
+        img.append(row)
+    img.reverse()
+    plt.imshow(img)
+    plt.savefig('test.png')
+    
+def test():
+    scene = Scene("example")
+    
+    ruby_material = ColorMaterial(Color(255, 0, 0)
+                            , Vector3d(0.1745, 0.01175, 0.01175)
+                            , Vector3d(0.61424, 0.04136, 0.04136)
+                            , Vector3d(0.727811, 0.626959, 0.626959)
+                            , 76.8)
+    
+    scene.addObject(Sphere(Vector3d(0,0,0), 3, ruby_material))
+    scene.addObject(Sphere(Vector3d(4,4,-4), 1, ruby_material))
+    
+    scene.addLight(SpotLight(Vector3d(10,10,-10)))
+    scene.addLight(SpotLight(Vector3d(0,10,-5)))
+    
+    scene.addCamera(Camera(Vector3d(0,0,-15),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1))
+    
+    dump_scene_image(scene)
+    
 
 class TestSceneConstructor(unittest.TestCase):
     def test_constructor(self):
@@ -84,4 +120,5 @@ class TestSceneFunctionality(unittest.TestCase):
 if __name__ == "__main__":
     print("\n--------------")
     print("...Test Scene...")
+    test()
     unittest.main()

@@ -29,6 +29,15 @@ namespace
         Serialize,
         );
       }
+    Vector3d GetDirection(const Vector3d& i_point) const override
+      {
+      PYBIND11_OVERLOAD_PURE(
+        Vector3d,
+        ILight,
+        GetDirection,
+        i_point
+        );
+      }
     };
   }
 
@@ -38,5 +47,6 @@ static void AddILight(py::module& io_module)
     .def_property("state",
       &ILight::GetState,
       &ILight::SetState)
+    .def("direction", &ILight::GetDirection)
     .def("__repr__", &ILight::Serialize);
   }

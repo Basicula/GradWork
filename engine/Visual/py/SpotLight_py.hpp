@@ -29,6 +29,14 @@ namespace
         Serialize,
         );
       }
+    Vector3d GetDirection(const Vector3d& i_point) const override
+      {
+      PYBIND11_OVERLOAD(
+        Vector3d,
+        SpotLight,
+        GetDirection,
+        i_point);
+      }
     };
   }
 

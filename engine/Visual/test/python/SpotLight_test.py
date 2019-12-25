@@ -42,6 +42,15 @@ class TestSpotLightProperties(unittest.TestCase):
         self.assertEqual(light.state, False)
     
 class TestSpotLightFunctionality(unittest.TestCase):
+    def test_get_functions(self):
+        print("\nSpotLight direction at point", end = "")
+        light = SpotLight(Vector3d(0))
+        
+        self.assertEqual(light.direction(Vector3d(1,0,0)), Vector3d(1,0,0))        
+        self.assertEqual(light.direction(Vector3d(0,1,0)), Vector3d(0,1,0))        
+        self.assertEqual(light.direction(Vector3d(0,0,1)), Vector3d(0,0,1))        
+        
+        
     def test_serialization(self):
         print("\nSpotLight serialization", end = "")
         light = SpotLight(Vector3d(0))

@@ -21,6 +21,16 @@ class ColorMaterial : public IMaterial
       const Vector3d& i_light, 
       const Vector3d& i_view) const;
 
+    virtual Color GetPrimitiveColor() const override;
+    virtual Color GetLightInfluence(
+      const Vector3d& i_point,
+      const Vector3d& i_normal, 
+      std::shared_ptr<ILight> i_light) const override;
+    virtual Color GetMultiLightInfluence(
+      const Vector3d& i_point,
+      const Vector3d& i_normal, 
+      const std::vector<std::shared_ptr<ILight>>& i_lights) const override;
+
     Color GetAmbientColor() const;
     Color GetDiffuseColor() const;
     Color GetSpecularColor() const;
@@ -159,4 +169,9 @@ inline std::string ColorMaterial::Serialize() const
   res += "\"Refraction\" : " + std::to_string(m_refraction);
   res += "} }";
   return res;
+  }
+
+inline Color ColorMaterial::GetPrimitiveColor() const
+  {
+  return GetAmbientColor();
   }
