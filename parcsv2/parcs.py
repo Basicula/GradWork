@@ -1,6 +1,7 @@
 import logging
 import requests
 import json
+import os
 from flask import Flask, render_template, request, send_from_directory, jsonify, Response
 
 from .node import Node
@@ -38,15 +39,28 @@ def ok():
 @app.route('/')
 @app.route('/index')
 def index_page():
-    return render_template('index.html')
+    scenes_folder = os.walk("./parcsv2/Scenes")
+    scenes = []
+    for addr, dirs, files in scenes_folder:
+        for file in files:
+            if '.json' in file:
+                scene = {}
+                scene["name"] = file.split('.')[0]
+                scene["file"] = file
+                scenes.append(scene)
+    log.info(scenes)
+    return render_template('index.html', scenes = scenes)
 
 @app.route('/about')
 def about_page():
     return render_template("about.html")
 
-@app.route('/simulation', methods=['GET'])
-def simulation():
-    return render_template("simulation.html")
+@app.route('/simulation/<file>', methods=['GET'])
+def simulation(file):
+    log.info(file)
+    with open("parcsv2/Scenes/"+file,'r') as f:
+        scene = json.load(f)
+    return render_template("simulation.html", scene = scene)
     
 @app.route('/test', methods=['GET'])
 def test():

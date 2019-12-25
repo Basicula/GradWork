@@ -8,7 +8,6 @@
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-    <script src="{{ url_for('static',filename='js/app.js') }}" type="text/javascript" charset="utf-8"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
 
     <title>FSGW</title>
@@ -20,7 +19,7 @@
   <div class="topnav">
     <a {% if request.path=="/" or request.path=="/index" %} class="active" {% endif %} href="/index">Home</a>
     <a {% if request.path=="/about" %} class="active" {% endif %} href="/about">About</a>
-    <a {% if request.path=="/simulation" %} class="active" {% endif %} href="/simulation">Simulation</a>
+    <a {% if "/simulation" in request.path %} class="active" {% endif %} href="/simulation">Simulation</a>
     <a {% if request.path=="/test" %} class="active" {% endif %} href="/test">Test</a>
   </div>
   <div class="">

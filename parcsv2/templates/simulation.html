@@ -1,17 +1,10 @@
 {% extends "template.html" %}
 {% block content %}
-
+<h2>{{ scene }}</h2>
 <div class="render-container">
 <form class="render-form" id="render-form">
 <canvas class="canvas" id="canvas"></canvas>
 
-<script src="{{ url_for('static',filename='js/vector.js') }}" type="text/javascript" charset="utf-8"></script>
-<script src="{{ url_for('static',filename='js/utils.js') }}" type="text/javascript" charset="utf-8"></script>
-<script src="{{ url_for('static',filename='js/ray.js') }}" type="text/javascript" charset="utf-8"></script>
-<script src="{{ url_for('static',filename='js/camera.js') }}" type="text/javascript" charset="utf-8"></script>
-<script src="{{ url_for('static',filename='js/material.js') }}" type="text/javascript" charset="utf-8"></script>
-<script src="{{ url_for('static',filename='js/sphere.js') }}" type="text/javascript" charset="utf-8"></script>
-<script src="{{ url_for('static',filename='js/simulation.js') }}" type="text/javascript" charset="utf-8"></script>
 </form>
 </div>
 
