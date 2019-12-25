@@ -18,3 +18,4 @@ target_link_libraries(
     
 set_target_properties(Primitives PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 set_target_properties(Visual PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+set_target_properties(Scene PROPERTIES POSITION_INDEPENDENT_CODE TRUE)

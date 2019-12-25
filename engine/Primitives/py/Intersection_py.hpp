@@ -40,8 +40,8 @@ static void AddIntersection(py::module& io_module)
       return i_intersection.m_material;
       },
       [](Intersection& io_intersection,
-        const ColorMaterial& i_material)
+        std::shared_ptr<IMaterial> ip_material)
         {
-        io_intersection.m_material = i_material;
+        io_intersection.m_material = ip_material;
         });
   }

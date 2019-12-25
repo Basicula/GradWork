@@ -18,7 +18,7 @@ namespace
 
 static void AddColorMaterial(py::module& io_module)
   {
-  py::class_<ColorMaterial, IMaterial, PyColorMaterial>(io_module, "ColorMaterial")
+  py::class_<ColorMaterial, std::shared_ptr<ColorMaterial>, IMaterial, PyColorMaterial>(io_module, "ColorMaterial")
     .def(py::init<Color,
       Vector3d,
       Vector3d,

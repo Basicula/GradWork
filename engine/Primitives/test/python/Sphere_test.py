@@ -15,7 +15,7 @@ class TestSphereConstructor(unittest.TestCase):
         
         self.assertEqual(sphere.center, Vector3d(0,0,0))
         self.assertEqual(sphere.radius, 10)
-        self.assertEqual(sphere.material.color, Color(0xaaaaaa))
+        self.assertEqual(sphere.material, None)
 
     def test_full_constructor(self):
         print("\nFull constructor", end = "")
@@ -53,7 +53,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         self.assertEqual(intersection.normal, Vector3d(0,0,-1))
         self.assertEqual(intersection.material.color, Color(0xff0000))
         
-        
+        intersection = Intersection()
         sphere = Sphere(Vector3d(0,0,0), 1, ColorMaterial(Color(0xff0000)))
         x = 1/math.sqrt(2)
         ray = Ray(Vector3d(x,0,-5),Vector3d(0,0,1))

@@ -18,6 +18,6 @@ namespace
 
 static void AddIMaterial(py::module& io_module)
   {
-  py::class_<IMaterial, PyIMaterial>(io_module, "IMaterial")
+  py::class_<IMaterial, std::shared_ptr<IMaterial>, PyIMaterial>(io_module, "IMaterial")
     .def("__repr__", &IMaterial::Serialize);
   }

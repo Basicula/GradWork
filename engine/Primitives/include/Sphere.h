@@ -1,12 +1,14 @@
 #pragma once
+#include <memory>
 
 #include <Vector.h>
 #include <IObject.h>
+#include <IMaterial.h>
 
 class Sphere : public IObject
   {
   public:
-    Sphere(const Vector3d& i_center, double i_radius, const ColorMaterial& i_material = ColorMaterial());
+    Sphere(const Vector3d& i_center, double i_radius, std::shared_ptr<IMaterial> ip_material = nullptr);
 
     virtual bool IntersectWithRay(Intersection& o_intersection, const Ray& i_ray) const override;
     virtual std::string Serialize() const override;
@@ -17,13 +19,13 @@ class Sphere : public IObject
     double GetRadius() const;
     void SetRadius(double i_radius);
 
-    ColorMaterial GetMaterial() const;
-    void SetMaterial(const ColorMaterial& i_material);
+    std::shared_ptr<IMaterial> GetMaterial() const;
+    void SetMaterial(std::shared_ptr<IMaterial> i_material);
 
   private:
     Vector3d m_center;
     double m_radius;
-    ColorMaterial m_material;
+    std::shared_ptr<IMaterial> m_material;
   };
 
 inline Vector3d Sphere::GetCenter() const 
@@ -46,12 +48,12 @@ inline void Sphere::SetRadius(double i_radius)
   m_radius = i_radius;
   };
 
-inline ColorMaterial Sphere::GetMaterial() const
+inline std::shared_ptr<IMaterial> Sphere::GetMaterial() const
   {
   return m_material;
   }
 
-inline void Sphere::SetMaterial(const ColorMaterial& i_material)
+inline void Sphere::SetMaterial(std::shared_ptr<IMaterial> i_material)
   {
   m_material = i_material;
   }
@@ -60,7 +62,7 @@ inline std::string Sphere::Serialize() const
   {
   std::string res = "{ \"Sphere\" : { ";
   res += "\"Center\" : " + m_center.Serialize() + ", ";
-  res += "\"Material\" : " + m_material.Serialize() + ", ";
+  res += "\"Material\" : " + ( m_material ?  m_material->Serialize() : "null" ) + ", ";
   res += "\"Radius\" : " + std::to_string(m_radius);
   res += "} }";
   return res;

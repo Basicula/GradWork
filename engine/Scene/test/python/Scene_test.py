@@ -67,7 +67,7 @@ class TestSceneExample(unittest.TestCase):
 class TestSceneFunctionality(unittest.TestCase):
     def test_serialization(self):
         print("\nScene serialization", end = "")
-        obj_cnt = 12
+        obj_cnt = 1
         light_cnt = 2
         camera_cnt = 1
         scene = create_scene_sample(camera_cnt, obj_cnt, light_cnt)

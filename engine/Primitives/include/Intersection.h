@@ -1,12 +1,15 @@
 #pragma once
+#include <memory>
 
 #include <Vector.h>
-#include <ColorMaterial.h>
+#include <IMaterial.h>
 
 struct Intersection
   {
   double m_distance;
   Vector3d m_intersection;
   Vector3d m_normal;
-  ColorMaterial m_material;
+  std::shared_ptr<IMaterial> m_material;
+
+  Intersection();
   };
