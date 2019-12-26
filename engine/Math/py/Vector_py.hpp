@@ -65,6 +65,14 @@ static void AddVectors(py::module& io_module)
   auto vec2d = py::class_<Vec2d>(vector_submodule, "Vector2d");
   vec2d.def(py::init<double, double>());
   vec2d.def("__str__", [](const Vec2d&) { return "Vector2d"; });
+  vec2d.def("fromDict", [](py::dict i_dict)
+    {
+    py::list coords = i_dict["Vector2d"];
+    static const std::size_t dim = py::len(coords);
+    return Vec2d(
+      coords[0].cast<double>(), 
+      coords[1].cast<double>());
+    });
   define_common(vec2d);
   define_individual(vec2d, 2);
 
@@ -74,6 +82,15 @@ static void AddVectors(py::module& io_module)
   vec3d.def(py::init<double, double, double>());
   vec3d.def("__str__", [](const Vec3d&) { return "Vector3d"; });
   vec3d.def("cross", &Vec3d::CrossProduct<3,double>);
+  vec3d.def("fromDict", [](py::dict i_dict)
+    {
+    py::list coords = i_dict["Vector3d"];
+    static const std::size_t dim = py::len(coords);
+    return Vec3d(
+      coords[0].cast<double>(), 
+      coords[1].cast<double>(), 
+      coords[2].cast<double>());
+    });
   define_common(vec3d);
   define_individual(vec3d, 3);
 
@@ -82,6 +99,16 @@ static void AddVectors(py::module& io_module)
   auto vec4d = py::class_<Vec4d>(vector_submodule, "Vector4d");
   vec4d.def(py::init<double, double, double, double>());
   vec4d.def("__str__", [](const Vec4d&) { return "Vector4d"; });
+  vec4d.def("fromDict", [](py::dict i_dict)
+    {
+    py::list coords = i_dict["Vector4d"];
+    static const std::size_t dim = py::len(coords);
+    return Vec4d(
+      coords[0].cast<double>(), 
+      coords[1].cast<double>(), 
+      coords[2].cast<double>(), 
+      coords[3].cast<double>());
+    });
   define_common(vec4d);
   define_individual(vec4d, 4);
   }

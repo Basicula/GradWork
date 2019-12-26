@@ -159,7 +159,9 @@ inline std::string Scene::Serialize() const
   res += "\"Lights\" : [ ";
   for (auto i = 0u; i < m_lights.size(); ++i)
     res += m_lights[i]->Serialize() + (i == m_lights.size() - 1 ? " ], " : ", ");
-  res += "\"ActiveCamera\" : " + std::to_string(m_active_camera);
+  res += "\"ActiveCamera\" : " + std::to_string(m_active_camera) + ", ";
+  res += "\"FrameWidth\" : " + std::to_string(m_frame_width) + ", ";
+  res += "\"FrameHeight\" : " + std::to_string(m_frame_height);
   res += "} }";
   return res;
   }

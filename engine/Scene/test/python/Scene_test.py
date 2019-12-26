@@ -103,7 +103,7 @@ class TestSceneExample(unittest.TestCase):
 class TestSceneFunctionality(unittest.TestCase):
     def test_serialization(self):
         print("\nScene serialization", end = "")
-        obj_cnt = 1
+        obj_cnt = 12
         light_cnt = 2
         camera_cnt = 1
         scene = create_scene_sample(camera_cnt, obj_cnt, light_cnt)
@@ -113,12 +113,30 @@ class TestSceneFunctionality(unittest.TestCase):
         
         self.assertEqual(scene_dict["Name"], "example")
         self.assertEqual(scene_dict["ActiveCamera"], 0)
+        self.assertEqual(scene_dict["FrameWidth"], 800)
+        self.assertEqual(scene_dict["FrameHeight"], 600)
         self.assertEqual(len(scene_dict["Objects"]), obj_cnt)
         self.assertEqual(len(scene_dict["Lights"]), light_cnt)
         self.assertEqual(len(scene_dict["Cameras"]), camera_cnt)
+        
+    def test_deserialization(self):
+        print("\nScene deserialization", end = "")
+        obj_cnt = 10
+        light_cnt = 2
+        camera_cnt = 1
+        scene = create_scene_sample(camera_cnt, obj_cnt, light_cnt)
+        
+        dict = json.loads(repr(scene))
+        s = Scene.fromDict(dict)
+        
+        self.assertEqual(s.name, "example")
+        self.assertEqual(s.frameWidth, 800)
+        self.assertEqual(s.frameHeight, 600)
+        self.assertEqual(s.objCnt, obj_cnt)
+        self.assertEqual(s.lightCnt, light_cnt)
+        self.assertEqual(s.camCnt, camera_cnt)
     
 if __name__ == "__main__":
     print("\n--------------")
     print("...Test Scene...")
-    test()
     unittest.main()

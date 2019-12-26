@@ -29,6 +29,11 @@ static void AddColor(py::module& io_module)
     .def_property("green", &Color::GetGreen, &Color::SetGreen)
     .def_property("blue", &Color::GetBlue, &Color::SetBlue)
     .def_property("rgb", &Color::GetRGB, &Color::SetRGB)
+    .def("fromDict", [](py::dict i_dict)
+      {
+      uint value = i_dict["Color"].cast<uint>();
+      return Color(value);
+      })
     .def("__repr__", &Color::Serialize)
     .def("__hex__", hex_by_color_rgb)
     .def("__str__", hex_by_color_rgb);

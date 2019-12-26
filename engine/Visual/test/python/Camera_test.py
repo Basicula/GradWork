@@ -1,5 +1,6 @@
 import unittest
 import json
+import math
 
 from engine.Visual import Camera
 from engine.Math.Vector import Vector3d
@@ -37,11 +38,20 @@ class TestCameraFunctionality(unittest.TestCase):
         dict = json.loads(repr(camera))
         cam = dict["Camera"]
         self.assertEqual(cam["Location"], json.loads(repr(Vector3d(0,0,0))))
-        self.assertEqual(cam["Direction"], json.loads(repr(Vector3d(0,0,1))))
+        self.assertEqual(cam["LookAt"], json.loads(repr(Vector3d(0,0,1))))
         self.assertEqual(cam["Up"], json.loads(repr(Vector3d(0,1,0))))
-        self.assertEqual(cam["Right"], json.loads(repr(Vector3d(1,0,0))))
         self.assertEqual(cam["FoV"], 60)
+        self.assertEqual(cam["Aspect"], round(4/3,6))
         self.assertEqual(cam["FocusDistance"], 1)
+        
+    def test_deserialization(self):
+        print("\nCamera deserialization", end = "")
+        camera = Camera(Vector3d(0,0,0), Vector3d(0,0,1), Vector3d(0,1,0), 60, 4/3, 1)
+        
+        dict = json.loads(repr(camera))
+        cam = Camera.fromDict(dict)
+        self.assertEqual(cam.location, Vector3d(0,0,0))
+        self.assertEqual(dict, json.loads(repr(cam)))
 
 if __name__ == "__main__":
     print("\n---------------")

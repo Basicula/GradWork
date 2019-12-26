@@ -88,5 +88,26 @@ static void AddColorMaterial(py::module& io_module)
       &ColorMaterial::SetShinines)
     .def("acolor", &ColorMaterial::GetAmbientColor)
     .def("dcolor", &ColorMaterial::GetDiffuseColor)
-    .def("scolor", &ColorMaterial::GetSpecularColor);
+    .def("scolor", &ColorMaterial::GetSpecularColor)
+    .def("fromDict", [](py::dict i_dict)
+      {
+      auto vec_m = py::module::import("engine.Math.Vector");
+      auto color_m = py::module::import("engine.Visual");
+      auto inner = i_dict["ColorMaterial"];
+      Color color = color_m.attr("Color").attr("fromDict")(inner["Color"]).cast<Color>();
+      Vector3d ambient = vec_m.attr("Vector3d").attr("fromDict")(inner["Ambient"]).cast<Vector3d>();
+      Vector3d diffuse = vec_m.attr("Vector3d").attr("fromDict")(inner["Diffuse"]).cast<Vector3d>();
+      Vector3d specular = vec_m.attr("Vector3d").attr("fromDict")(inner["Specular"]).cast<Vector3d>();
+      double shinines = inner["Shinines"].cast<double>();
+      double reflection = inner["Reflection"].cast<double>();
+      double refraction = inner["Refraction"].cast<double>();
+      return ColorMaterial(
+        color,
+        ambient,
+        diffuse,
+        specular,
+        shinines,
+        reflection,
+        refraction);
+      });
   }

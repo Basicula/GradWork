@@ -32,5 +32,17 @@ static void AddSphere(py::module& io_module)
       &Sphere::SetRadius)
     .def_property("material",
       &Sphere::GetMaterial,
-      &Sphere::SetMaterial);
+      &Sphere::SetMaterial)
+    .def("fromDict", [](py::dict i_dict)
+      {
+      auto vec_m = py::module::import("engine.Math.Vector");
+      auto material_m = py::module::import("engine.Visual.Material");
+      auto inner = i_dict["Sphere"];
+      Vector3d center = vec_m.attr("Vector3d").attr("fromDict")(inner["Center"]).cast<Vector3d>();
+      auto material = std::shared_ptr<IMaterial>();
+      if (!inner["Material"].is_none())
+        material = material_m.attr("IMaterial").attr("fromDict")(inner["Material"]).cast<std::shared_ptr<IMaterial>>();
+      double radius = inner["Radius"].cast<double>();
+      return Sphere(center,radius,material);
+      });
   }

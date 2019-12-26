@@ -56,12 +56,8 @@ inline std::string Camera::Serialize() const
   {
   std::string res = "{ \"Camera\" : { ";
   res += " \"Location\" : " + m_location.Serialize() + " ,";
-  res += " \"Direction\" : " + m_direction.Serialize() + " ,";
+  res += " \"LookAt\" : " + (m_location + m_direction).Serialize() + " ,";
   res += " \"Up\" : " + m_up.Serialize() + " ,";
-  res += " \"Right\" : " + m_right.Serialize() + " ,";
-  res += " \"Corner\" : " + m_corner.Serialize() + " ,";
-  res += " \"U\" : " + m_u.Serialize() + " ,";
-  res += " \"V\" : " + m_v.Serialize() + " ,";
   res += " \"FoV\" : " + std::to_string(m_fov) + " ,";
   res += " \"Aspect\" : " + std::to_string(m_aspect) + " ,";
   res += " \"FocusDistance\" : " + std::to_string(m_focusDistance);

@@ -58,5 +58,12 @@ static void AddIMaterial(py::module& io_module)
     .def("primitiveColor", &IMaterial::GetPrimitiveColor)
     .def("lightInfluence", &IMaterial::GetLightInfluence)
     .def("multiLightInfluence", &IMaterial::GetMultiLightInfluence)
-    .def("__repr__", &IMaterial::Serialize);
+    .def("__repr__", &IMaterial::Serialize)
+    .def("fromDict",[](py::dict i_dict)
+      {
+      auto material_m = py::module::import("engine.Visual.Material");
+      if (i_dict.contains("ColorMaterial"))
+        return material_m.attr("ColorMaterial").attr("fromDict")(i_dict).cast<std::shared_ptr<IMaterial>>();
+      return std::shared_ptr<IMaterial>();
+      });
   }

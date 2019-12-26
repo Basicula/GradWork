@@ -106,7 +106,18 @@ class TestSphereFunctionality(unittest.TestCase):
         obj = dict["Sphere"]
         self.assertEqual(obj["Center"], json.loads(repr(Vector3d(0))))
         self.assertEqual(obj["Material"], json.loads(repr(ColorMaterial(Color(0xff0000)))))
-        self.assertEqual(obj["Radius"], 10)        
+        self.assertEqual(obj["Radius"], 10)       
+    
+    def test_deserialization(self):
+        print("\nSphere deserialization", end = "")
+        sphere = Sphere(Vector3d(0,0,0), 10, ColorMaterial(Color(0xff0000)))
+        
+        dict = json.loads(repr(sphere))
+        obj = Sphere.fromDict(dict)
+        self.assertEqual(obj.center, Vector3d(0))
+        self.assertEqual(obj.material.color, Color(0xff0000))
+        self.assertEqual(repr(obj.material), repr(ColorMaterial(Color(0xff0000))))
+        self.assertEqual(obj.radius, 10)
         
 if __name__ == "__main__":
     print("\n---------------")

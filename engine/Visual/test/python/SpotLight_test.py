@@ -50,7 +50,6 @@ class TestSpotLightFunctionality(unittest.TestCase):
         self.assertEqual(light.direction(Vector3d(0,1,0)), Vector3d(0,1,0))        
         self.assertEqual(light.direction(Vector3d(0,0,1)), Vector3d(0,0,1))        
         
-        
     def test_serialization(self):
         print("\nSpotLight serialization", end = "")
         light = SpotLight(Vector3d(0))
@@ -61,6 +60,17 @@ class TestSpotLightFunctionality(unittest.TestCase):
         self.assertEqual(splight["Color"], json.loads(repr(Color(0xffffff))))
         self.assertEqual(splight["Intensity"], 1)
         self.assertEqual(splight["State"], True)
+        
+    def test_deserialization(self):
+        print("\nSpotLight deserialization", end = "")
+        light = SpotLight(Vector3d(0))
+        
+        dict = json.loads(repr(light))
+        splight = SpotLight.fromDict(dict)
+        self.assertEqual(splight.location, Vector3d(0))
+        self.assertEqual(splight.color, Color(0xffffff))
+        self.assertEqual(splight.intensity, 1)
+        self.assertEqual(splight.state, True)
         
         
 if __name__ == "__main__":

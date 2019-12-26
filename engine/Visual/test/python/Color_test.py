@@ -95,7 +95,6 @@ class TestColorProperties(unittest.TestCase):
         self.assertEqual(color.green, 52)
         self.assertEqual(color.blue,  86)
         self.assertEqual(str(color), "0x123456")
-        self.assertEqual(json.loads(repr(color)), {"Color" : 0x123456})
         
         with self.assertRaises(TypeError):
             color.red = 1000
@@ -103,6 +102,18 @@ class TestColorProperties(unittest.TestCase):
         with self.assertRaises(TypeError):
             color.red = -1000
         
+class TestColorFunctionality(unittest.TestCase):
+    def test_serialization(self):
+        print("\nColor serialization", end = "")
+        color = Color(0x123456)
+        self.assertEqual(json.loads(repr(color)), {"Color" : 0x123456})
+        
+    def test_deserialization(self):
+        print("\nColor deserialization", end = "")
+        color = Color(0x123456)
+        self.assertEqual(
+            Color.fromDict(json.loads(repr(color))), 
+            color)
     
 if __name__ == "__main__":
     print("\n--------------")

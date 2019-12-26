@@ -48,5 +48,12 @@ static void AddILight(py::module& io_module)
       &ILight::GetState,
       &ILight::SetState)
     .def("direction", &ILight::GetDirection)
-    .def("__repr__", &ILight::Serialize);
+    .def("__repr__", &ILight::Serialize)
+    .def("fromDict", [](py::dict i_dict)
+      {
+      auto light_m = py::module::import("engine.Visual.Light");
+      if (i_dict.contains("SpotLight"))
+        return light_m.attr("SpotLight").attr("fromDict")(i_dict).cast<std::shared_ptr<ILight>>();
+      return std::shared_ptr<ILight>();
+      });
   }

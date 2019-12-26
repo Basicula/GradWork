@@ -19,7 +19,7 @@ static void AddScene(py::module& io_module)
     .def("addCamera", 
       &Scene::AddCamera,
       py::arg("camera"),
-      py::arg("setActive") = true)
+      py::arg("setActive") = false)
     .def("addLight", &Scene::AddLight)
     .def("clearObjects", &Scene::ClearObjects)
     .def("clearCameras", &Scene::ClearCameras)
@@ -40,5 +40,34 @@ static void AddScene(py::module& io_module)
       "frameHeight",
       &Scene::GetFrameHeight,
       &Scene::SetFrameHeight)
-    .def("__repr__", &Scene::Serialize);
+    .def("__repr__", &Scene::Serialize)
+    .def("fromDict", [](py::dict i_dict)
+      {
+      auto scene = i_dict["Scene"];
+      auto name = scene["Name"].cast<std::string>();
+      auto frameWidth = scene["FrameWidth"].cast<std::size_t>();
+      auto frameHeight = scene["FrameHeight"].cast<std::size_t>();
+
+      Scene res(name,frameWidth,frameHeight);
+
+      auto primitives_m = py::module::import("engine.Primitives");
+      auto objects = scene["Objects"];
+      for (auto object : objects)
+        res.AddObject(primitives_m.attr("IObject").attr("fromDict")(object).cast<std::shared_ptr<IObject>>());
+
+      auto light_m = py::module::import("engine.Visual.Light");
+      auto lights = scene["Lights"];
+      for (auto light : lights)
+        res.AddLight(light_m.attr("ILight").attr("fromDict")(light).cast<std::shared_ptr<ILight>>());
+
+      auto visual_m = py::module::import("engine.Visual");
+      auto cameras = scene["Cameras"];
+      for (auto camera : cameras)
+        res.AddCamera(visual_m.attr("Camera").attr("fromDict")(camera).cast<Camera>());
+
+      auto active_camera = scene["ActiveCamera"].cast<std::size_t>();
+      res.SetActiveCamera(active_camera);
+
+      return res;
+      });
   }

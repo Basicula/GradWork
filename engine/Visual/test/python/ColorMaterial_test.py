@@ -115,6 +115,24 @@ class TestColorMaterialFunctionality(unittest.TestCase):
         self.assertEqual(mat["Reflection"], 0)
         self.assertEqual(mat["Refraction"], 0)
         
+    def test_deserialization(self):
+        print("\nColorMaterial deserialization", end = "")
+        ruby_material = ColorMaterial(Color(255, 0, 0)
+                                    , Vector3d(0.1745, 0.01175, 0.01175)
+                                    , Vector3d(0.61424, 0.04136, 0.04136)
+                                    , Vector3d(0.727811, 0.626959, 0.626959)
+                                    , 76.8)
+        
+        dict = json.loads(repr(ruby_material))
+        material = ColorMaterial.fromDict(dict)
+        self.assertEqual(material.color, Color(255,0,0))
+        self.assertEqual(material.ambient, Vector3d(0.1745, 0.01175, 0.01175))
+        self.assertEqual(material.diffuse, Vector3d(0.61424, 0.04136, 0.04136))
+        self.assertEqual(material.specular, Vector3d(0.727811, 0.626959, 0.626959))
+        self.assertEqual(material.shinines, 76.8)
+        self.assertEqual(material.reflection, 0)
+        self.assertEqual(material.refraction, 0)
+        
 if __name__ == "__main__":
     print("\n----------------------")
     print("...Test ColorMaterial...")

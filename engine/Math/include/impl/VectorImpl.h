@@ -223,7 +223,7 @@ ElementType Vector<Dimension, ElementType>::SquareLength() const
 template<ull Dimension, class ElementType>
 std::string Vector<Dimension, ElementType>::Serialize() const
   {
-  std::string res = "{ \"Vector\" : [";
+  std::string res = "{ \"Vector" + std::to_string(m_dimension) + "d\" : [";
   for (auto i = 0u; i < m_dimension; ++i)
     {
     res += std::to_string(m_coords[i]);

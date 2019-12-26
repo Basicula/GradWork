@@ -59,5 +59,20 @@ static void AddSpotLight(py::module io_module)
       &SpotLight::SetColor)
     .def_property("intensity",
       &SpotLight::GetIntensity,
-      &SpotLight::SetIntensity);
+      &SpotLight::SetIntensity)
+    .def("fromDict", [](py::dict i_dict)
+      {
+      auto vec_m = py::module::import("engine.Math.Vector");
+      auto color_m = py::module::import("engine.Visual");
+      auto inner = i_dict["SpotLight"];
+      Color color = color_m.attr("Color").attr("fromDict")(inner["Color"]).cast<Color>();
+      Vector3d location = vec_m.attr("Vector3d").attr("fromDict")(inner["Location"]).cast<Vector3d>();
+      double intensity = inner["Intensity"].cast<double>();
+      double state = inner["State"].cast<bool>();
+      return SpotLight(
+        location,
+        color,
+        intensity,
+        state);
+      });
   }
