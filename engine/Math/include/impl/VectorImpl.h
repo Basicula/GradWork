@@ -67,13 +67,53 @@ bool Vector<Dimension, ElementType>::operator==(const Vector<Dimension, ElementT
   bool equal = true;
   for (auto i = 0u; i < Dimension; ++i)
     {
-      equal &= (m_coords[i] == i_other.m_coords[i]);
-      if (!equal)
-        break;
+    equal &= (m_coords[i] == i_other.m_coords[i]);
+    if (!equal)
+      return false;
     }
-  return equal;
+  return true;
   }
   
+template<ull Dimension, class ElementType>
+bool Vector<Dimension, ElementType>::operator<(const Vector<Dimension, ElementType>& i_other) const
+  {
+  bool res = true;
+  bool eq = true;
+  for (auto i = 0u; i < Dimension; ++i)
+    {
+    res &= (m_coords[i] <= i_other.m_coords[i]);
+    eq &= (m_coords[i] == i_other.m_coords[i]);
+    if (!res)
+      return false;
+    }
+  return !eq;
+  }
+
+template<ull Dimension, class ElementType>
+bool Vector<Dimension, ElementType>::operator<=(const Vector<Dimension, ElementType>& i_other) const
+  {
+  bool res = true;
+  for (auto i = 0u; i < Dimension; ++i)
+    {
+    res &= (m_coords[i] <= i_other.m_coords[i]);
+    if (!res)
+      return false;
+    }
+  return true;
+  }
+
+template<ull Dimension, class ElementType>
+bool Vector<Dimension, ElementType>::operator>(const Vector<Dimension, ElementType>& i_other) const
+  {
+  return !(*this <= i_other);
+  }
+
+template<ull Dimension, class ElementType>
+bool Vector<Dimension, ElementType>::operator>=(const Vector<Dimension, ElementType>& i_other) const
+  {
+  return !(*this < i_other);
+  }
+
 template<ull Dimension, class ElementType>
 bool Vector<Dimension, ElementType>::operator!=(const Vector<Dimension, ElementType>& i_other) const
   {

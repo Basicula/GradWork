@@ -31,6 +31,10 @@ class Vector
     
     bool operator==(const Vector& i_other) const;
     bool operator!=(const Vector& i_other) const;
+    bool operator<(const Vector& i_other) const;
+    bool operator<=(const Vector& i_other) const;
+    bool operator>(const Vector& i_other) const;
+    bool operator>=(const Vector& i_other) const;
 
     Vector operator-() const;
     Vector operator-(const Vector& i_other) const;
