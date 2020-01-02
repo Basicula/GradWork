@@ -55,25 +55,28 @@ def test():
     
     scene.addCamera(Camera(Vector3d(0,0,-15),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1))
     
+    with open('simple_example.json','w') as f:
+        json.dump(json.loads(repr(scene)), f)
+    
     dump_scene_image(scene)
     
 
 class TestSceneConstructor(unittest.TestCase):
     def test_constructor(self):
-        print("\nConstructor without parameters ", end = "")
+        print("\nConstructor without parameters", end = "")
         scene = Scene()
         
         self.assertEqual(scene.name, "unnamed")
         
     def test_custom_constructor(self):
-        print("\nConstructor with parameters ", end = "")
+        print("\nConstructor with parameters", end = "")
         scene = Scene("test")
         
         self.assertEqual(scene.name, "test")
         
 class TestSceneExample(unittest.TestCase):
     def test_simple_example(self):
-        print("\nSimple example ", end = "")
+        print("\nSimple example", end = "")
         scene = Scene("example")
         
         self.assertEqual(scene.name, "example")

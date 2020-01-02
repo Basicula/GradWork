@@ -15,25 +15,26 @@ import logging
 log = None
 
 class Node:
-    def __init__(self, conf):
+    def __init__(self, conf, scenes_root = "./parcsv2/Scenes"):
         self.conf = conf
         self.info = get_node_info_for_current_machine()
+        self.scenes_root = scenes_root
 
     @abstractmethod
     def is_master_node(self):
         pass
 
     @staticmethod
-    def create_node(conf):
+    def create_node(conf, scenes_root = "./parcsv2/Scenes"):
         if conf.master:
-            return MasterNode(conf)
+            return MasterNode(conf, scenes_root)
         else:
-            return WorkerNode(conf)
+            return WorkerNode(conf, scenes_root)
 
 
 class WorkerNode(Node):
-    def __init__(self, conf):
-        Node.__init__(self, conf)
+    def __init__(self, conf, scenes_root = "./parcsv2/Scenes"):
+        Node.__init__(self, conf, scenes_root)
         global log
         log = logging.getLogger('Worker Node')
         self.master = NodeLink(conf.master_ip, conf.master_port)
@@ -42,13 +43,6 @@ class WorkerNode(Node):
         self.register_on_master()
         #self.reconnector = MasterReconnector(self)
         #self.reconnector.start()
-
-    def init(self, num):
-        self.num = num
-
-    def get(self):
-        self.num += 1
-        return self.num
     
     def is_master_node(self):
         return False
@@ -75,6 +69,7 @@ class WorkerNode(Node):
     def connection_with_master_lost(self):
         self.connected = False
         log.warning('Connection with master %s:%d lost.', self.master.ip, self.master.port)
+        
 
 
 class MasterReconnector(Thread):
@@ -110,8 +105,8 @@ class MasterReconnector(Thread):
 
 
 class MasterNode(Node):
-    def __init__(self, conf):
-        Node.__init__(self, conf)
+    def __init__(self, conf, scenes_root = "./parcsv2/Scenes"):
+        Node.__init__(self, conf, scenes_root)
         global log
         log = logging.getLogger('Master Node')
         self.workers = []

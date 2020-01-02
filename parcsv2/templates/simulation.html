@@ -4,8 +4,64 @@
 <div class="render-container">
 <form class="render-form" id="render-form">
 <canvas class="canvas" id="canvas"></canvas>
-
 </form>
+<script>
+  function update1()
+    {
+    $.get('/simulation/update',
+                function(response) {
+                  const img = response.image;
+                  const width = response.width;
+                  const height = response.height;
+                  let canvas = document.getElementById("canvas");
+                  if (canvas.width < width)
+                    canvas.width = width;
+                  if (canvas.height < height)
+                    canvas.height = height;
+                  let context = canvas.getContext("2d");
+                  let image = context.getImageData(0, 0, width, height);
+                  let j = 0;
+                  for (let i = 0; i < image.data.length && j < img.length; ++i)
+                    {
+                    if ((i+1) % 4 == 0)
+                      image.data[i] = 255;
+                    else
+                      image.data[i] = img[j++].charCodeAt();
+                    }
+                  context.putImageData(image,0,0);
+                }).then(()=>update1());
+    }
+    
+  function update2()
+    {
+    $.get('/simulation/update',
+                function(response) {
+                  const img = response.image;
+                  const width = response.width;
+                  const height = response.height;
+                  let canvas = document.getElementById("canvas");
+                  if (canvas.width < width)
+                    canvas.width = width;
+                  if (canvas.height < height)
+                    canvas.height = height;
+                  let context = canvas.getContext("2d");
+                  let image = context.getImageData(0, 0, width, height);
+                  let j = 0;
+                  for (let i = 0; i < image.data.length && j < img.length; ++i)
+                    {
+                    if ((i+1) % 4 == 0)
+                      image.data[i] = 255;
+                    else
+                      image.data[i] = img[j++].charCodeAt();
+                    }
+                  context.putImageData(image,0,0);
+                  setTimeout(update2,1);
+                });
+    }
+  
+  update1();
+
+</script>
 </div>
 
 {% endblock %}

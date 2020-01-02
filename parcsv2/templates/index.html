@@ -3,7 +3,7 @@
 <div>
   <ul>
     {% for scene in scenes %}
-    <li><a href={{ url_for("simulation", file = scene.file ) }}>{{scene.name}}</a></li>
+    <li><a href={{ url_for("simulation", filename = scene.name ) }}>{{scene.name}}</a></li>
     {% endfor %}
   </ul>
 </div>

@@ -2,14 +2,21 @@ import logging
 import requests
 import json
 import os
-from flask import Flask, render_template, request, send_from_directory, jsonify, Response
+import random
+from flask import Flask, render_template, request, send_from_directory, jsonify, Response, make_response
 
 from .node import Node
 from .node_link import create_node_link
 
+from engine import Scene
+from engine.Visual import Image, Color
+from engine.Visual.Material import ColorMaterial
+from engine.Primitives import Sphere
+from engine.Math.Vector import Vector3d
+
 def start(conf):
     log.info("Starting...")
-    app.node = Node.create_node(conf)
+    app.node = Node.create_node(conf,"./parcsv2/Scenes")
     log.info("Started.")
     app.run(host='0.0.0.0', port=conf.port)
     app.inited = False
@@ -34,12 +41,11 @@ def not_found():
 def ok():
     return Response(status=200)
 
-
 # WEB
 @app.route('/')
 @app.route('/index')
 def index_page():
-    scenes_folder = os.walk("./parcsv2/Scenes")
+    scenes_folder = os.walk(app.node.scenes_root)
     scenes = []
     for addr, dirs, files in scenes_folder:
         for file in files:
@@ -48,32 +54,24 @@ def index_page():
                 scene["name"] = file.split('.')[0]
                 scene["file"] = file
                 scenes.append(scene)
-    log.info(scenes)
     return render_template('index.html', scenes = scenes)
 
 @app.route('/about')
 def about_page():
     return render_template("about.html")
 
-@app.route('/simulation/<file>', methods=['GET'])
-def simulation(file):
-    log.info(file)
-    with open("parcsv2/Scenes/"+file,'r') as f:
-        scene = json.load(f)
-    return render_template("simulation.html", scene = scene)
-    
-@app.route('/test', methods=['GET'])
-def test():
-    values = []
+@app.route('/simulation/<filename>', methods=['GET'])
+def simulation(filename):
     for worker in app.node.workers:
-        if not app.inited:
-            response = requests.get('http://%s:%s/api/internal/test/init/0' % (worker.ip, worker.port))
-            values.append(0)
-        else:
-            response = requests.get('http://%s:%s/api/internal/test' % (worker.ip, worker.port))
-            values.append(response.content)
-    app.inited = True
-    return render_template("test.html", workers = app.node.workers, values = values)
+        response = requests.post(('http://%s:%s/api/internal/worker/scene/init/' + filename) % (worker.ip, worker.port))
+    return render_template("simulation.html")
+    
+@app.route('/simulation/update', methods=['GET'])
+def simulation_update():
+    response = None
+    for worker in app.node.workers:
+        response = requests.get('http://%s:%s/api/internal/worker/scene/update' % (worker.ip, worker.port))
+    return response.json()
 
 # Inernal api
 @app.route('/api/internal/heartbeat')
@@ -91,25 +89,30 @@ def register_worker():
         return jsonify(worker=node_link.serialize())
     else:
         return bad_request()
-
-@app.route('/api/internal/test/init/<num>', methods=['GET'])
-def internal_test_init(num):
-    app.node.init(int(num))
+        
+@app.route('/api/internal/worker/scene/init/<filename>', methods = ['POST'])
+def scene_init(filename):
+    scenes_folder = os.walk(app.node.scenes_root)
+    scenes = []
+    for addr, dirs, files in scenes_folder:
+        for file in files:
+            if filename in file:
+                with open(addr+'/'+file,'r') as f:
+                    app.node.scene = Scene.fromDict(json.load(f))
+    app.image = Image(app.node.scene.frameWidth, app.node.scene.frameHeight)
     return ok()
     
-@app.route('/api/internal/test', methods=['GET'])
-def internal_test():
-    if app.node.is_master_node():
-        resp = {}
-        resp["data"] = []
-        for worker in app.node.workers:
-            w = {}
-            w["ip"] = worker.ip
-            w["port"] = worker.port
-            response = requests.get('http://%s:%s/api/internal/test' % (worker.ip, worker.port))
-            w["val"] = json.loads(response.content)
-            resp["data"].append(w)
-        return resp
-    else:
-        val = app.node.get()
-        return str(val)
+@app.route('/api/internal/worker/scene/update', methods = ['GET'])
+def scene_update():
+    width = app.node.scene.frameWidth
+    height = app.node.scene.frameHeight
+    x = random.uniform(-20, 20)
+    y = random.uniform(-20, 20)
+    z = random.uniform(-10, 0)
+    app.node.scene.addObject(
+        Sphere(
+            Vector3d(x,y,z),
+            2,
+            ColorMaterial(Color(random.randint(0,0xffffff)))))
+    app.node.scene.getFrame(app.image)
+    return json.dumps({"image":str(app.image), "width" : width, "height" : height})

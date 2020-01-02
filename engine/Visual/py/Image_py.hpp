@@ -13,5 +13,8 @@ static void AddImage(py::module& io_module)
     .def("getPixel", &Image::GetPixel)
     .def("setPixel", &Image::SetPixel)
     .def_property_readonly("width", &Image::GetWidth)
-    .def_property_readonly("height", &Image::GetHeight);
+    .def_property_readonly("height", &Image::GetHeight)
+    .def_property_readonly("data", &Image::GetData)
+    .def_property_readonly("rawData", &Image::GetRawData)
+    .def("__str__", &Image::AsString);
   }

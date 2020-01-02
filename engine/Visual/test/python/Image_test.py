@@ -1,4 +1,5 @@
 import unittest
+import time
 
 from engine.Visual import Image, Color
 
@@ -46,6 +47,19 @@ class TestImageProperties(unittest.TestCase):
             
         self.assertEqual(image.width, width)
         self.assertEqual(image.height, height)
+            
+        with self.assertRaises(AttributeError):
+            image.data = 123
+            
+        #with self.assertRaises(AttributeError):
+        #    image.data[0][0] = Color(0)
+            
+        self.assertEqual(image.data[0][0], Color(0))
+        
+        with self.assertRaises(AttributeError):
+            image.rawData = 123
+            
+        self.assertEqual(image.rawData[0], 0)
         
 class TestImageFunctionality(unittest.TestCase):
     def test_pixel_manipulation(self):
@@ -61,8 +75,8 @@ class TestImageFunctionality(unittest.TestCase):
         self.assertEqual(image.getPixel(123,123), Color(0))
         
         image.setPixel(123,1312,Color(0))
-        
-        
+
+
 if __name__ == "__main__":
     print("\n--------------")
     print("...Test Image...")
