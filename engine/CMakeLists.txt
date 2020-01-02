@@ -1,4 +1,5 @@
 add_subdirectory(Math)
+add_subdirectory(Common)
 add_subdirectory(Visual)
 add_subdirectory(Primitives)
 add_subdirectory(Scene)
@@ -10,6 +11,7 @@ target_link_libraries(
     PRIVATE
     
     Math
+    Common
     Visual
     Primitives
     Scene

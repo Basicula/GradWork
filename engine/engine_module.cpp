@@ -6,6 +6,7 @@
 namespace py = pybind11;
 
 #include <math_py.hpp>
+#include <common_py.hpp>
 #include <visual_py.hpp>
 #include <primitives_py.hpp>
 #include <scene_module_py.hpp>
@@ -13,6 +14,7 @@ namespace py = pybind11;
 PYBIND11_MODULE(engine, m)
   {
   AddMathSubmodule(m);
+  AddCommonSubmodule(m);
   AddVisualSubmodule(m);
   AddPrimitivesSubmodule(m);
   AddSceneSubmodule(m);
