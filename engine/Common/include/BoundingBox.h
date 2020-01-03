@@ -7,6 +7,9 @@ class BoundingBox
   {
   public:
     BoundingBox();
+    BoundingBox(
+      const Vector3d& i_min,
+      const Vector3d& i_max);
 
     Vector3d GetMin() const;
     Vector3d GetMax() const;

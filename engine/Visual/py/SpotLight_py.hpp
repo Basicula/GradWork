@@ -43,8 +43,9 @@ namespace
 static void AddSpotLight(py::module io_module)
   {
   py::class_<SpotLight, std::shared_ptr<SpotLight>, ILight, PySpotLight>(io_module, "SpotLight")
-    .def(py::init<Vector3d,
-      Color,
+    .def(py::init<
+      const Vector3d&,
+      const Color&,
       double,
       bool>(),
       py::arg("location"),

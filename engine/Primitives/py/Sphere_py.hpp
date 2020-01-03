@@ -20,7 +20,10 @@ namespace
 static void AddSphere(py::module& io_module)
   {
   py::class_<Sphere, std::shared_ptr<Sphere>, IObject, PySphere>(io_module, "Sphere")
-    .def(py::init<Vector3d, double, std::shared_ptr<IMaterial>>(),
+    .def(py::init<
+      const Vector3d&,
+      double,
+      std::shared_ptr<IMaterial>>(),
       py::arg("center"),
       py::arg("radius"),
       py::arg("material") = nullptr)

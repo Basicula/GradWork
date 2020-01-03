@@ -5,7 +5,10 @@
 static void AddScene(py::module& io_module)
   {
   py::class_<Scene, std::shared_ptr<Scene>>(io_module, "Scene")
-    .def(py::init<std::string, std::size_t, std::size_t>(),
+    .def(py::init<
+      const std::string&, 
+      std::size_t, 
+      std::size_t>(),
       py::arg("name") = "unnamed",
       py::arg("frameWidth") = 800,
       py::arg("frameHeight") = 600)

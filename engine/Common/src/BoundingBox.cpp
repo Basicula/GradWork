@@ -7,6 +7,13 @@ BoundingBox::BoundingBox()
   , m_max(std::numeric_limits<int>::min())
   {}
 
+BoundingBox::BoundingBox(
+  const Vector3d& i_min,
+  const Vector3d& i_max)
+  : m_min(i_min)
+  , m_max(i_max)
+  {}
+
 void BoundingBox::AddPoint(const Vector3d& i_point)
   {
   for (auto i = 0; i < 3; ++i)

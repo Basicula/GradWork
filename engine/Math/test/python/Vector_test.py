@@ -388,6 +388,60 @@ class TestVectorOperations(unittest.TestCase):
         actual = v1.sqrlength()
         expected = 30
         self.assertEqual(actual, expected)
+        
+    def test_vec2_bool_operations(self):
+        print("\nVector2d bool operations", end = "")
+        v1, v2 = vec.Vector2d(0.1), vec.Vector2d(0.1)
+        
+        self.assertTrue(v1 == v2)
+        self.assertTrue(v1 <= v2)
+        self.assertTrue(v1 >= v2)
+        
+        v2 = vec.Vector2d(0.101)
+        
+        self.assertTrue(v1 != v2)
+        
+        self.assertTrue(v1 < v2)
+        self.assertTrue(v1 <= v2)
+        
+        self.assertTrue(v2 > v1)
+        self.assertTrue(v2 >= v1)
+        
+    def test_vec3_bool_operations(self):
+        print("\nVector3d bool operations", end = "")
+        v1, v2 = vec.Vector3d(0.1), vec.Vector3d(0.1)
+        
+        self.assertTrue(v1 == v2)
+        self.assertTrue(v1 <= v2)
+        self.assertTrue(v1 >= v2)
+        
+        v2 = vec.Vector3d(0.101)
+        
+        self.assertTrue(v1 != v2)
+        
+        self.assertTrue(v1 < v2)
+        self.assertTrue(v1 <= v2)
+        
+        self.assertTrue(v2 > v1)
+        self.assertTrue(v2 >= v1)
+        
+    def test_vec4_bool_operations(self):
+        print("\nVector4d bool operations", end = "")
+        v1, v2 = vec.Vector4d(0.1), vec.Vector4d(0.1)
+        
+        self.assertTrue(v1 == v2)
+        self.assertTrue(v1 <= v2)
+        self.assertTrue(v1 >= v2)
+        
+        v2 = vec.Vector4d(0.101)
+        
+        self.assertTrue(v1 != v2)
+        
+        self.assertTrue(v1 < v2)
+        self.assertTrue(v1 <= v2)
+        
+        self.assertTrue(v2 > v1)
+        self.assertTrue(v2 >= v1)
 
 class TestVectorProperties(unittest.TestCase):
     def test_vec2_properties(self):

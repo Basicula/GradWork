@@ -1,4 +1,4 @@
-#include <boundingbox_py.hpp>
+#include <BoundingBox_py.hpp>
 
 static void AddCommonSubmodule(py::module& io_module)
   {
