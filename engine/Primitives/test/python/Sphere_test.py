@@ -2,7 +2,8 @@ import unittest
 import math
 import json
 
-from engine.Primitives import Sphere, Ray, Intersection
+from engine.Common import Intersection
+from engine.Primitives import Sphere, Ray
 from engine.Math.Vector import Vector3d
 from engine.Visual import Color
 from engine.Visual.Material import ColorMaterial

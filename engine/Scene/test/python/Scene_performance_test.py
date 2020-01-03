@@ -29,12 +29,12 @@ class TestScenePerformance(unittest.TestCase):
         
         image = Image(scene.frameWidth, scene.frameHeight)
         
-        frames_cnt = 1000
+        frames_cnt = 30
         start = time.time()
         for i in range(frames_cnt):
             scene.getFrame(image)
         elapsed = time.time() - start
-        print("\nFrames per second - Time : {}s, FPS = {}".format(round(elapsed,4),round(frames_cnt/elapsed,4)), end = "")
+        print("\nFrames per second - Time = {}s, Frames = {}, FPS = {}".format(round(elapsed,4),frames_cnt,round(frames_cnt/elapsed,4)), end = "")
         
 if __name__ == "__main__":
     print("\n-------------------------")

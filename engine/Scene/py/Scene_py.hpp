@@ -50,13 +50,13 @@ static void AddScene(py::module& io_module)
       auto name = scene["Name"].cast<std::string>();
       auto frameWidth = scene["FrameWidth"].cast<std::size_t>();
       auto frameHeight = scene["FrameHeight"].cast<std::size_t>();
-
+        
       Scene res(name,frameWidth,frameHeight);
 
-      auto primitives_m = py::module::import("engine.Primitives");
+      auto common_m = py::module::import("engine.Common");
       auto objects = scene["Objects"];
       for (auto object : objects)
-        res.AddObject(primitives_m.attr("IObject").attr("fromDict")(object).cast<std::shared_ptr<IObject>>());
+        res.AddObject(common_m.attr("IObject").attr("fromDict")(object).cast<std::shared_ptr<IObject>>());
 
       auto light_m = py::module::import("engine.Visual.Light");
       auto lights = scene["Lights"];

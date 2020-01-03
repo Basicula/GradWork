@@ -1,5 +1,6 @@
 import logging
 import requests
+from requests_futures.sessions import FuturesSession
 import json
 import os
 import random
@@ -62,16 +63,27 @@ def about_page():
 
 @app.route('/simulation/<filename>', methods=['GET'])
 def simulation(filename):
+    scenes_folder = os.walk(app.node.scenes_root)
+    scenes = []
+    for addr, dirs, files in scenes_folder:
+        for file in files:
+            if filename in file:
+                with open(addr+'/'+file,'r') as f:
+                    app.node.scene = Scene.fromDict(json.load(f))
     for worker in app.node.workers:
         response = requests.post(('http://%s:%s/api/internal/worker/scene/init/' + filename) % (worker.ip, worker.port))
     return render_template("simulation.html")
     
 @app.route('/simulation/update', methods=['GET'])
 def simulation_update():
-    response = None
+    session = FuturesSession()
+    responses = []
     for worker in app.node.workers:
-        response = requests.get('http://%s:%s/api/internal/worker/scene/update' % (worker.ip, worker.port))
-    return response.json()
+        responses.append(session.get('http://%s:%s/api/internal/worker/scene/update' % (worker.ip, worker.port)))
+    image = ""
+    for response in responses:
+        image += response.result().json()['image']
+    return {"image":image, "width" : app.node.scene.frameWidth, "height" : app.node.scene.frameHeight}
 
 # Inernal api
 @app.route('/api/internal/heartbeat')
@@ -115,4 +127,4 @@ def scene_update():
             2,
             ColorMaterial(Color(random.randint(0,0xffffff)))))
     app.node.scene.getFrame(app.image)
-    return json.dumps({"image":str(app.image), "width" : width, "height" : height})
+    return {"image":str(app.image), "width" : width, "height" : height}

@@ -1,8 +1,7 @@
 set(
-    SOURCES
+  SOURCES
 	
-    src/Ray.cpp
-    src/Intersection.cpp
+  src/Ray.cpp
     
 	src/Sphere.cpp
 	#src/Plane.cpp
@@ -11,24 +10,21 @@ set(
 )
 
 set(
-    HEADERS
+  HEADERS
 
 	include/Ray.h
-	include/Intersection.h
 
 	include/Sphere.h
 	#include/Plane.h
 	#include/Torus.h
 	#include/Cylinder.h
-    
-	include/IObject.h
 )
 
 add_library(
 	Primitives
     
-    ${SOURCES}
-    ${HEADERS}
+  ${SOURCES}
+  ${HEADERS}
 )
 
 target_include_directories(Primitives PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -36,4 +32,5 @@ target_include_directories(Primitives PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/includ
 target_include_directories(Primitives PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/py")
 
 target_link_libraries(Primitives PRIVATE Math)
+target_link_libraries(Primitives PRIVATE Common)
 target_link_libraries(Primitives PRIVATE Visual)
