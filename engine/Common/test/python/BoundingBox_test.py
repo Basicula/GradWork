@@ -72,6 +72,20 @@ class TestBoundingBoxFunctionality(unittest.TestCase):
         
         self.assertEqual(bb.min, box.min)
         self.assertEqual(bb.max, box.max)
+        
+    def test_containing_point(self):
+        print("\nContaining point", end="")
+        bb = bbox(Vector3d(0), Vector3d(5))
+        
+        self.assertTrue(bb.contains(Vector3d(0)))
+        self.assertTrue(bb.contains(Vector3d(5)))
+        self.assertTrue(bb.contains(Vector3d(3)))
+        self.assertTrue(bb.contains(Vector3d(3,0,0)))
+        self.assertTrue(bb.contains(Vector3d(0,3,0)))
+        self.assertTrue(bb.contains(Vector3d(0,0,3)))
+        
+        self.assertFalse(bb.contains(Vector3d(-1)))
+        self.assertFalse(bb.contains(Vector3d(6)))
 
 if __name__ == "__main__":
     print("\n----------------------")

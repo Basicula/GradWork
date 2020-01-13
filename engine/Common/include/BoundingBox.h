@@ -17,6 +17,8 @@ class BoundingBox
 
     void AddPoint(const Vector3d& i_point);
 
+    bool Contains(const Vector3d& i_point) const;
+
     bool IsValid() const;
 
     std::string Serialize() const;
@@ -48,4 +50,9 @@ inline Vector3d BoundingBox::GetMax() const
 inline bool BoundingBox::IsValid() const
   {
   return (m_min < m_max);
+  }
+
+inline bool BoundingBox::Contains(const Vector3d& i_point) const
+  {
+  return (m_min <= i_point && i_point <= m_max);
   }
