@@ -12,6 +12,8 @@ set(
   include/Intersection.h
   
   include/IObject.h
+  
+  include/DefinesAndConstants.h
 )
 
 add_library(

@@ -10,6 +10,8 @@ from .node import Node
 from .node_link import create_node_link
 
 from engine import Scene
+from engine.Fluid import Fluid
+from engine.Common import BoundingBox
 from engine.Visual import Image, Color
 from engine.Visual.Material import ColorMaterial
 from engine.Primitives import Sphere
@@ -111,6 +113,7 @@ def scene_init(filename):
             if filename in file:
                 with open(addr+'/'+file,'r') as f:
                     app.node.scene = Scene.fromDict(json.load(f))
+                    app.node.scene.addObject(Fluid(BoundingBox(Vector3d(-5),Vector3d(5))))
     app.image = Image(app.node.scene.frameWidth, app.node.scene.frameHeight)
     return ok()
     
@@ -121,10 +124,11 @@ def scene_update():
     x = random.uniform(-20, 20)
     y = random.uniform(-20, 20)
     z = random.uniform(-10, 0)
-    app.node.scene.addObject(
-        Sphere(
-            Vector3d(x,y,z),
-            2,
-            ColorMaterial(Color(random.randint(0,0xffffff)))))
+    #app.node.scene.addObject(
+    #    Sphere(
+    #        Vector3d(x,y,z),
+    #        2,
+    #        ColorMaterial(Color(random.randint(0,0xffffff)))))
     app.node.scene.getFrame(app.image)
+    app.node.scene.applyPhysics()
     return {"image":str(app.image), "width" : width, "height" : height}

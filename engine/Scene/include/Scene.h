@@ -50,6 +50,8 @@ class Scene
       int i_offset_x = 0,
       int i_offset_y = 0) const;
 
+    void ApplyPhisics();
+
     std::string Serialize() const;
   private:
     bool _Render(

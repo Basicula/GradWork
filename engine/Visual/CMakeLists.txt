@@ -33,3 +33,4 @@ target_include_directories(Visual PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_include_directories(Visual PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/py")
 
 target_link_libraries(Visual PRIVATE Math)
+target_link_libraries(Visual PRIVATE Common)

@@ -2,7 +2,7 @@ import unittest
 import math
 import json
 
-from engine.Common import Intersection
+from engine.Common import Intersection, BoundingBox
 from engine.Primitives import Sphere, Ray
 from engine.Math.Vector import Vector3d
 from engine.Visual import Color
@@ -119,6 +119,15 @@ class TestSphereFunctionality(unittest.TestCase):
         self.assertEqual(obj.material.color, Color(0xff0000))
         self.assertEqual(repr(obj.material), repr(ColorMaterial(Color(0xff0000))))
         self.assertEqual(obj.radius, 10)
+        
+    def test_bounding_box(self):
+        print("\nBounding box", end = "")
+        sphere = Sphere(Vector3d(0,1,2), 5, ColorMaterial(Color(0xff0000)))
+        
+        bb = sphere.boundingBox
+        
+        self.assertEqual(bb.min, Vector3d(-5,-4,-3))
+        self.assertEqual(bb.max, Vector3d(5,6,7))
         
 if __name__ == "__main__":
     print("\n---------------")

@@ -10,5 +10,15 @@ static void AddBoundingBox(py::module& io_module)
     .def_property_readonly("min", &BoundingBox::GetMin)
     .def_property_readonly("max", &BoundingBox::GetMax)
     .def("isValid", &BoundingBox::IsValid)
-    .def("addPoint", &BoundingBox::AddPoint);
+    .def("addPoint", &BoundingBox::AddPoint)
+    .def("__repr__", &BoundingBox::Serialize)
+    .def("fromDict", [](py::dict i_dict)
+      {
+      auto common_m = py::module::import("engine.Common");
+      auto vector_m = py::module::import("engine.Math.Vector");
+      auto inner = i_dict["BoundingBox"];
+      Vector3d min = vector_m.attr("Vector3d").attr("fromDict")(inner["MinCorner"]).cast<Vector3d>();
+      Vector3d max = vector_m.attr("Vector3d").attr("fromDict")(inner["MaxCorner"]).cast<Vector3d>();
+      return BoundingBox(min,max);
+      });
   }

@@ -10,11 +10,13 @@ namespace py = pybind11;
 #include <visual_py.hpp>
 #include <primitives_py.hpp>
 #include <scene_module_py.hpp>
+#include <fluid_module_py.hpp>
 
 PYBIND11_MODULE(engine, m)
   {
   AddMathSubmodule(m);
   AddCommonSubmodule(m);
+  AddFluidSubmodule(m);
   AddVisualSubmodule(m);
   AddPrimitivesSubmodule(m);
   AddSceneSubmodule(m);

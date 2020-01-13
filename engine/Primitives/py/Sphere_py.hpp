@@ -13,7 +13,28 @@ namespace
         IntersectWithRay,
         io_intersection,
         i_ray);
-      };
+      }
+    std::string Serialize() const override
+      {
+      PYBIND11_OVERLOAD(
+        std::string,
+        Sphere,
+        Serialize,);
+      }
+    BoundingBox GetBoundingBox() const override
+      {
+      PYBIND11_OVERLOAD(
+        BoundingBox,
+        Sphere,
+        GetBoundingBox,);
+      }
+    void ApplyPhysics() override
+      {
+      PYBIND11_OVERLOAD(
+        void,
+        Sphere,
+        ApplyPhysics,);
+      }
     };
   }
 

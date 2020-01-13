@@ -1,5 +1,6 @@
 #pragma once
 #include <algorithm>
+#include <string>
 
 #include <Vector.h>
 
@@ -18,10 +19,21 @@ class BoundingBox
 
     bool IsValid() const;
 
+    std::string Serialize() const;
+
   private:
     Vector3d m_min;
     Vector3d m_max;
   };
+
+inline std::string BoundingBox::Serialize() const
+  {
+  std::string res = "{ \"BoundingBox\" : { ";
+  res += "\"MinCorner\" : " + m_min.Serialize() + ", ";
+  res += "\"MaxCorner\" : " + m_max.Serialize();
+  res += " } }";
+  return res;
+  }
 
 inline Vector3d BoundingBox::GetMin() const
   {

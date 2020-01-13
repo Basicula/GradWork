@@ -4,6 +4,9 @@
 #include <Vector.h>
 #include <IObject.h>
 #include <IMaterial.h>
+#include <Ray.h>
+#include <Intersection.h>
+#include <BoundingBox.h>
 
 class Sphere : public IObject
   {
@@ -12,6 +15,8 @@ class Sphere : public IObject
 
     virtual bool IntersectWithRay(Intersection& o_intersection, const Ray& i_ray) const override;
     virtual std::string Serialize() const override;
+    virtual BoundingBox GetBoundingBox() const override;
+    virtual void ApplyPhysics() override;
 
     Vector3d GetCenter() const;
     void SetCenter(const Vector3d& i_center);
@@ -66,4 +71,14 @@ inline std::string Sphere::Serialize() const
   res += "\"Radius\" : " + std::to_string(m_radius);
   res += "} }";
   return res;
+  }
+
+inline BoundingBox Sphere::GetBoundingBox() const
+  {
+  return BoundingBox(m_center - m_radius, m_center + m_radius);
+  }
+
+inline void Sphere::ApplyPhysics()
+  {
+  
   }

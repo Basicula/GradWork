@@ -110,6 +110,7 @@ inline Vector3d& Vector3d::operator*=<double>(double i_val)
   m_coords[0] *= i_val;
   m_coords[1] *= i_val;
   m_coords[2] *= i_val;
+  return *this;
   }
 
 template<>

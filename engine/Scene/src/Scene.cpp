@@ -1,6 +1,8 @@
 #include <algorithm>
 
 #include <Scene.h>
+#include <Ray.h>
+#include <Intersection.h>
 
 Scene::Scene(
   const std::string& i_name,
@@ -61,7 +63,10 @@ bool Scene::_Render(
         intersected |= object->IntersectWithRay(hit, ray);
 
       if (!intersected  || !hit.m_material)
+        {
+        o_image.SetPixel(x, y, Color(0));
         continue;
+        }
 
       Color result_pixel_color = hit.m_material->GetPrimitiveColor();
 
@@ -94,4 +99,10 @@ bool Scene::_Render(
       o_image.SetPixel(x,y, result_pixel_color);
       }
   return true;
+  }
+
+void Scene::ApplyPhisics()
+  {
+  for (auto object : m_objcts)
+    object->ApplyPhysics();
   }

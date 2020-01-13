@@ -1,4 +1,5 @@
 import unittest
+import json
 
 from engine.Math.Vector import Vector3d
 from engine.Common import BoundingBox as bbox
@@ -10,6 +11,17 @@ class TestBoundingBoxConstructors(unittest.TestCase):
         bb = bbox()
         
         self.assertFalse(bb.isValid())
+        
+    def test_constructor_with_two_parameters(self):
+        print("\nMinMax constructor", end = "")
+        bb = bbox(Vector3d(0), Vector3d(1))
+        
+        self.assertEqual(bb.min, Vector3d(0))
+        self.assertEqual(bb.max, Vector3d(1))
+        self.assertTrue(bb.isValid())
+        
+        bb = bbox(Vector3d(1), Vector3d(0))
+        self.assertFalse(bb.isValid())
 
 class TestBoundingBoxProperties(unittest.TestCase):
     def test_properties(self):
@@ -18,6 +30,12 @@ class TestBoundingBoxProperties(unittest.TestCase):
         
         self.assertEqual(bb.min, Vector3d(2147483647))
         self.assertEqual(bb.max, Vector3d(-2147483648))
+        
+        with self.assertRaises(AttributeError):
+            bb.min = Vector3d(0)
+        
+        with self.assertRaises(AttributeError):
+            bb.max = Vector3d(0)
 
 class TestBoundingBoxFunctionality(unittest.TestCase):
     def test_adding_point(self):
@@ -34,6 +52,26 @@ class TestBoundingBoxFunctionality(unittest.TestCase):
         
         self.assertEqual(bb.min, Vector3d(0))
         self.assertEqual(bb.max, Vector3d(1))
+        
+    def test_serialization(self):
+        print("\nSerialization", end = "")
+        bb = bbox(Vector3d(0), Vector3d(1))
+        
+        dict = json.loads(repr(bb))
+        box = dict["BoundingBox"]
+        
+        self.assertEqual(box["MinCorner"], json.loads(repr(Vector3d(0))))
+        self.assertEqual(box["MaxCorner"], json.loads(repr(Vector3d(1))))
+        
+    def test_deserialization(self):
+        print("\nDeserialization", end = "")
+        bb = bbox(Vector3d(0), Vector3d(1))
+        
+        dict = json.loads(repr(bb))
+        box = bbox.fromDict(dict)
+        
+        self.assertEqual(bb.min, box.min)
+        self.assertEqual(bb.max, box.max)
 
 if __name__ == "__main__":
     print("\n----------------------")

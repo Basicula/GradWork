@@ -8,10 +8,9 @@ set(
 set(
     HEADERS
     
-    include/SolveEquations.h
+  include/SolveEquations.h
 	include/Vector.h
 	include/TransformationMatrix.h
-	include/DefinesAndConstants.h
 
 	include/impl/VectorImpl.h
 )
