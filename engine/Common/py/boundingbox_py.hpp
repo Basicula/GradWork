@@ -11,6 +11,7 @@ static void AddBoundingBox(py::module& io_module)
     .def_property_readonly("max", &BoundingBox::GetMax)
     .def("isValid", &BoundingBox::IsValid)
     .def("addPoint", &BoundingBox::AddPoint)
+    .def("contains", &BoundingBox::Contains)
     .def("__repr__", &BoundingBox::Serialize)
     .def("fromDict", [](py::dict i_dict)
       {

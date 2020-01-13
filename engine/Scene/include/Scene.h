@@ -5,6 +5,7 @@
 
 #include <IObject.h>
 #include <ILight.h>
+#include <IMaterial.h>
 #include <Camera.h>
 #include <Image.h>
 

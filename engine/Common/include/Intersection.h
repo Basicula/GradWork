@@ -2,7 +2,7 @@
 #include <memory>
 
 #include <Vector.h>
-#include <IMaterial.h>
+class IMaterial;
 
 struct Intersection
   {
