@@ -1,6 +1,5 @@
 import unittest
 import json
-import matplotlib.pyplot as plt
 
 from engine import Scene
 from engine.Math.Vector import Vector3d
