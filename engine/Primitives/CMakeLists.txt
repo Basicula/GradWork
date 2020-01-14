@@ -1,7 +1,5 @@
 set(
-  SOURCES
-	
-  src/Ray.cpp
+    SOURCES
     
 	src/Sphere.cpp
 	#src/Plane.cpp
@@ -10,10 +8,8 @@ set(
 )
 
 set(
-  HEADERS
-
-	include/Ray.h
-
+    HEADERS
+  
 	include/Sphere.h
 	#include/Plane.h
 	#include/Torus.h
@@ -23,8 +19,8 @@ set(
 add_library(
 	Primitives
     
-  ${SOURCES}
-  ${HEADERS}
+    ${SOURCES}
+    ${HEADERS}
 )
 
 target_include_directories(Primitives PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

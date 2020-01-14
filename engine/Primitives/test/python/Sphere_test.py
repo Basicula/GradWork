@@ -2,7 +2,8 @@ import unittest
 import math
 import json
 
-from engine.Common import Intersection, BoundingBox
+from engine.Common import BoundingBox
+from engine.Common.Intersection import Intersection
 from engine.Primitives import Sphere, Ray
 from engine.Math.Vector import Vector3d
 from engine.Visual import Color

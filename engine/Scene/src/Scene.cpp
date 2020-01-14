@@ -103,6 +103,6 @@ bool Scene::_Render(
 
 void Scene::ApplyPhisics()
   {
-  for (auto object : m_objcts)
+  for (auto& object : m_objcts)
     object->ApplyPhysics();
   }

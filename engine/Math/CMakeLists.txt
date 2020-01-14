@@ -8,11 +8,12 @@ set(
 set(
     HEADERS
     
-  include/SolveEquations.h
+    include/SolveEquations.h
 	include/Vector.h
 	include/TransformationMatrix.h
 
 	include/impl/VectorImpl.h
+	include/impl/Vector3dImpl.h
 )
 
 add_library(

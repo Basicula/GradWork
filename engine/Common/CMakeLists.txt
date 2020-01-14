@@ -1,26 +1,28 @@
 set(
-  SOURCES
-  
-  src/BoundingBox.cpp
-  src/Intersection.cpp
+    SOURCES
+    
+    src/BoundingBox.cpp
+    src/Intersection.cpp
+    src/Ray.cpp
 )
 
 set(
-  HEADERS
- 
-  include/BoundingBox.h
-  include/Intersection.h
-  
-  include/IObject.h
-  
-  include/DefinesAndConstants.h
+    HEADERS
+    
+    include/BoundingBox.h
+    include/Intersection.h
+    include/Ray.h
+    
+    include/IObject.h
+    
+    include/DefinesAndConstants.h
 )
 
 add_library(
-  Common
-  
-  ${SOURCES}
-  ${HEADERS}
+    Common
+    
+    ${SOURCES}
+    ${HEADERS}
 )
 
 target_include_directories(Common PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

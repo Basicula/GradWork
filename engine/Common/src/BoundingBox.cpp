@@ -1,10 +1,9 @@
-#include <limits>
-
 #include <BoundingBox.h>
+#include <DefinesAndConstants.h>
 
 BoundingBox::BoundingBox()
-  : m_min(std::numeric_limits<int>::max())
-  , m_max(std::numeric_limits<int>::min())
+  : m_min(MAX_INT)
+  , m_max(MIN_INT)
   {}
 
 BoundingBox::BoundingBox(
