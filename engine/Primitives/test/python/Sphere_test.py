@@ -2,9 +2,9 @@ import unittest
 import math
 import json
 
-from engine.Common import BoundingBox
-from engine.Common.Intersection import Intersection
-from engine.Primitives import Sphere, Ray
+from engine.Common import BoundingBox, Ray
+from engine.Common.Intersection import IntersectionRecord
+from engine.Primitives import Sphere
 from engine.Math.Vector import Vector3d
 from engine.Visual import Color
 from engine.Visual.Material import ColorMaterial
@@ -46,7 +46,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         print("\nRay intersects Sphere (two intersections)", end = "")
         sphere = Sphere(Vector3d(0,0,30), 10, ColorMaterial(Color(0xff0000)))
         ray = Ray(Vector3d(0,0,0),Vector3d(0,0,1))
-        intersection = Intersection()
+        intersection = IntersectionRecord()
         
         hitted = sphere.hitRay(intersection,ray)
         self.assertEqual(hitted, True)
@@ -55,7 +55,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         self.assertEqual(intersection.normal, Vector3d(0,0,-1))
         self.assertEqual(intersection.material.color, Color(0xff0000))
         
-        intersection = Intersection()
+        intersection = IntersectionRecord()
         sphere = Sphere(Vector3d(0,0,0), 1, ColorMaterial(Color(0xff0000)))
         x = 1/math.sqrt(2)
         ray = Ray(Vector3d(x,0,-5),Vector3d(0,0,1))
@@ -77,7 +77,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         print("\nNo intersections", end = "")
         sphere = Sphere(Vector3d(0,0,30), 10, ColorMaterial(Color(0xff0000)))
         ray = Ray(Vector3d(0,0,0),Vector3d(0,0,-1))
-        intersection = Intersection()
+        intersection = IntersectionRecord()
         
         hitted = sphere.hitRay(intersection,ray)
         self.assertEqual(hitted, False)
@@ -90,7 +90,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         print("\nTanget ray", end = "")
         sphere = Sphere(Vector3d(0,0,30), 10, ColorMaterial(Color(0xff0000)))
         ray = Ray(Vector3d(10,0,0),Vector3d(0,0,1))
-        intersection = Intersection()
+        intersection = IntersectionRecord()
         
         hitted = sphere.hitRay(intersection,ray)
         self.assertEqual(hitted, True)

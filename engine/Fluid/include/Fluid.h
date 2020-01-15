@@ -77,7 +77,7 @@ class Fluid : public IObject
     Fluid(const BoundingBox& i_box);
 
     virtual bool IntersectWithRay(
-      Intersection& o_intersection,
+      IntersectionRecord& o_intersection,
       const Ray& i_ray) const override;
     virtual std::string Serialize() const override;
     virtual BoundingBox GetBoundingBox() const override;

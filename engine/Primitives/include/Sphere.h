@@ -13,7 +13,7 @@ class Sphere : public IObject
   public:
     Sphere(const Vector3d& i_center, double i_radius, std::shared_ptr<IMaterial> ip_material = nullptr);
 
-    virtual bool IntersectWithRay(Intersection& o_intersection, const Ray& i_ray) const override;
+    virtual bool IntersectWithRay(IntersectionRecord& o_intersection, const Ray& i_ray) const override;
     virtual std::string Serialize() const override;
     virtual BoundingBox GetBoundingBox() const override;
     virtual void ApplyPhysics() override;

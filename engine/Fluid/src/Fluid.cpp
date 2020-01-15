@@ -235,7 +235,7 @@ void Fluid::_UpdateGrid()
     }
   }
 
-bool Fluid::IntersectWithRay(Intersection& o_intersection, const Ray& i_ray) const
+bool Fluid::IntersectWithRay(IntersectionRecord& o_intersection, const Ray& i_ray) const
   {
   bool intersected = false;
   int i = 255;

@@ -2,7 +2,7 @@ import unittest
 import math
 
 from engine.Math.Vector import Vector3d
-from engine.Primitives import Ray
+from engine.Common import Ray
 
 class TestRayConstuctors(unittest.TestCase):
     def test_constructor(self):

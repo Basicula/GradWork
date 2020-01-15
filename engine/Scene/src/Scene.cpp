@@ -57,7 +57,7 @@ bool Scene::_Render(
       {
       const auto& ray_dir = i_camera.GetDirection((x+i_offset_x)/m_frame_width,(y+i_offset_y)/m_frame_height);
       const Ray ray(ray_origin,ray_dir);
-      Intersection hit;
+      IntersectionRecord hit;
       bool intersected = false;
       for (const auto& object : m_objcts)
         intersected |= object->IntersectWithRay(hit, ray);
@@ -78,7 +78,7 @@ bool Scene::_Render(
         if (!light->GetState())
           continue;
         Ray to_light(hit.m_intersection, -light->GetDirection(hit.m_intersection));
-        Intersection temp;
+        IntersectionRecord temp;
         bool off = false;
         for (const auto& oblect : m_objcts)
           {

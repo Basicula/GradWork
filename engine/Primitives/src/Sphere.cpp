@@ -7,7 +7,7 @@ Sphere::Sphere(const Vector3d& i_center, double i_radius, std::shared_ptr<IMater
   , m_material(ip_material)
   {}
 
-bool Sphere::IntersectWithRay(Intersection& o_intersection, const Ray& i_ray) const
+bool Sphere::IntersectWithRay(IntersectionRecord& o_intersection, const Ray& i_ray) const
   {
   Vector3d ray_origin = i_ray.GetOrigin();
   Vector3d start_to_center = m_center - ray_origin;

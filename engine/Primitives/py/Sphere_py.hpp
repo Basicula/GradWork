@@ -5,7 +5,7 @@ namespace
   class PySphere : public Sphere
     {
     using Sphere::Sphere;
-    bool IntersectWithRay(Intersection& io_intersection, const Ray& i_ray) const override
+    bool IntersectWithRay(IntersectionRecord& io_intersection, const Ray& i_ray) const override
       {
       PYBIND11_OVERLOAD(
         bool,
