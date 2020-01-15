@@ -30,12 +30,30 @@ class TestBoundingBoxProperties(unittest.TestCase):
         
         self.assertEqual(bb.min, Vector3d(2147483647))
         self.assertEqual(bb.max, Vector3d(-2147483648))
+        self.assertEqual(bb.center, Vector3d(-0.5))
         
         with self.assertRaises(AttributeError):
             bb.min = Vector3d(0)
         
         with self.assertRaises(AttributeError):
             bb.max = Vector3d(0)
+            
+        with self.assertRaises(AttributeError):
+            bb.center = Vector3d(0)
+            
+        bb = bbox(Vector3d(0,1,2), Vector3d(4,6,8))
+        self.assertEqual(bb.deltaX, 4)
+        self.assertEqual(bb.deltaY, 5)
+        self.assertEqual(bb.deltaZ, 6)
+        
+        with self.assertRaises(AttributeError):
+            bb.deltaX = 0
+            
+        with self.assertRaises(AttributeError):
+            bb.deltaY = 0
+
+        with self.assertRaises(AttributeError):
+            bb.deltaZ = 0
 
 class TestBoundingBoxFunctionality(unittest.TestCase):
     def test_adding_point(self):
@@ -86,6 +104,15 @@ class TestBoundingBoxFunctionality(unittest.TestCase):
         
         self.assertFalse(bb.contains(Vector3d(-1)))
         self.assertFalse(bb.contains(Vector3d(6)))
+        
+    def test_merge(self):
+        print("\nMerge of boxes", end = "")
+        bb1 = bbox(Vector3d(0), Vector3d(1))
+        bb2 = bbox(Vector3d(0.5), Vector3d(1.5))
+        
+        bb1.merge(bb2)
+        self.assertEqual(bb1.min, Vector3d(0))
+        self.assertEqual(bb1.max, Vector3d(1.5))
 
 if __name__ == "__main__":
     print("\n----------------------")

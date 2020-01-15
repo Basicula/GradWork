@@ -4,6 +4,9 @@ set(
     src/BoundingBox.cpp
     src/Intersection.cpp
     src/Ray.cpp
+    
+    src/KDTree.cpp
+    src/KDNode.cpp
 )
 
 set(
@@ -12,6 +15,9 @@ set(
     include/BoundingBox.h
     include/Intersection.h
     include/Ray.h
+    
+    include/KDTree.h
+    include/KDNode.h
     
     include/IObject.h
     

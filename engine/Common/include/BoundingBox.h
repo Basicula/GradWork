@@ -14,9 +14,15 @@ class BoundingBox
 
     Vector3d GetMin() const;
     Vector3d GetMax() const;
+    Vector3d Center() const;
+
+    double DeltaX() const;
+    double DeltaY() const;
+    double DeltaZ() const;
+
+    void Merge(const BoundingBox& i_other);
 
     void AddPoint(const Vector3d& i_point);
-
     bool Contains(const Vector3d& i_point) const;
 
     bool IsValid() const;
@@ -47,6 +53,11 @@ inline Vector3d BoundingBox::GetMax() const
   return m_max;
   }
 
+inline Vector3d BoundingBox::Center() const
+  {
+  return (m_min + m_max) / 2;
+  }
+
 inline bool BoundingBox::IsValid() const
   {
   return (m_min < m_max);
@@ -55,4 +66,19 @@ inline bool BoundingBox::IsValid() const
 inline bool BoundingBox::Contains(const Vector3d& i_point) const
   {
   return (m_min <= i_point && i_point <= m_max);
+  }
+
+inline double BoundingBox::DeltaX() const
+  {
+  return (m_max[0] - m_min[0]);
+  }
+
+inline double BoundingBox::DeltaY() const
+  {
+  return (m_max[1] - m_min[1]);
+  }
+
+inline double BoundingBox::DeltaZ() const
+  {
+  return (m_max[2] - m_min[2]);
   }
