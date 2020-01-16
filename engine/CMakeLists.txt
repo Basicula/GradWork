@@ -21,6 +21,7 @@ target_link_libraries(
     pybind11)
     
 set_target_properties(Primitives PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
+set_target_properties(Common PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 set_target_properties(Fluid PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 set_target_properties(Visual PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 set_target_properties(Scene PROPERTIES POSITION_INDEPENDENT_CODE TRUE)

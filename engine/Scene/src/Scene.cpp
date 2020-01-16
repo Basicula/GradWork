@@ -58,9 +58,7 @@ bool Scene::_Render(
       const auto& ray_dir = i_camera.GetDirection((x+i_offset_x)/m_frame_width,(y+i_offset_y)/m_frame_height);
       const Ray ray(ray_origin,ray_dir);
       IntersectionRecord hit;
-      bool intersected = false;
-      for (const auto& object : m_objcts)
-        intersected |= object->IntersectWithRay(hit, ray);
+      bool intersected = m_object_tree.IntersectWithRay(hit, ray);
 
       if (!intersected  || !hit.m_material)
         {
@@ -80,15 +78,12 @@ bool Scene::_Render(
         Ray to_light(hit.m_intersection, -light->GetDirection(hit.m_intersection));
         IntersectionRecord temp;
         bool off = false;
-        for (const auto& oblect : m_objcts)
+        if (m_object_tree.IntersectWithRay(hit, ray))
           {
-          if (oblect->IntersectWithRay(temp, to_light))
-            {
-            light->SetState(false);
-            to_on.push_back(i);
-            off = true;
-            break;
-            }
+          light->SetState(false);
+          to_on.push_back(i);
+          off = true;
+          break;
           }
         }
       result_pixel_color = result_pixel_color + hit.m_material->GetMultiLightInfluence(hit.m_intersection, hit.m_normal, m_lights);
@@ -103,6 +98,6 @@ bool Scene::_Render(
 
 void Scene::ApplyPhisics()
   {
-  for (auto& object : m_objcts)
+  for (auto& object : m_object_tree.GetObjects())
     object->ApplyPhysics();
   }
