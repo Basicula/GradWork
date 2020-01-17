@@ -7,9 +7,9 @@
 #define PI          3.14159265359
 #define SQRT_2      1.41421356237
 #define SQRT_3      1.73205080757
-#define MAX_DOUBLE  std::numeric_limits<double>::max()
-#define MAX_INT std::numeric_limits<int>::max()
-#define MIN_DOUBLE  std::numeric_limits<double>::min()
-#define MIN_INT  std::numeric_limits<int>::min()
+#define MAX_DOUBLE  std::numeric_limits<double>::max() // 1.79769e+308
+#define MAX_INT     std::numeric_limits<int>::max() // 2147483647
+#define MIN_DOUBLE  std::numeric_limits<double>::min() // 2.22507e-308
+#define MIN_INT     std::numeric_limits<int>::min() // -2147483648
 
 //-----------------------Math Common Constants End-----------------------//

@@ -96,7 +96,7 @@ bool Scene::_Render(
   return true;
   }
 
-void Scene::ApplyPhisics()
+void Scene::ApplyPhysics()
   {
   for (auto& object : m_object_tree.GetObjects())
     object->ApplyPhysics();

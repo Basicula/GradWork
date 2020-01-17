@@ -32,7 +32,7 @@ class Fluid : public IObject
         , m_cells(x * y * z)
         {}
 
-      inline Cell& operator()(
+      inline Cell operator()(
         std::size_t i, 
         std::size_t j, 
         std::size_t k)
@@ -129,7 +129,8 @@ inline double Fluid::GetTimeStep()
 
 inline void Fluid::ApplyPhysics()
   {
-  _BruteForceStep();
+  _Step();
+  //_BruteForceStep();
   }
 
 inline std::size_t Fluid::GetNumParticles() const

@@ -46,7 +46,10 @@ inline double Vector3d::SquareLength() const
 template<>
 inline double Vector3d::SquareDistance(const Vector3d& i_other) const
   {
-  return (i_other - *this).SquareLength();
+  const double dx = i_other[0] - m_coords[0];
+  const double dy = i_other[1] - m_coords[1];
+  const double dz = i_other[2] - m_coords[2];
+  return dx * dx + dy * dy + dz * dz;
   }
 
 template<>

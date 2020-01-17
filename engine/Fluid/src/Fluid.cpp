@@ -50,8 +50,8 @@ Fluid::Fluid(const BoundingBox& i_box)
 
 void Fluid::_InitParticles()
   {
-  for (int i = 0; i < 10; ++i)
-    m_particles.push_back(Particle(Vector3d(-2 + i * SMOOTHING_RADIUS / 2, 1, 0), Vector3d(0, 1, 0)));
+  for (int i = 0; i < 1024; ++i)
+    m_particles.emplace_back(Vector3d(-2 + i * SMOOTHING_RADIUS / 2, 1, 0), Vector3d(0, 1, 0));
   _UpdateGrid();
   }
 
@@ -97,12 +97,10 @@ void Fluid::_UpdateDensityAndPressure()
         const Cell& cell = m_grid(x, y, z);
         for (auto particle : cell)
           {
-          double density = 1;
+          double density = 0;
           auto neighbours = m_grid.GetNeigbourParticles(x, y, z);
           for (auto neighbour : neighbours)
             {
-            if (neighbour == particle)
-              continue;
             auto sqr_particles_distance = particle->GetPosition().SquareDistance(neighbour->GetPosition());
 
             if (sqr_particles_distance < SMOOTHING_RADIUS_SQR)

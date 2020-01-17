@@ -35,7 +35,7 @@ static void AddScene(py::module& io_module)
       py::arg("image"),
       py::arg("x_offset") = 0,
       py::arg("y_offset") = 0)
-    .def("applyPhysics", &Scene::ApplyPhisics)
+    .def("applyPhysics", &Scene::ApplyPhysics)
     .def_property(
       "frameWidth",
       &Scene::GetFrameWidth,

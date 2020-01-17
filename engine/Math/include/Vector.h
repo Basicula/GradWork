@@ -26,7 +26,7 @@ class Vector
 
     //can throw exception
     ElementType& operator[](std::size_t i_index);
-    ElementType operator[](std::size_t i_index) const;
+    const ElementType& operator[](std::size_t i_index) const;
     
     bool operator==(const Vector& i_other) const;
     bool operator!=(const Vector& i_other) const;
@@ -68,7 +68,7 @@ class Vector
   protected:
 
   private:
-    std::array<ElementType, Dimension> m_coords;
+    ElementType m_coords[Dimension];
 
   public:
     static const std::size_t m_dimension = Dimension;
