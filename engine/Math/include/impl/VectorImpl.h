@@ -242,21 +242,6 @@ Vector<Dimension, ElementType> Vector<Dimension, ElementType>::Normalized() cons
   }
 
 template<std::size_t Dimension, class ElementType>
-void Vector<Dimension, ElementType>::Inverse()
-  {
-  for (std::size_t i = 0; i < Dimension; ++i)
-    m_coords[i] = 1 / m_coords[i];
-  }
-
-template<std::size_t Dimension, class ElementType>
-Vector<Dimension, ElementType> Vector<Dimension, ElementType>::Inversed() const
-  {
-  Vector<Dimension, ElementType> res(*this);
-  res.Inverse();
-  return res;
-  }
-
-template<std::size_t Dimension, class ElementType>
 double Vector<Dimension, ElementType>::Length() const
   {
   return sqrt(SquareLength());

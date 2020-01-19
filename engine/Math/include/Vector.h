@@ -4,9 +4,6 @@
 #include <string>
 #include <array>
 
-template<std::size_t Dimension = 3, class ElementType = double>
-class Vector;
-
 template<std::size_t Dimension, class ElementType>
 class Vector
   {
@@ -57,8 +54,6 @@ class Vector
     ElementType Dot(const Vector& i_other) const;
     void Normalize();
     Vector Normalized() const;
-    void Inverse();
-    Vector Inversed() const;
     double Length() const;
     ElementType SquareLength() const;
     double Distance(const Vector& i_other) const;

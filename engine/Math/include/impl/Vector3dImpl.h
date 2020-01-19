@@ -53,23 +53,6 @@ inline double Vector3d::SquareDistance(const Vector3d& i_other) const
   }
 
 template<>
-inline void Vector3d::Inverse()
-  {
-  m_coords[0] = 1 / m_coords[0];
-  m_coords[1] = 1 / m_coords[1];
-  m_coords[2] = 1 / m_coords[2];
-  }
-
-template<>
-inline Vector3d Vector3d::Inversed() const
-  {
-  return Vector3d(
-    1 / m_coords[0],
-    1 / m_coords[1],
-    1 / m_coords[2]);
-  }
-
-template<>
 inline void Vector3d::Normalize()
   {
   const double length = Length();

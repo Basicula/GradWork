@@ -24,14 +24,14 @@ void RayBoxIntersection(
   const auto& min_corner = i_box.GetMin();
   const auto& max_corner = i_box.GetMax();
   const auto& origin = i_ray.GetOrigin();
-  const auto& inv_direction = i_ray.GetDirection().Inversed();
+  const auto& ray_direction = i_ray.GetDirection();
 
   o_intersection.m_tmin = 0;
   o_intersection.m_tmax = MAX_DOUBLE;
   for (auto i = 0; i < 3; ++i)
     {
-    double ttmin = (min_corner[i] - origin[i]) * inv_direction[i];
-    double ttmax = (max_corner[i] - origin[i]) * inv_direction[i];
+    double ttmin = (min_corner[i] - origin[i]) / ray_direction[i];
+    double ttmax = (max_corner[i] - origin[i]) / ray_direction[i];
 
     if (ttmin > ttmax)
       std::swap(ttmin, ttmax);

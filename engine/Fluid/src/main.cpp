@@ -39,18 +39,14 @@ void test_scene()
   Scene scene;
   auto fluid = std::make_shared<Fluid>(BoundingBox(Vector3d(-5), Vector3d(5)));
   scene.AddCamera(Camera(Vector3d(0),Vector3d(0,0,1),Vector3d(0,1,0),75,1024/768,2));
-  //scene.AddObject(fluid);
-  scene.AddObject(std::make_shared<Sphere>(Vector3d(0), 5));
-  scene.AddObject(std::make_shared<Sphere>(Vector3d(-5), 5));
-  scene.AddObject(std::make_shared<Sphere>(Vector3d(5), 5));
-  //for (int i = 0; i < 16; ++i)
-  //  {
-  //  auto x = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
-  //  auto y = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
-  //  auto z = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
-  //  auto r = 2.0 * std::rand() / static_cast<double>(RAND_MAX);
-  //  scene.AddObject(std::make_shared<Sphere>(Vector3d(x,y,z),r));
-  //  }
+  for (int i = 0; i < 16; ++i)
+    {
+    auto x = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
+    auto y = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
+    auto z = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
+    auto r = 2.0 * std::rand() / static_cast<double>(RAND_MAX);
+    scene.AddObject(std::make_shared<Sphere>(Vector3d(x,y,z),r));
+    }
   std::cout<<"Created"<<std::endl;
   Image image(1024, 768);
   const int frame_cnt = 16;
@@ -68,6 +64,22 @@ void test_scene()
 
 int main()
   {
+  double a=0.2,b=0.123,c=1.2312,d=32.21,e=12.32,f=0.32;
+  double res;
+  auto start = std::chrono::system_clock::now();
+  for (int i = 0; i < 1e6; ++i)
+    res = a*b+c*d+e*f;
+  auto end = std::chrono::system_clock::now();
+  auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+  std::cout << "Elapsed : " << elapsed << std::endl;
+
+  double rres;
+  start = std::chrono::system_clock::now();
+  for (int i = 0; i < 1e6; ++i)
+    rres = sqrt(res);
+  end = std::chrono::system_clock::now();
+  elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+  std::cout << "Elapsed : " << elapsed << std::endl;
   //test_fluid();
   //test_tree();
   test_scene();

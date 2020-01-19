@@ -30,8 +30,6 @@ namespace
       .def("dot", &Class::Dot)
       .def("normalize", &Class::Normalize)
       .def("normalized", &Class::Normalized)
-      .def("inverse", &Class::Inverse)
-      .def("inversed", &Class::Inversed)
       .def("length", &Class::Length)
       .def("sqrlength", &Class::SquareLength)
       .def("distance", &Class::Distance)

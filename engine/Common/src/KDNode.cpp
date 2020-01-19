@@ -25,8 +25,11 @@ bool KDNode::IntersectWithRay(IntersectionRecord & io_intersection, const Ray & 
     }
 
   if (RayIntersectBox(i_ray, m_bounding_box))
-    return ( m_left->IntersectWithRay(io_intersection, i_ray) 
-      || m_right->IntersectWithRay(io_intersection, i_ray) );
+    {
+    const bool left = m_left->IntersectWithRay(io_intersection, i_ray);
+    const bool right = m_right->IntersectWithRay(io_intersection, i_ray);
+    return (left || right);
+    }
 
   return false;
   }
