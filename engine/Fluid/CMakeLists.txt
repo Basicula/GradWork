@@ -2,6 +2,7 @@ set(
   SOURCES
   
   src/Fluid.cpp
+  src/StandartParticle.cpp
   src/Particle.cpp
 )
 
@@ -9,6 +10,7 @@ set(
   HEADERS
   
   include/Fluid.h
+  include/StandartParticle.h
   include/Particle.h
   
   include/FluidConstants.h

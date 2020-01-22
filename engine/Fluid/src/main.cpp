@@ -47,7 +47,6 @@ void test_scene()
     auto r = 2.0 * std::rand() / static_cast<double>(RAND_MAX);
     scene.AddObject(std::make_shared<Sphere>(Vector3d(x,y,z),r));
     }
-  std::cout<<"Created"<<std::endl;
   Image image(1024, 768);
   const int frame_cnt = 16;
   auto start = std::chrono::system_clock::now();
@@ -64,24 +63,8 @@ void test_scene()
 
 int main()
   {
-  double a=0.2,b=0.123,c=1.2312,d=32.21,e=12.32,f=0.32;
-  double res;
-  auto start = std::chrono::system_clock::now();
-  for (int i = 0; i < 1e6; ++i)
-    res = a*b+c*d+e*f;
-  auto end = std::chrono::system_clock::now();
-  auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-  std::cout << "Elapsed : " << elapsed << std::endl;
-
-  double rres;
-  start = std::chrono::system_clock::now();
-  for (int i = 0; i < 1e6; ++i)
-    rres = sqrt(res);
-  end = std::chrono::system_clock::now();
-  elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-  std::cout << "Elapsed : " << elapsed << std::endl;
-  //test_fluid();
-  //test_tree();
+  test_fluid();
+  test_tree();
   test_scene();
   return 0;
   }

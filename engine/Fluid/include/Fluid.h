@@ -3,7 +3,7 @@
 
 #include <IObject.h>
 #include <BoundingBox.h>
-#include <Particle.h>
+#include <StandartParticle.h>
 
 class Ray;
 struct Intersection;
@@ -11,8 +11,8 @@ struct Intersection;
 class Fluid : public IObject
   {
   private:
-    using Particles = std::vector<Particle>;
-    using Cell = std::vector<Particle*>;
+    using Particles = std::vector<StandartParticle>;
+    using Cell = std::vector<StandartParticle*>;
 
     struct Grid
       {
@@ -40,12 +40,12 @@ class Fluid : public IObject
         return m_cells[i + j * m_x + k * m_x * m_y];
         }
 
-      std::vector<Particle*> GetNeigbourParticles(
+      std::vector<StandartParticle*> GetNeigbourParticles(
         std::size_t x,
         std::size_t y,
         std::size_t z)
         {
-        std::vector<Particle*> neighbours;
+        std::vector<StandartParticle*> neighbours;
         for (int x_offset = -1; x_offset < 2; ++x_offset)
           {
           if (x + x_offset < 0)

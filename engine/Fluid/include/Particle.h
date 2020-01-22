@@ -1,86 +1,59 @@
 #pragma once
+#include <vector>
 
 #include <Vector.h>
 
 class Particle
   {
   public:
-    Particle(const Vector3d& i_position);
+    Particle();
     Particle(
-      const Vector3d& i_position,
-      const Vector3d& i_velocity);
+      std::size_t i_num_vector_data, 
+      std::size_t i_num_scalar_data);
 
-    double GetDensity() const;
-    void SetDensity(double i_density);
+    std::size_t AddVectorData(const Vector3d& i_vector_prop = Vector3d(0));
+    std::size_t AddScalarData(double i_scalar_prop = 0);
 
-    Vector3d GetPosition() const;
-    void SetPosition(const Vector3d& i_position);
+    //void SetVectorDataAt(std::size_t i_index, const Vector3d& i_data);
+    //Vector3d GetVectorDataAt(std::size_t i_index) const;
+    //
+    //void SetScalarDataAt(std::size_t i_index, double i_data);
+    //double GetScalarDataAt(std::size_t i_index) const;
 
-    double GetPressure() const;
-    void SetPressure(double i_pressure);
-
-    Vector3d GetVelocity() const;
-    void SetVelocity(const Vector3d& i_velocity);
-
-    Vector3d GetAcceleration() const;
-    void SetAcceleration(const Vector3d& i_acceleration);
-
-  private:
-    Vector3d m_position;
-    Vector3d m_velocity;
-    Vector3d m_force;
-    Vector3d m_acceleration;
-
-    double m_density;
-    double m_pressure;
+  protected:
+    std::vector<Vector3d> m_vector_data;
+    std::vector<double> m_scalar_data;
   };
 
-inline double Particle::GetDensity() const
+inline std::size_t Particle::AddVectorData(const Vector3d& i_vector_prop)
   {
-  return m_density;
+  m_vector_data.push_back(i_vector_prop);
+  return m_vector_data.size()-1;
   }
 
-inline void Particle::SetDensity(double i_density)
+inline std::size_t Particle::AddScalarData(double i_scalar_prop)
   {
-  m_density = i_density;
+  m_scalar_data.push_back(i_scalar_prop);
+  return m_scalar_data.size() - 1;
   }
 
-inline Vector3d Particle::GetPosition() const
-  {
-  return m_position;
-  }
-
-inline void Particle::SetPosition(const Vector3d& i_position)
-  {
-  m_position = i_position;
-  }
-
-inline double Particle::GetPressure() const
-  {
-  return m_pressure;
-  }
-
-inline void Particle::SetPressure(double i_pressure)
-  {
-  m_pressure = i_pressure;
-  }
-
-inline Vector3d Particle::GetVelocity() const
-  {
-  return m_velocity;
-  }
-
-inline void Particle::SetVelocity(const Vector3d& i_velocity)
-  {
-  m_velocity = i_velocity;
-  }
-
-inline Vector3d Particle::GetAcceleration() const
-  {
-  return m_acceleration;
-  }
-
-inline void Particle::SetAcceleration(const Vector3d& i_acceleration)
-  {
-  m_acceleration = i_acceleration;
-  }
+//inline void Particle::SetVectorDataAt(std::size_t i_index, const Vector3d& i_data)
+//  {
+//  m_vector_data[i_index] = i_data;
+//  }
+//
+//inline Vector3d Particle::GetVectorDataAt(std::size_t i_index) const
+//  {
+//  return m_vector_data[i_index];
+//  }
+//
+//inline void Particle::SetScalarDataAt(std::size_t i_index, double i_data)
+//  {
+//  m_scalar_data[i_index] = i_data;
+//  }
+//
+//
+//inline double Particle::GetScalarDataAt(std::size_t i_index) const
+//  {
+//  return m_scalar_data[i_index];
+//  }
