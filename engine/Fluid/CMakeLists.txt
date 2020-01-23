@@ -2,16 +2,24 @@ set(
   SOURCES
   
   src/Fluid.cpp
+  
   src/StandartParticle.cpp
   src/Particle.cpp
+  
+  src/ParticleSystem.cpp
+  src/SPHSystem.cpp
 )
 
 set(
   HEADERS
   
   include/Fluid.h
+  
   include/StandartParticle.h
   include/Particle.h
+  
+  include/ParticleSystem.h
+  include/SPHSystem.h
   
   include/FluidConstants.h
 )
