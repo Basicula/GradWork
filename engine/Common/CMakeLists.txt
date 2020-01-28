@@ -11,6 +11,8 @@ set(
     src/BFPointSearcher.cpp
     
     src/Simulation.cpp
+    
+    src/ParallelUtils.cpp
 )
 
 set(
@@ -27,6 +29,8 @@ set(
     include/BFPointSearcher.h
     
     include/Simulation.h
+    
+    include/ParallelUtils.h
     
     include/IObject.h
     
