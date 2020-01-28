@@ -7,6 +7,8 @@ set(
     
     src/KDTree.cpp
     src/KDNode.cpp
+    
+    src/ParallelUtils.cpp
 )
 
 set(
@@ -18,6 +20,8 @@ set(
     
     include/KDTree.h
     include/KDNode.h
+    
+    include/ParallelUtils.h
     
     include/IObject.h
     
