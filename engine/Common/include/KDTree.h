@@ -9,7 +9,9 @@ class KDTree
     KDTree();
     KDTree(Objects&& i_objects);
 
-    bool IntersectWithRay(IntersectionRecord& io_intersection, const Ray& i_ray) const;
+    bool IntersectWithRay(
+      IntersectionRecord& io_intersection, 
+      const Ray& i_ray) const;
 
     std::size_t Size() const;
     void Clear();
@@ -22,7 +24,9 @@ class KDTree
     Objects m_objects;
   };
 
-inline bool KDTree::IntersectWithRay(IntersectionRecord& io_intersection, const Ray& i_ray) const
+inline bool KDTree::IntersectWithRay(
+  IntersectionRecord& io_intersection, 
+  const Ray& i_ray) const
   {
   return m_root->IntersectWithRay(io_intersection, i_ray);
   }

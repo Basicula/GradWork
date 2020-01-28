@@ -8,13 +8,16 @@ template<std::size_t Dimension, class ElementType>
 class Vector
   {
   public:
-    template<std::size_t D = Dimension, typename T = typename std::enable_if<D == 2>::type >
+    template<std::size_t D = Dimension, 
+      typename T = typename std::enable_if<D == 2>::type >
     Vector(ElementType i_x, ElementType i_y);
   
-    template<std::size_t D = Dimension, typename T = typename std::enable_if<D == 3>::type >
+    template<std::size_t D = Dimension, 
+      typename T = typename std::enable_if<D == 3>::type >
     Vector(ElementType i_x, ElementType i_y, ElementType i_z);
     
-    template<std::size_t D = Dimension, typename T = typename std::enable_if<D == 4>::type >
+    template<std::size_t D = Dimension, 
+      typename T = typename std::enable_if<D == 4>::type >
     Vector(ElementType i_x, ElementType i_y, ElementType i_z, ElementType i_w);
 
     Vector();
@@ -49,8 +52,11 @@ class Vector
     template<class Factor>
     Vector& operator/=(Factor i_factor);
 
-    template<std::size_t D = Dimension, typename T = typename std::enable_if<D == 3>::type >
-    Vector<Dimension, ElementType> CrossProduct(const Vector<Dimension, ElementType>& i_other) const;
+    template<std::size_t D = Dimension, 
+      typename T = typename std::enable_if<D == 3>::type >
+    Vector<Dimension, ElementType> CrossProduct(
+      const Vector<Dimension, 
+      ElementType>& i_other) const;
     ElementType Dot(const Vector& i_other) const;
     void Normalize();
     Vector Normalized() const;

@@ -8,6 +8,8 @@ set(
   
   src/ParticleSystem.cpp
   src/SPHSystem.cpp
+  
+  src/SPHSimulation.cpp
 )
 
 set(
@@ -20,6 +22,8 @@ set(
   
   include/ParticleSystem.h
   include/SPHSystem.h
+  
+  include/SPHSimulation.h
   
   include/FluidConstants.h
 )

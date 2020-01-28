@@ -11,7 +11,9 @@ KDNode::KDNode(const Objects & i_objects)
   _Build(i_objects);
   }
 
-bool KDNode::IntersectWithRay(IntersectionRecord & io_intersection, const Ray & i_ray) const
+bool KDNode::IntersectWithRay(
+  IntersectionRecord & io_intersection, 
+  const Ray & i_ray) const
   {
   if (m_type == NodeType::EMPTY)
     return false;

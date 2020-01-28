@@ -7,6 +7,10 @@ set(
     
     src/KDTree.cpp
     src/KDNode.cpp
+    
+    src/BFPointSearcher.cpp
+    
+    src/Simulation.cpp
 )
 
 set(
@@ -18,6 +22,11 @@ set(
     
     include/KDTree.h
     include/KDNode.h
+
+    include/PointNeighborSearcher.h
+    include/BFPointSearcher.h
+    
+    include/Simulation.h
     
     include/IObject.h
     

@@ -44,7 +44,10 @@ inline Color Image::GetPixel(std::size_t i_x, std::size_t i_y) const
   return m_pixels[i_y][i_x];
   }
 
-inline void Image::SetPixel(std::size_t i_x, std::size_t i_y, const Color& i_color)
+inline void Image::SetPixel(
+  std::size_t i_x, 
+  std::size_t i_y, 
+  const Color& i_color)
   {
   if (i_x >= m_width || i_y >= m_height)
     return;

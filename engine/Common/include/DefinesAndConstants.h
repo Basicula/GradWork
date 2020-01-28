@@ -31,6 +31,8 @@ constexpr int MIN_INT        = std::numeric_limits<int>::min();
 // Time     T         seconds         s
 // Force    F         newtons         kg * m / s^(-2)
 
-constexpr double WATER_DENSITY = 1000.0;
+// All constants must be written in SI
+constexpr double DEFAULT_TIME_STEP    = 0.1;
+constexpr double WATER_DENSITY        = 1000.0;
 
 //-----------------------Physics Common Constants End-----------------------//

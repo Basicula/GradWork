@@ -18,7 +18,8 @@ void test_fluid()
     fluid->ApplyPhysics();
     }
   auto end = std::chrono::system_clock::now();
-  std::cout<<std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count()<<std::endl;
+  std::cout<<std::chrono::duration_cast<std::chrono::milliseconds>
+    (end - start).count()<<std::endl;
   }
 
 void test_tree()
@@ -38,12 +39,22 @@ void test_scene()
   {
   Scene scene;
   auto fluid = std::make_shared<Fluid>(BoundingBox(Vector3d(-5), Vector3d(5)));
-  scene.AddCamera(Camera(Vector3d(0),Vector3d(0,0,1),Vector3d(0,1,0),75,1024/768,2));
+  scene.AddCamera(
+    Camera(
+      Vector3d(0),
+      Vector3d(0,0,1),
+      Vector3d(0,1,0),
+      75,
+      1024/768,
+      2));
   for (int i = 0; i < 16; ++i)
     {
-    auto x = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
-    auto y = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
-    auto z = 10.0 * std::rand() / static_cast<double>(RAND_MAX) - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
+    auto x = 10.0 * std::rand() / static_cast<double>(RAND_MAX) 
+      - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
+    auto y = 10.0 * std::rand() / static_cast<double>(RAND_MAX) 
+      - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
+    auto z = 10.0 * std::rand() / static_cast<double>(RAND_MAX) 
+      - 5.0 * std::rand() / static_cast<double>(RAND_MAX);
     auto r = 2.0 * std::rand() / static_cast<double>(RAND_MAX);
     scene.AddObject(std::make_shared<Sphere>(Vector3d(x,y,z),r));
     }
@@ -57,8 +68,10 @@ void test_scene()
     //fluid->ApplyPhysics();
     }
   auto end = std::chrono::system_clock::now();
-  auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-  std::cout << "Elapsed : " <<elapsed<< ", FPS : " << 1000.0 * frame_cnt / elapsed<< std::endl;
+  auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>
+    (end - start).count();
+  std::cout << "Elapsed : " <<elapsed<< 
+    ", FPS : " << 1000.0 * frame_cnt / elapsed<< std::endl;
   }
 
 int main()

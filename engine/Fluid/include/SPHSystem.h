@@ -1,5 +1,6 @@
 #pragma once
 #include <ParticleSystem.h>
+#include <PointNeighborSearcher.h>
 
 class SPHSystem : public ParticleSystem
   {
@@ -37,6 +38,8 @@ class SPHSystem : public ParticleSystem
 
     double m_radius;
     double m_mass;
+
+    PointNeighborSearcherPtr mp_neighbor_searcher;
   };
 
 inline ParticleSystem::VectorDataIteratorC SPHSystem::GetPositions() const
