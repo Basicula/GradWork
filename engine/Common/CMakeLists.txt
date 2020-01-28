@@ -37,6 +37,13 @@ set(
     include/DefinesAndConstants.h
 )
 
+set(
+    TESTS
+    
+    test/c++/test_main.cpp
+)
+
+# Main library
 add_library(
     Common
     
@@ -49,3 +56,7 @@ target_include_directories(Common PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_include_directories(Common PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/py")
 
 target_link_libraries(Common PRIVATE Math)
+
+# Test library
+add_executable(Common.Test ${TESTS})
+target_link_libraries(Common.Test PRIVATE Common)
