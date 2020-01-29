@@ -1,14 +1,14 @@
 set(
-    SOURCES
+  SOURCES
     
 	src/SolveEquations.cpp
 	src/TransformationMatrix.cpp
 )
 
 set(
-    HEADERS
+  HEADERS
     
-    include/SolveEquations.h
+  include/SolveEquations.h
 	include/Vector.h
 	include/TransformationMatrix.h
 

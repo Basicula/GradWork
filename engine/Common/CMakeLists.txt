@@ -31,6 +31,7 @@ set(
     include/Simulation.h
     
     include/ParallelUtils.h
+    include/impl/ParallelUtils_impl.h
     
     include/IObject.h
     
@@ -40,7 +41,7 @@ set(
 set(
     TESTS
     
-    test/c++/test_main.cpp
+    test/c++/ParallelUtils_test.cpp
 )
 
 # Main library
@@ -52,6 +53,7 @@ add_library(
 )
 
 target_include_directories(Common PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_include_directories(Common PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/impl")
 
 target_include_directories(Common PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/py")
 
@@ -60,3 +62,10 @@ target_link_libraries(Common PRIVATE Math)
 # Test library
 add_executable(Common.Test ${TESTS})
 target_link_libraries(Common.Test PRIVATE Common)
+target_link_libraries(Common.Test PRIVATE gtest_main)
+add_test(
+  NAME
+    unit
+  COMMAND
+    ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/Common.Test
+  )
