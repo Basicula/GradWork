@@ -21,6 +21,8 @@ class ParticleSystem
     std::size_t AddVectorData(const Vector3d& i_inittial_value = Vector3d(0));
     std::size_t AddScalarData(double i_initial_value = 0);
 
+    std::size_t GetNumOfParticles() const;
+
   protected:
     void _Resize(std::size_t i_num_particles);
 
@@ -49,6 +51,11 @@ inline std::size_t ParticleSystem::AddScalarData(double i_initial_value)
   const auto id = m_scalar_data.size();
   m_scalar_data.emplace_back(m_num_particles, i_initial_value);
   return id;
+  }
+
+inline std::size_t ParticleSystem::GetNumOfParticles() const
+  {
+  return m_num_particles;
   }
 
 inline auto ParticleSystem::_GetVectorDataAt(std::size_t i_index) const
