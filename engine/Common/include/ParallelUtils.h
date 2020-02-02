@@ -1,10 +1,11 @@
 #pragma once
-#include <algorithm>
 #include <vector>
-#include <thread>
+#include <mutex>
 
 namespace Parallel
   {
+  static std::mutex g_critical;
+
   template<class T>
   void ParallelFill(
     std::vector<T>& o_to_fill, 

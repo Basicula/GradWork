@@ -16,8 +16,8 @@ PYBIND11_MODULE(engine, m)
   {
   AddMathSubmodule(m);
   AddCommonSubmodule(m);
-  AddFluidSubmodule(m);
-  AddVisualSubmodule(m);
   AddPrimitivesSubmodule(m);
+  AddVisualSubmodule(m);
+  AddFluidSubmodule(m);
   AddSceneSubmodule(m);
   }

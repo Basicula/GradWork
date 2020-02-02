@@ -5,7 +5,9 @@ namespace
   class PyFluid : public Fluid
     {
     using Fluid::Fluid;
-    bool IntersectWithRay(IntersectionRecord& io_intersection, const Ray& i_ray) const override
+    bool IntersectWithRay(
+      IntersectionRecord& io_intersection, 
+      const Ray& i_ray) const override
       {
       PYBIND11_OVERLOAD(
         bool,
@@ -28,25 +30,26 @@ namespace
         Fluid,
         GetBoundingBox, );
       }
-    void ApplyPhysics() override
-      {
-      PYBIND11_OVERLOAD(
-        void,
-        Fluid,
-        ApplyPhysics,);
-      }
     };
   }
 
 static void AddFluid(py::module& io_module)
   {
-  py::class_<Fluid, std::shared_ptr<Fluid>, IObject, PyFluid>(io_module, "Fluid")
+  py::class_<
+    Fluid, 
+    std::shared_ptr<Fluid>, 
+    IRenderable, 
+    PyFluid>(io_module, "Fluid")
     .def(py::init<const BoundingBox&>())
+    .def("update", &Fluid::Update)
     .def("fromDict", [](py::dict i_dict)
       {
       auto common_m = py::module::import("engine.Common");
       auto inner = i_dict["Fluid"];
-      auto box = common_m.attr("BoundingBox").attr("fromDict")(inner["Box"]).cast<BoundingBox>();
+      auto box = common_m
+      .attr("BoundingBox")
+      .attr("fromDict")(inner["Box"])
+      .cast<BoundingBox>();
       return Fluid(box);
       });
   }

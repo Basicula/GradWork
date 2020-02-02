@@ -5,9 +5,24 @@
 
 IntersectionRecord::IntersectionRecord()
   : m_distance(MAX_DOUBLE)
-  , m_intersection(Vector3d(0))
-  , m_normal(Vector3d(0))
+  , m_intersection(0)
+  , m_normal(0)
   , m_material(nullptr)
+  {}
+
+IntersectionRecord::IntersectionRecord(
+  const RaySurfaceIntersection& i_ray_surface_intersection)
+  : m_distance(i_ray_surface_intersection.m_distance)
+  , m_intersection(i_ray_surface_intersection.m_intersection)
+  , m_normal(i_ray_surface_intersection.m_normal)
+  , m_material(nullptr)
+  {}
+
+RaySurfaceIntersection::RaySurfaceIntersection()
+  : m_intersected(false)
+  , m_distance(MAX_DOUBLE)
+  , m_intersection(0)
+  , m_normal(0)
   {}
 
 RayBoxIntersectionRecord::RayBoxIntersectionRecord()

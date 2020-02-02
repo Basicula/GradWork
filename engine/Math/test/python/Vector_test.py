@@ -306,16 +306,6 @@ class TestVectorOperations(unittest.TestCase):
         expected = 25
         self.assertEqual(actual, expected)
         
-        v3 = vec.Vector2d(2,4)
-        actual = v3.inversed()
-        expected = vec.Vector2d(0.5, 0.25)
-        self.assertEqual(round(actual.x,10),round(expected.x,10))
-        self.assertEqual(round(actual.y,10),round(expected.y,10))
-        
-        v3.inverse()
-        self.assertEqual(round(actual.x,10),round(expected.x,10))
-        self.assertEqual(round(actual.y,10),round(expected.y,10))
-        
     def test_vec3_vector_operations(self):
         print("\nVector3d vector operations", end = "")
         v1, v2 = vec.Vector3d(1,2,3),vec.Vector3d(3,2,1)
@@ -362,18 +352,6 @@ class TestVectorOperations(unittest.TestCase):
         expected = vec.Vector3d(-3,6,-3)
         self.assertEqual(actual1,expected)
         
-        v3 = vec.Vector3d(2,4,5)
-        actual = v3.inversed()
-        expected = vec.Vector3d(0.5, 0.25,0.2)
-        self.assertEqual(round(actual.x,10),round(expected.x,10))
-        self.assertEqual(round(actual.y,10),round(expected.y,10))
-        self.assertEqual(round(actual.z,10),round(expected.z,10))
-        
-        v3.inverse()
-        self.assertEqual(round(actual.x,10),round(expected.x,10))
-        self.assertEqual(round(actual.y,10),round(expected.y,10))
-        self.assertEqual(round(actual.z,10),round(expected.z,10))
-        
     def test_vec4_vector_operations(self):
         print("\nVector4d vector operations", end = "")
         v1, v2 = vec.Vector4d(1,2,3,4),vec.Vector4d(4,3,2,1)
@@ -410,20 +388,6 @@ class TestVectorOperations(unittest.TestCase):
         actual = v1.sqrlength()
         expected = 30
         self.assertEqual(actual, expected)
-        
-        v3 = vec.Vector4d(2,4,5,8)
-        actual = v3.inversed()
-        expected = vec.Vector4d(0.5, 0.25, 0.2, 0.125)
-        self.assertEqual(round(actual.x,10),round(expected.x,10))
-        self.assertEqual(round(actual.y,10),round(expected.y,10))
-        self.assertEqual(round(actual.z,10),round(expected.z,10))
-        self.assertEqual(round(actual.w,10),round(expected.w,10))
-        
-        v3.inverse()
-        self.assertEqual(round(actual.x,10),round(expected.x,10))
-        self.assertEqual(round(actual.y,10),round(expected.y,10))
-        self.assertEqual(round(actual.z,10),round(expected.z,10))
-        self.assertEqual(round(actual.w,10),round(expected.w,10))
         
     def test_vec2_bool_operations(self):
         print("\nVector2d bool operations", end = "")

@@ -6,6 +6,7 @@ class BFPointSearcher : public PointNeighborSearcher
   {
   public:
     BFPointSearcher(const Points& i_points);
+    BFPointSearcher(const PointsIteratorC& i_begin, std::size_t i_size);
 
     virtual bool HasNeighborPoint(
       const Vector3d& i_point,

@@ -3,11 +3,12 @@
 #include <memory>
 #include <string>
 
-#include <KDTree.h>
 #include <ILight.h>
 #include <IMaterial.h>
 #include <Camera.h>
 #include <Image.h>
+#include <RenderableObject.h>
+#include <KDTree.h>
 
 class Scene
   {
@@ -17,7 +18,7 @@ class Scene
       std::size_t i_frame_width = 800, 
       std::size_t i_frame_height = 600);
 
-    void AddObject(std::shared_ptr<IObject> i_object);
+    void AddObject(IRenderableSPtr i_object);
     void AddCamera(const Camera& i_camera, bool i_set_active = false);
     void AddLight(std::shared_ptr<ILight> i_light);
 
@@ -51,7 +52,7 @@ class Scene
       int i_offset_x = 0,
       int i_offset_y = 0) const;
 
-    void ApplyPhysics();
+    void Update();
 
     std::string Serialize() const;
   private:
@@ -59,6 +60,12 @@ class Scene
       Image& o_image, 
       const Camera& i_camera, 
       double i_offset_x, 
+      double i_offset_y) const;
+
+    bool _RenderSlow(
+      Image& o_image,
+      const Camera& i_camera,
+      double i_offset_x,
       double i_offset_y) const;
 
   private:
@@ -71,7 +78,7 @@ class Scene
     std::vector<std::shared_ptr<ILight>> m_lights;
   };
 
-inline void Scene::AddObject(std::shared_ptr<IObject> i_object)
+inline void Scene::AddObject(IRenderableSPtr i_object)
   {
   m_object_tree.AddObject(i_object);
   }

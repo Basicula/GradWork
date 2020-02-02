@@ -4,6 +4,16 @@
 #include <Vector.h>
 class IMaterial;
 
+struct RaySurfaceIntersection
+  {
+  bool m_intersected;
+  double m_distance;
+  Vector3d m_intersection;
+  Vector3d m_normal;
+
+  RaySurfaceIntersection();
+  };
+
 struct IntersectionRecord
   {
   double m_distance;
@@ -12,6 +22,7 @@ struct IntersectionRecord
   std::shared_ptr<IMaterial> m_material;
 
   IntersectionRecord();
+  IntersectionRecord(const RaySurfaceIntersection& i_ray_surface_intersection);
   };
 
 struct RayBoxIntersectionRecord

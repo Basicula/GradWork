@@ -6,7 +6,7 @@ StandartParticle::StandartParticle(
   : Particle()
   {
   m_position_id = AddVectorData(i_position);
-  m_velocity_id = AddVectorData();
+  m_velocity_id = AddVectorData(i_velocity);
   m_force_id = AddVectorData();
   m_acceleration_id = AddVectorData();
 

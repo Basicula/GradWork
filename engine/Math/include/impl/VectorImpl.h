@@ -229,8 +229,9 @@ template<std::size_t Dimension, class ElementType>
 void Vector<Dimension, ElementType>::Normalize()
   {
   const double length = Length();
-  for (std::size_t i = 0; i < Dimension; ++i)
-    m_coords[i] /= length;
+  if (length > 0.0)
+    for (std::size_t i = 0; i < Dimension; ++i)
+      m_coords[i] /= length;
   }
 
 template<std::size_t Dimension, class ElementType>

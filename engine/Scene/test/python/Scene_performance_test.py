@@ -8,7 +8,7 @@ from engine.Visual import *
 from engine.Primitives import *
 from engine.Visual.Light import *
 from engine.Visual.Material import *
-
+from engine.Visual.Renderable import RenderableObject
 
 class TestScenePerformance(unittest.TestCase):
     def test_simple_scene(self):
@@ -20,8 +20,8 @@ class TestScenePerformance(unittest.TestCase):
                                 , Vector3d(0.727811, 0.626959, 0.626959)
                                 , 76.8)
         
-        scene.addObject(Sphere(Vector3d(0,0,0), 3, ruby_material))
-        scene.addObject(Sphere(Vector3d(4,4,-4), 1, ruby_material))
+        scene.addObject(RenderableObject(Sphere(Vector3d(0,0,0), 3), ruby_material))
+        scene.addObject(RenderableObject(Sphere(Vector3d(4,4,-4), 1), ruby_material))
         
         scene.addLight(SpotLight(Vector3d(10,10,-10)))
         scene.addLight(SpotLight(Vector3d(0,10,-5)))
@@ -46,16 +46,18 @@ class TestScenePerformance(unittest.TestCase):
                                 , Vector3d(0.727811, 0.626959, 0.626959)
                                 , 76.8)
         
+        x0 = -15
+        y0 = -15
         for i in range(1000):
-            x = random.uniform(-10,10)
-            y = random.uniform(-10,10)
-            z = random.uniform(-10,10)
-            r = random.uniform(1,10)
-            scene.addObject(Sphere(Vector3d(x,y,z), r, ruby_material))
+            x = x0 + i % 30
+            y = y0 + i // 30
+            z = 0
+            r = 0.5
+            scene.addObject(RenderableObject(Sphere(Vector3d(x,y,z), r), ruby_material))
         
         scene.addLight(SpotLight(Vector3d(10,10,-10)))
         
-        scene.addCamera(Camera(Vector3d(0,0,-15),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1))
+        scene.addCamera(Camera(Vector3d(0,0,-25),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1))
         
         image = Image(scene.frameWidth, scene.frameHeight)
         

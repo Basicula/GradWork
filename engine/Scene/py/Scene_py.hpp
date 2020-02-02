@@ -35,7 +35,7 @@ static void AddScene(py::module& io_module)
       py::arg("image"),
       py::arg("x_offset") = 0,
       py::arg("y_offset") = 0)
-    .def("applyPhysics", &Scene::ApplyPhysics)
+    .def("update", &Scene::Update)
     .def_property(
       "frameWidth",
       &Scene::GetFrameWidth,
@@ -54,20 +54,29 @@ static void AddScene(py::module& io_module)
         
       Scene res(name,frameWidth,frameHeight);
 
-      auto common_m = py::module::import("engine.Common");
+      auto renderable_m = py::module::import("engine.Visual.Renderable");
       auto objects = scene["Objects"];
       for (auto object : objects)
-        res.AddObject(common_m.attr("IObject").attr("fromDict")(object).cast<std::shared_ptr<IObject>>());
+        res.AddObject(renderable_m
+          .attr("IRenderable")
+          .attr("fromDict")(object)
+          .cast<std::shared_ptr<IRenderable>>());
 
       auto light_m = py::module::import("engine.Visual.Light");
       auto lights = scene["Lights"];
       for (auto light : lights)
-        res.AddLight(light_m.attr("ILight").attr("fromDict")(light).cast<std::shared_ptr<ILight>>());
+        res.AddLight(light_m
+          .attr("ILight")
+          .attr("fromDict")(light)
+          .cast<std::shared_ptr<ILight>>());
 
       auto visual_m = py::module::import("engine.Visual");
       auto cameras = scene["Cameras"];
       for (auto camera : cameras)
-        res.AddCamera(visual_m.attr("Camera").attr("fromDict")(camera).cast<Camera>());
+        res.AddCamera(visual_m
+          .attr("Camera")
+          .attr("fromDict")(camera)
+          .cast<Camera>());
 
       auto active_camera = scene["ActiveCamera"].cast<std::size_t>();
       res.SetActiveCamera(active_camera);

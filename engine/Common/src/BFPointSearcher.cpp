@@ -4,7 +4,13 @@ BFPointSearcher::BFPointSearcher(const Points& i_points)
   : m_points(i_points)
   {}
 
-void BFPointSearcher::_Build(const Points& i_points)
+BFPointSearcher::BFPointSearcher(
+  const PointsIteratorC& i_points_begin,
+  std::size_t i_size)
+  : m_points(i_points_begin, i_points_begin + i_size)
+  {}
+
+void BFPointSearcher::_Build(const Points&)
   {}
 
 bool BFPointSearcher::HasNeighborPoint(

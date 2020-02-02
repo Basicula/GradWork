@@ -10,6 +10,10 @@ set(
   src/SPHSystem.cpp
   
   src/SPHSimulation.cpp
+  
+  src/SPHKernel.cpp
+  src/SPHStandartKernel.cpp
+  src/SPHSpikyKernel.cpp
 )
 
 set(
@@ -24,6 +28,10 @@ set(
   include/SPHSystem.h
   
   include/SPHSimulation.h
+  
+  include/SPHKernel.h
+  include/SPHStandartKernel.h
+  include/SPHSpikyKernel.h
   
   include/FluidConstants.h
 )

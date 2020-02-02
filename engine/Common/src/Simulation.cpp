@@ -11,7 +11,7 @@ Simulation::Simulation(double i_time_step)
 
 void Simulation::Update()
   {
-  _PostProcessing();
+  _PreProcessing();
   _Update();
   _PostProcessing();
   }

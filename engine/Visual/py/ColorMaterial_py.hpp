@@ -30,6 +30,8 @@ namespace
         Color,
         ColorMaterial,
         GetLightInfluence,
+        i_point,
+        i_normal,
         i_light
       );
       }
@@ -42,6 +44,8 @@ namespace
         Color,
         ColorMaterial,
         GetMultiLightInfluence,
+        i_point,
+        i_normal,
         i_lights
       );
       }

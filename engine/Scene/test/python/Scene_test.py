@@ -1,5 +1,6 @@
 import unittest
 import json
+import matplotlib.pyplot as plt
 
 from engine import Scene
 from engine.Math.Vector import Vector3d
@@ -7,6 +8,7 @@ from engine.Visual import *
 from engine.Primitives import *
 from engine.Visual.Light import *
 from engine.Visual.Material import *
+from engine.Visual.Renderable import RenderableObject
 
 def create_scene_sample(camera_cnt = 1, obj_cnt = 1, light_cnt = 1):
     scene = Scene("example")
@@ -14,8 +16,13 @@ def create_scene_sample(camera_cnt = 1, obj_cnt = 1, light_cnt = 1):
     for i in range(camera_cnt):
         scene.addCamera(Camera(Vector3d(2*i+1,3*i+1,4*i+1),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1))
         
+    ruby_material = ColorMaterial(Color(255, 0, 0)
+                        , Vector3d(0.1745, 0.01175, 0.01175)
+                        , Vector3d(0.61424, 0.04136, 0.04136)
+                        , Vector3d(0.727811, 0.626959, 0.626959)
+                        , 76.8)
     for i in range(obj_cnt):
-        scene.addObject(Sphere(Vector3d(i*10),i*5))
+        scene.addObject(RenderableObject(Sphere(Vector3d(i*10),i*5), ruby_material))
     
     for i in range(light_cnt):
         scene.addLight(SpotLight(Vector3d(-i*2,i*4,i*5)))
@@ -46,13 +53,13 @@ def test():
                             , Vector3d(0.727811, 0.626959, 0.626959)
                             , 76.8)
     
-    scene.addObject(Sphere(Vector3d(0,0,0), 3, ruby_material))
-    scene.addObject(Sphere(Vector3d(4,4,-4), 1, ruby_material))
+    scene.addObject(RenderableObject(Sphere(Vector3d(0,0,0), 3), ruby_material))
+    scene.addObject(RenderableObject(Sphere(Vector3d(4,4,-4), 1), ruby_material))
     
-    scene.addLight(SpotLight(Vector3d(10,10,-10)))
-    scene.addLight(SpotLight(Vector3d(0,10,-5)))
+    #scene.addLight(SpotLight(Vector3d(10,10,10)))
+    scene.addLight(SpotLight(Vector3d(5,6,-6)))
     
-    scene.addCamera(Camera(Vector3d(0,0,-15),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1))
+    scene.addCamera(Camera(Vector3d(0,0,-25),Vector3d(0,0,0),Vector3d(0,-1,0),60,4/3,1))
     
     with open('simple_example.json','w') as f:
         json.dump(json.loads(repr(scene)), f)
@@ -80,11 +87,17 @@ class TestSceneExample(unittest.TestCase):
         
         self.assertEqual(scene.name, "example")
         
+        ruby_material = ColorMaterial(Color(255, 0, 0)
+                        , Vector3d(0.1745, 0.01175, 0.01175)
+                        , Vector3d(0.61424, 0.04136, 0.04136)
+                        , Vector3d(0.727811, 0.626959, 0.626959)
+                        , 76.8)
         sphere = Sphere(Vector3d(0,0,0), 10)
+        object = RenderableObject(sphere, ruby_material)
         light = SpotLight(Vector3d(10,10,10))
         camera = Camera(Vector3d(0,0,-10),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1)
         
-        scene.addObject(sphere)
+        scene.addObject(object)
         self.assertEqual(scene.objCnt,1)
         scene.clearObjects()
         self.assertEqual(scene.objCnt,0)

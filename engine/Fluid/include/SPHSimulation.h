@@ -30,6 +30,7 @@ class SPHSimulation : public Simulation
     void _AccumulatePressureForeces();
     void _TimeIntegration();
     void _UpdatePositionsAndVelocities();
+    void _ResolveCollisions();
 
   private:
     SPHSystem m_particle_system;

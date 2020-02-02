@@ -31,7 +31,7 @@ SPHSimulation::SPHSimulation(std::size_t i_num_particles)
   , m_new_positions(i_num_particles)
   , m_new_velocities(i_num_particles)
   , m_eos_exponent(7.15)
-  , m_negative_pressure_scale(0.5)
+  , m_negative_pressure_scale(0.75)
   {}
 
 void SPHSimulation::_PreProcessing()
@@ -47,6 +47,8 @@ void SPHSimulation::_Update()
   _AccumulatePressureForeces();
 
   _TimeIntegration();
+
+  _ResolveCollisions();
   }
 
 void SPHSimulation::_PostProcessing()
@@ -146,6 +148,26 @@ void SPHSimulation::_UpdatePositionsAndVelocities()
     {
     positions[i] = m_new_positions[i];
     velocities[i] = m_new_velocities[i];
+    });
+  }
+
+void SPHSimulation::_ResolveCollisions()
+  {
+  size_t num_of_particles = m_particle_system.GetNumOfParticles();
+
+  Parallel::ParallelFor(
+    static_cast<std::size_t>(0),
+    num_of_particles,
+    [&](std::size_t i)
+    {
+    if (m_new_positions[i].SquareLength() < 9)
+      return;
+    const auto& normal = -m_new_positions[i].Normalized();
+    const double dot = normal.Dot(-m_new_velocities[i]);
+    const auto vel_normal_component = normal * dot;
+    const auto vel_tangent_component = m_new_velocities[i] - vel_normal_component;
+    m_new_velocities[i] = vel_normal_component * 0.75 + vel_tangent_component * 0.5;
+    m_new_positions[i] = -normal * (3 - m_particle_system.GetRadius());
     });
   }
 

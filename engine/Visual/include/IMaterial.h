@@ -21,3 +21,6 @@ class IMaterial
       const std::vector<std::shared_ptr<ILight>>& i_lights) const = 0;
     virtual ~IMaterial() = default;
   };
+
+using IMaterialSPtr = std::shared_ptr<IMaterial>;
+using IMaterialUPtr = std::unique_ptr<IMaterial>;

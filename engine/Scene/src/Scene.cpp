@@ -3,6 +3,7 @@
 #include <Scene.h>
 #include <Ray.h>
 #include <Intersection.h>
+#include <ParallelUtils.h>
 
 Scene::Scene(
   const std::string& i_name,
@@ -20,14 +21,14 @@ bool Scene::RenderFrame(
   int i_offset_y) const
   {
   return _Render(
-    o_image, 
-    m_cameras[m_active_camera], 
-    i_offset_x, 
+    o_image,
+    m_cameras[m_active_camera],
+    i_offset_x,
     i_offset_y);
   }
 
 bool Scene::RenderCameraFrame(
-  Image& o_image, 
+  Image& o_image,
   std::size_t i_camera,
   int i_offset_x,
   int i_offset_y) const
@@ -35,32 +36,101 @@ bool Scene::RenderCameraFrame(
   if (i_camera >= m_cameras.size())
     return false;
   return _Render(
-    o_image, 
+    o_image,
     m_cameras[i_camera],
     i_offset_x,
     i_offset_y);
   }
 
 bool Scene::_Render(
-  Image& o_image, 
+  Image& o_image,
   const Camera& i_camera,
   double i_offset_x,
   double i_offset_y) const
   {
-  const auto width   = o_image.GetWidth();
-  const auto height  = o_image.GetHeight();
+  const auto width = o_image.GetWidth();
+  const auto height = o_image.GetHeight();
 
   const auto& ray_origin = i_camera.GetLocation();
+  Parallel::ParallelFor(
+    static_cast<std::size_t>(0),
+    width* height,
+    [&](std::size_t i_pixel_id)
+    {
+    auto x = i_pixel_id % width;
+    auto y = i_pixel_id / width;
+    const auto& ray_dir = i_camera.GetDirection(
+      (x + i_offset_x) / m_frame_width,
+      (y + i_offset_y) / m_frame_height);
+    const Ray ray(ray_origin, ray_dir);
+    IntersectionRecord hit;
+    bool intersected = m_object_tree.IntersectWithRay(hit, ray);
 
+    if (!intersected || !hit.m_material)
+      {
+      o_image.SetPixel(x, y, Color(0));
+      return;
+      }
+
+    Color result_pixel_color = hit.m_material->GetPrimitiveColor();
+
+    {
+    std::unique_lock<std::mutex> lock(Parallel::g_critical);
+    std::vector<std::size_t> to_on;
+
+    for (auto i = 0u; i < m_lights.size(); ++i)
+      {
+      auto& light = m_lights[i];
+      if (!light->GetState())
+        continue;
+      Ray to_light(
+        hit.m_intersection,
+        -light->GetDirection(hit.m_intersection));
+      IntersectionRecord temp;
+      bool off = false;
+      if (m_object_tree.IntersectWithRay(temp, to_light))
+        {
+        light->SetState(false);
+        to_on.push_back(i);
+        off = true;
+        break;
+        }
+      }
+    result_pixel_color = result_pixel_color
+      + hit.m_material->GetMultiLightInfluence(
+        hit.m_intersection,
+        hit.m_normal,
+        m_lights);
+
+    for (const auto& light_on : to_on)
+      m_lights[light_on]->SetState(true);
+    o_image.SetPixel(x, y, result_pixel_color);
+    }
+    });
+  return true;
+  }
+
+bool Scene::_RenderSlow(
+  Image& o_image,
+  const Camera& i_camera,
+  double i_offset_x,
+  double i_offset_y) const
+  {
+  const auto width = o_image.GetWidth();
+  const auto height = o_image.GetHeight();
+
+  const auto& ray_origin = i_camera.GetLocation();
   for (auto x = 0; x < width; ++x)
     for (auto y = 0; y < height; ++y)
       {
-      const auto& ray_dir = i_camera.GetDirection((x+i_offset_x)/m_frame_width,(y+i_offset_y)/m_frame_height);
-      const Ray ray(ray_origin,ray_dir);
+      const auto& ray_dir = i_camera.GetDirection(
+        (x + i_offset_x) / m_frame_width,
+        (y + i_offset_y) / m_frame_height);
+      const Ray ray(ray_origin, ray_dir);
       IntersectionRecord hit;
       bool intersected = m_object_tree.IntersectWithRay(hit, ray);
 
-      if (!intersected  || !hit.m_material)
+      if (!intersected || !hit.m_material)
         {
         o_image.SetPixel(x, y, Color(0));
         continue;
@@ -75,10 +145,12 @@ bool Scene::_Render(
         auto& light = m_lights[i];
         if (!light->GetState())
           continue;
-        Ray to_light(hit.m_intersection, -light->GetDirection(hit.m_intersection));
+        Ray to_light(
+          hit.m_intersection,
+          -light->GetDirection(hit.m_intersection));
         IntersectionRecord temp;
         bool off = false;
-        if (m_object_tree.IntersectWithRay(hit, ray))
+        if (m_object_tree.IntersectWithRay(temp, to_light))
           {
           light->SetState(false);
           to_on.push_back(i);
@@ -86,18 +158,22 @@ bool Scene::_Render(
           break;
           }
         }
-      result_pixel_color = result_pixel_color + hit.m_material->GetMultiLightInfluence(hit.m_intersection, hit.m_normal, m_lights);
+      result_pixel_color = result_pixel_color
+        + hit.m_material->GetMultiLightInfluence(
+          hit.m_intersection,
+          hit.m_normal,
+          m_lights);
 
       for (const auto& light_on : to_on)
         m_lights[light_on]->SetState(true);
 
-      o_image.SetPixel(x,y, result_pixel_color);
+      o_image.SetPixel(x, y, result_pixel_color);
       }
   return true;
   }
 
-void Scene::ApplyPhysics()
+void Scene::Update()
   {
   for (auto& object : m_object_tree.GetObjects())
-    object->ApplyPhysics();
+    object->Update();
   }

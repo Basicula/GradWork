@@ -10,6 +10,8 @@ class PointNeighborSearcher
   public:
     using ForEachNearbyPointFunc = std::function<void(size_t, const Vector3d&)>;
     using Points = std::vector<Vector3d>;
+    using PointsIterator = std::vector<Vector3d>::iterator;
+    using PointsIteratorC = std::vector<Vector3d>::const_iterator;
 
   public:
     virtual bool HasNeighborPoint(

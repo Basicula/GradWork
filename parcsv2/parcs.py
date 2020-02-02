@@ -130,5 +130,5 @@ def scene_update():
     #        2,
     #        ColorMaterial(Color(random.randint(0,0xffffff)))))
     app.node.scene.getFrame(app.image)
-    app.node.scene.applyPhysics()
+    app.node.scene.update()
     return {"image":str(app.image), "width" : width, "height" : height}

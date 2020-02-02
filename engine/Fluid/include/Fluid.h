@@ -6,9 +6,6 @@
 #include <StandartParticle.h>
 #include <SPHSimulation.h>
 
-class Ray;
-struct Intersection;
-
 class Fluid : public IRenderable
   {
   public:
@@ -18,9 +15,9 @@ class Fluid : public IRenderable
       IntersectionRecord& o_intersection,
       const Ray& i_ray) const override;
     virtual std::string Serialize() const override;
-    BoundingBox GetBoundingBox() const;
-    //TODO
-    //virtual void ApplyPhysics() override;
+    virtual BoundingBox GetBoundingBox() const override;
+    
+    virtual void Update() override;
 
     double GetTimeStep();
 
@@ -50,8 +47,7 @@ inline double Fluid::GetTimeStep()
   return m_simulation.GetTimeStep();
   }
 
-  //TODO
-//inline void Fluid::ApplyPhysics()
-//  {
-//  m_simulation.Update();
-//  }
+inline void Fluid::Update()
+  {
+  m_simulation.Update();
+  }

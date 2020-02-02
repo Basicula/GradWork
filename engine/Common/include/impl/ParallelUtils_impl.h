@@ -1,7 +1,14 @@
+#include <algorithm>
+#include <cmath>
+#include <thread>
+
 namespace Parallel
   {
   template<class T>
-  void ParallelFill(std::vector<T>& o_to_fill, const T& i_default_value, std::size_t i_size)
+  void ParallelFill(
+    std::vector<T>& o_to_fill, 
+    const T& i_default_value, 
+    std::size_t i_size)
     {
     if (i_size == 0)
       return;
