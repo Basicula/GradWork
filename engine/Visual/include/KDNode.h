@@ -2,11 +2,10 @@
 #include <vector>
 #include <memory>
 
-#include <IObject.h>
+#include <IRenderable.h>
 #include <BoundingBox.h>
 
-using ObjectPtr = std::shared_ptr<IObject>;
-using Objects = std::vector<ObjectPtr>;
+using Objects = std::vector<IRenderableSPtr>;
 
 class KDNode
   {
@@ -29,7 +28,9 @@ class KDNode
     KDNode();
     KDNode(const Objects& i_objects);
 
-    bool IntersectWithRay(IntersectionRecord& io_intersection, const Ray& i_ray) const;
+    bool IntersectWithRay(
+      IntersectionRecord& io_intersection, 
+      const Ray& i_ray) const;
 
     void Clear();
 

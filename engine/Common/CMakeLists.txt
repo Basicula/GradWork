@@ -5,9 +5,6 @@ set(
     src/Intersection.cpp
     src/Ray.cpp
     
-    src/KDTree.cpp
-    src/KDNode.cpp
-    
     src/BFPointSearcher.cpp
     
     src/Simulation.cpp
@@ -21,9 +18,6 @@ set(
     include/BoundingBox.h
     include/Intersection.h
     include/Ray.h
-    
-    include/KDTree.h
-    include/KDNode.h
 
     include/PointNeighborSearcher.h
     include/BFPointSearcher.h

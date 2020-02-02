@@ -1,4 +1,5 @@
 #pragma once
+
 #include <KDNode.h>
 
 using KDNodePtr = std::unique_ptr<KDNode>;
@@ -17,7 +18,7 @@ class KDTree
     void Clear();
     Objects GetObjects() const;
 
-    void AddObject(ObjectPtr i_object);
+    void AddObject(IRenderableSPtr i_object);
 
   private:
     KDNodePtr m_root;
@@ -47,7 +48,7 @@ inline Objects KDTree::GetObjects() const
   return m_objects;
   }
 
-inline void KDTree::AddObject(ObjectPtr i_object)
+inline void KDTree::AddObject(IRenderableSPtr i_object)
   {
   m_objects.push_back(i_object);
   m_root->Clear();
