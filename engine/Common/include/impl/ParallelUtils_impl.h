@@ -26,8 +26,8 @@ namespace Parallel
     IndexType i_end,
     const Function& i_function)
     {
-    const auto num_of_workers_hint = std::thread::hardware_concurrency();
-    const auto num_of_workers =
+    static const auto num_of_workers_hint = std::thread::hardware_concurrency();
+    static const auto num_of_workers =
       (num_of_workers_hint == 0u ? 8u : num_of_workers_hint);
     const IndexType num_of_tasks = i_end - i_start + 1;
     auto bucket_size = static_cast<IndexType>(

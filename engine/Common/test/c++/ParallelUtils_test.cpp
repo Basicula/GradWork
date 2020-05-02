@@ -2,6 +2,7 @@
 #include <chrono>
 
 #include <ParallelUtils.h>
+#include "Utils.h"
 
 TEST(ParallelFillTest, ParallelFillCommonTest)
   {
@@ -23,30 +24,21 @@ TEST(ParallelFillTest, ParallelFillVSCommonFill)
 
   std::vector<int> common, parallel;
 
-  using FillFunctionWrapper = std::function<void()>;
-
-  auto fill_function = [&iterations](const FillFunctionWrapper& i_func)
-    {
-    const auto start = std::chrono::system_clock::now();
-    for (auto i = 0u; i < iterations; ++i)
-      i_func();
-    const auto end = std::chrono::system_clock::now();
-    return std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-    };
-
   auto parallel_time =
-    fill_function([&]()
+    function_wrapper_for_time([&]()
       {
       Parallel::ParallelFill(parallel, default_value, size);
-      });
+      },
+      iterations);
 
   auto common_time =
-    fill_function([&]()
+    function_wrapper_for_time([&]()
       {
       common.resize(size);
       for (auto i = 0u; i < size; ++i)
         common[i] = default_value;
-      });
+      },
+      iterations);
 
   EXPECT_TRUE(common_time > parallel_time);
   }

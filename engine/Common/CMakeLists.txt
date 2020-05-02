@@ -24,6 +24,8 @@ set(
     
     include/Simulation.h
     
+    include/ThreadPool.h
+    include/impl/ThreadPool_impl.h
     include/ParallelUtils.h
     include/impl/ParallelUtils_impl.h
     
@@ -36,6 +38,9 @@ set(
     TESTS
     
     test/c++/ParallelUtils_test.cpp
+    test/c++/ThreadPool_test.cpp
+    
+    test/c++/Utils.h
 )
 
 # Main library
