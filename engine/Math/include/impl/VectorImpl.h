@@ -28,7 +28,10 @@ inline Vector<Dimension, ElementType>::Vector(ElementType i_x, ElementType i_y)
 
 template<std::size_t Dimension, class ElementType>
 template<std::size_t D, typename T>
-inline Vector<Dimension, ElementType>::Vector(ElementType i_x, ElementType i_y, ElementType i_z)
+inline Vector<Dimension, ElementType>::Vector(
+  ElementType i_x, 
+  ElementType i_y, 
+  ElementType i_z)
   {
   m_coords[0] = i_x;
   m_coords[1] = i_y;
@@ -37,13 +40,17 @@ inline Vector<Dimension, ElementType>::Vector(ElementType i_x, ElementType i_y, 
   
 template<std::size_t Dimension, class ElementType>
 template<std::size_t D, typename T>
-inline Vector<Dimension, ElementType>::Vector(ElementType i_x, ElementType i_y, ElementType i_z, ElementType i_w)
+inline Vector<Dimension, ElementType>::Vector(
+  ElementType i_x, 
+  ElementType i_y, 
+  ElementType i_z, 
+  ElementType i_w)
   {
   m_coords[0] = i_x;
   m_coords[1] = i_y;
   m_coords[2] = i_z;
   m_coords[3] = i_w;
-  };
+  }
 
 template<std::size_t Dimension, class ElementType>
 ElementType& Vector<Dimension, ElementType>::operator[](std::size_t i_index)
@@ -52,11 +59,12 @@ ElementType& Vector<Dimension, ElementType>::operator[](std::size_t i_index)
   }
 
 template<std::size_t Dimension, class ElementType>
-const ElementType& Vector<Dimension, ElementType>::operator[](std::size_t i_index) const
+const ElementType& 
+Vector<Dimension, ElementType>::operator[](std::size_t i_index) const
   {
   return m_coords[i_index];
   }
-  
+
 template<std::size_t Dimension, class ElementType>
 bool Vector<Dimension, ElementType>::operator==(const Vector<Dimension, ElementType>& i_other) const
   {

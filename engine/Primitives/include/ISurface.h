@@ -14,7 +14,7 @@ class ISurface
 
     BoundingBox GetBoundingBox() const;
     bool IntersectWithRay(
-      RaySurfaceIntersection& o_intersection,
+      IntersectionRecord& o_intersection,
       const Ray& i_ray) const;
     Vector3d NormalAtPoint(const Vector3d& i_point) const;
 
@@ -22,7 +22,7 @@ class ISurface
   protected:
     virtual BoundingBox _GetBoundingBox() const = 0;
     virtual bool _IntersectWithRay(
-      RaySurfaceIntersection& o_intersection,
+      IntersectionRecord& o_intersection,
       const Ray& i_ray) const = 0;
     virtual Vector3d _NormalAtPoint(const Vector3d& i_point) const = 0;
   };
@@ -33,7 +33,7 @@ inline BoundingBox ISurface::GetBoundingBox() const
   }
 
 inline bool ISurface::IntersectWithRay(
-  RaySurfaceIntersection& o_intersection,
+  IntersectionRecord& o_intersection,
   const Ray& i_ray) const
   {
   return _IntersectWithRay(o_intersection, i_ray);

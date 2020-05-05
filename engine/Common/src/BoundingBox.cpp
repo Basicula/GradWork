@@ -15,7 +15,7 @@ BoundingBox::BoundingBox(
 
 void BoundingBox::AddPoint(const Vector3d& i_point)
   {
-  for (auto i = 0; i < 3; ++i)
+  for (int i = 0; i < 3; ++i)
     {
     m_min[i] = std::min(m_min[i], i_point[i]);
     m_max[i] = std::max(m_max[i], i_point[i]);
@@ -24,11 +24,15 @@ void BoundingBox::AddPoint(const Vector3d& i_point)
 
 void BoundingBox::Merge(const BoundingBox& i_other)
   {
-  const auto& other_min = i_other.GetMin();
-  const auto& other_max = i_other.GetMax();
   for (int i = 0; i < 3; ++i)
     {
-    m_min[i] = std::min(m_min[i], other_min[i]);
-    m_max[i] = std::max(m_max[i], other_max[i]);
+    m_min[i] = std::min(m_min[i], i_other.m_min[i]);
+    m_max[i] = std::max(m_max[i], i_other.m_max[i]);
     }
+  }
+
+void BoundingBox::Reset()
+  {
+  m_min = Vector3d(MAX_INT);
+  m_max = Vector3d(MIN_INT);
   }

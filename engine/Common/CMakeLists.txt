@@ -9,7 +9,7 @@ set(
     
     src/Simulation.cpp
     
-    src/ParallelUtils.cpp
+    src/ThreadPool.cpp
 )
 
 set(
@@ -27,7 +27,6 @@ set(
     include/ThreadPool.h
     include/impl/ThreadPool_impl.h
     include/ParallelUtils.h
-    include/impl/ParallelUtils_impl.h
     
     include/IObject.h
     
@@ -37,7 +36,6 @@ set(
 set(
     TESTS
     
-    test/c++/ParallelUtils_test.cpp
     test/c++/ThreadPool_test.cpp
     
     test/c++/Utils.h

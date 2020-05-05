@@ -1,4 +1,13 @@
 #pragma once
+#include <math.h>
+
+template<>
+inline Vector3d::Vector(double i_elem)
+  {
+  m_coords[0] = i_elem;
+  m_coords[1] = i_elem;
+  m_coords[2] = i_elem;
+  }
 
 template<>
 inline Vector3d Vector3d::operator-(const Vector3d& i_other) const
@@ -78,11 +87,14 @@ inline void Vector3d::Normalize()
 template<>
 inline Vector3d Vector3d::Normalized() const
   {
-  const double length = Length();
-  if (length > 0.0)
-    return Vector3d(
+  const double sqr_length = SquareLength();
+  // already normalized or zero
+  if (sqr_length == 0.0 || sqr_length - 1 == 0.0)
+    return *this;
+  // normalizing
+  const double length = sqrt(sqr_length);
+  return Vector3d(
     m_coords[0] / length,
     m_coords[1] / length,
     m_coords[2] / length);
-  return Vector3d(0);
   }

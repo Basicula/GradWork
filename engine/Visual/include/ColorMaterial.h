@@ -26,10 +26,6 @@ class ColorMaterial : public IMaterial
       const Vector3d& i_point,
       const Vector3d& i_normal, 
       std::shared_ptr<ILight> i_light) const override;
-    virtual Color GetMultiLightInfluence(
-      const Vector3d& i_point,
-      const Vector3d& i_normal, 
-      const std::vector<std::shared_ptr<ILight>>& i_lights) const override;
 
     Color GetAmbientColor() const;
     Color GetDiffuseColor() const;

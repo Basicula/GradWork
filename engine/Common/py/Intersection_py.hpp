@@ -12,16 +12,6 @@ namespace
       .def_readonly("material", &IntersectionRecord::m_material);
     }
 
-  static void AddRaySurfaceIntersection(py::module& io_module)
-    {
-    py::class_<RaySurfaceIntersection>(io_module, "RaySurfaceIntersection")
-      .def(py::init<>())
-      .def_readonly("isIntersected", &RaySurfaceIntersection::m_intersected)
-      .def_readonly("intersection", &RaySurfaceIntersection::m_intersection)
-      .def_readonly("normal", &RaySurfaceIntersection::m_normal)
-      .def_readonly("distance", &RaySurfaceIntersection::m_distance);
-    }
-
   static void AddRayBoxIntersectionRecord(py::module& io_module)
     {
     py::class_<RayBoxIntersectionRecord>(io_module, "RayBoxIntersectionRecord")
@@ -43,7 +33,6 @@ static void AddIntersectionSubmodule(py::module& io_module)
   {
   auto intersection_m = io_module.def_submodule("Intersection");
   AddIntersectionRecord(intersection_m);
-  AddRaySurfaceIntersection(intersection_m);
   AddRayBoxIntersectionRecord(intersection_m);
   AddIntersectionUtils(intersection_m);
   }

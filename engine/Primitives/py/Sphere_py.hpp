@@ -6,7 +6,7 @@ namespace
     {
     using Sphere::Sphere;
     bool _IntersectWithRay(
-      RaySurfaceIntersection& io_intersection, const Ray& i_ray) const override
+      IntersectionRecord& io_intersection, const Ray& i_ray) const override
       {
       PYBIND11_OVERLOAD(
         bool,

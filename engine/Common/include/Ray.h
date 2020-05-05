@@ -8,10 +8,10 @@ public:
   Ray() = delete;
   Ray(const Vector3d& i_origin, const Vector3d& i_dir);
 
-  Vector3d GetOrigin() const;
+  const Vector3d& GetOrigin() const;
   void SetOrigin(const Vector3d& i_origin);
   
-  Vector3d GetDirection() const;
+  const Vector3d& GetDirection() const;
   void SetDirection(const Vector3d& i_direction);
 
 private:
@@ -19,7 +19,7 @@ private:
   Vector3d m_direction;
 };
 
-inline Vector3d Ray::GetOrigin() const 
+inline const Vector3d& Ray::GetOrigin() const 
   { 
   return m_origin; 
   };
@@ -29,7 +29,7 @@ inline void Ray::SetOrigin(const Vector3d& i_origin)
   m_origin = i_origin; 
   };
   
-inline Vector3d Ray::GetDirection() const 
+inline const Vector3d& Ray::GetDirection() const 
   { 
   return m_direction; 
   };

@@ -17,7 +17,7 @@ class Camera
       double i_aspect,
       double i_focusDist);
 
-    Vector3d GetLocation() const;
+    const Vector3d& GetLocation() const;
     void SetLocation(const Vector3d& i_location);
 
     Vector3d GetDirection(double i_u, double i_v) const;
@@ -37,7 +37,7 @@ class Camera
     double m_focusDistance;
   };
 
-inline Vector3d Camera::GetLocation() const
+inline const Vector3d& Camera::GetLocation() const
   {
   return m_location;
   }

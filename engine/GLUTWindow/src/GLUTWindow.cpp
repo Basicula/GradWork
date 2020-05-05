@@ -4,7 +4,7 @@
 #include <fstream>
 #pragma warning(push)
 #pragma warning(disable:4505)
-#include <gl/glut.h>
+#include <GL/glut.h>
 #pragma warning(pop)
 
 
@@ -14,7 +14,7 @@ void Timer(int /*value*/) {
   }
 
 
-GLUTWindow::GLUTWindow(int i_width, int i_height, char* i_title)
+GLUTWindow::GLUTWindow(int i_width, int i_height, const char* i_title)
   : m_width(i_width)
   , m_height(i_height)
   , m_title(i_title)
@@ -33,7 +33,7 @@ void GLUTWindow::_Init()
   {
   mg_instance = this;
   int temp = 1;
-  glutInit(&temp, &m_title);
+  glutInit(&temp, nullptr);
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
   glutInitWindowPosition(100, 100);
   glutInitWindowSize(m_width, m_height);

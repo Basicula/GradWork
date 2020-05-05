@@ -21,7 +21,7 @@ class Sphere : public ISurface
   protected:
     virtual BoundingBox _GetBoundingBox() const override;
     virtual bool _IntersectWithRay(
-      RaySurfaceIntersection& o_intersection, 
+      IntersectionRecord& o_intersection,
       const Ray& i_ray) const override;
     virtual Vector3d _NormalAtPoint(const Vector3d& i_point) const;
 

@@ -3,7 +3,7 @@ import math
 import json
 
 from engine.Common import BoundingBox, Ray
-from engine.Common.Intersection import RaySurfaceIntersection
+from engine.Common.Intersection import IntersectionRecord
 from engine.Primitives import Sphere
 from engine.Math.Vector import Vector3d
 
@@ -39,7 +39,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         print("\nRay intersects Sphere (two intersections)", end = "")
         sphere = Sphere(Vector3d(0,0,30), 10)
         ray = Ray(Vector3d(0,0,0),Vector3d(0,0,1))
-        intersection = RaySurfaceIntersection()
+        intersection = IntersectionRecord()
         
         hitted = sphere.hitRay(intersection,ray)
         self.assertEqual(hitted, True)
@@ -47,7 +47,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         self.assertEqual(intersection.intersection, Vector3d(0,0,20))
         self.assertEqual(intersection.normal, Vector3d(0,0,-1))
         
-        intersection = RaySurfaceIntersection()
+        intersection = IntersectionRecord()
         sphere = Sphere(Vector3d(0,0,0), 1)
         x = 1/math.sqrt(2)
         ray = Ray(Vector3d(x,0,-5),Vector3d(0,0,1))
@@ -67,7 +67,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         print("\nNo intersections", end = "")
         sphere = Sphere(Vector3d(0,0,30), 10)
         ray = Ray(Vector3d(0,0,0),Vector3d(0,0,-1))
-        intersection = RaySurfaceIntersection()
+        intersection = IntersectionRecord()
         
         hitted = sphere.hitRay(intersection,ray)
         self.assertEqual(hitted, False)
@@ -80,7 +80,7 @@ class TestSphereRayIntersection(unittest.TestCase):
         print("\nTanget ray", end = "")
         sphere = Sphere(Vector3d(0,0,30), 10)
         ray = Ray(Vector3d(10,0,0),Vector3d(0,0,1))
-        intersection = RaySurfaceIntersection()
+        intersection = IntersectionRecord()
         
         hitted = sphere.hitRay(intersection,ray)
         self.assertEqual(hitted, True)

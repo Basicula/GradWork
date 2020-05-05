@@ -17,10 +17,9 @@ if(NOT GLUT_FOUND)
 			DESTINATION ${CMAKE_BINARY_DIR}
 		)
 	endif()
-	
-	link_directories(${GLUT_LIBRARY_DIRS})
 endif()
 
+link_directories(${GLUT_LIBRARY_DIRS})
 include_directories(${GLUT_INCLUDE_DIRS})
 
 add_subdirectory(Math)

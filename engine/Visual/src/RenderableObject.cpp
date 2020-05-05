@@ -11,10 +11,8 @@ bool RenderableObject::IntersectWithRay(
   IntersectionRecord& o_intersection, 
   const Ray& i_ray) const
   {
-  RaySurfaceIntersection intersection;
-  if (mp_surface->IntersectWithRay(intersection, i_ray))
+  if (mp_surface->IntersectWithRay(o_intersection, i_ray))
     {
-    o_intersection = intersection;
     o_intersection.m_material = mp_material;
     return true;
     }

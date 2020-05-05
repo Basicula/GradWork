@@ -3,6 +3,45 @@
 #include <Ray.h>
 #include <DefinesAndConstants.h>
 
+namespace
+  {
+  void RayBoxIntersection(
+    bool& o_is_intersected,
+    double& o_near,
+    double& o_far,
+    const Ray& i_ray,
+    const BoundingBox& i_box)
+    {
+    const auto& min_corner = i_box.GetMin();
+    const auto& max_corner = i_box.GetMax();
+    const auto& origin = i_ray.GetOrigin();
+    const auto& ray_direction = i_ray.GetDirection();
+
+    o_near = 0;
+    o_far = MAX_DOUBLE;
+    for (auto i = 0; i < 3; ++i)
+      {
+      double ttmin = (min_corner[i] - origin[i]) / ray_direction[i];
+      double ttmax = (max_corner[i] - origin[i]) / ray_direction[i];
+
+      if (ttmin > ttmax)
+        std::swap(ttmin, ttmax);
+
+      if (ttmin > o_near)
+        o_near = ttmin;
+      if (ttmax < o_far)
+        o_far = ttmax;
+
+      if (o_near > o_far)
+        {
+        o_is_intersected = false;
+        return;
+        }
+      }
+    o_is_intersected = true;
+    }
+  }
+
 IntersectionRecord::IntersectionRecord()
   : m_distance(MAX_DOUBLE)
   , m_intersection(0)
@@ -10,20 +49,22 @@ IntersectionRecord::IntersectionRecord()
   , m_material(nullptr)
   {}
 
-IntersectionRecord::IntersectionRecord(
-  const RaySurfaceIntersection& i_ray_surface_intersection)
-  : m_distance(i_ray_surface_intersection.m_distance)
-  , m_intersection(i_ray_surface_intersection.m_intersection)
-  , m_normal(i_ray_surface_intersection.m_normal)
-  , m_material(nullptr)
-  {}
+void IntersectionRecord::Update(const IntersectionRecord& i_other)
+  {
+  if (i_other.m_distance < m_distance)
+    {
+    m_distance = i_other.m_distance;
+    m_intersection = i_other.m_intersection;
+    m_material = i_other.m_material;
+    m_normal = i_other.m_normal;
+    }
+  }
 
-RaySurfaceIntersection::RaySurfaceIntersection()
-  : m_intersected(false)
-  , m_distance(MAX_DOUBLE)
-  , m_intersection(0)
-  , m_normal(0)
-  {}
+void IntersectionRecord::Reset()
+  {
+  // reset only distance must be enough
+  m_distance = MAX_DOUBLE;
+  }
 
 RayBoxIntersectionRecord::RayBoxIntersectionRecord()
   : m_intersected(false)
@@ -36,41 +77,25 @@ void RayBoxIntersection(
   const BoundingBox & i_box, 
   RayBoxIntersectionRecord& o_intersection)
   {
-  const auto& min_corner = i_box.GetMin();
-  const auto& max_corner = i_box.GetMax();
-  const auto& origin = i_ray.GetOrigin();
-  const auto& ray_direction = i_ray.GetDirection();
-
-  o_intersection.m_tmin = 0;
-  o_intersection.m_tmax = MAX_DOUBLE;
-  for (auto i = 0; i < 3; ++i)
-    {
-    double ttmin = (min_corner[i] - origin[i]) / ray_direction[i];
-    double ttmax = (max_corner[i] - origin[i]) / ray_direction[i];
-
-    if (ttmin > ttmax)
-      std::swap(ttmin, ttmax);
-
-    if (ttmin > o_intersection.m_tmin)
-      o_intersection.m_tmin = ttmin;
-    if (ttmax < o_intersection.m_tmax)
-      o_intersection.m_tmax = ttmax;
-
-    if (o_intersection.m_tmin > o_intersection.m_tmax)
-      {
-      o_intersection.m_intersected = false;
-      return;
-      }
-    }
-
-  o_intersection.m_intersected = true;
+  RayBoxIntersection(
+    o_intersection.m_intersected,
+    o_intersection.m_tmin,
+    o_intersection.m_tmax,
+    i_ray,
+    i_box);
   }
 
 bool RayIntersectBox(
   const Ray& i_ray,
   const BoundingBox& i_box)
   {
-  RayBoxIntersectionRecord temp;
-  RayBoxIntersection(i_ray, i_box, temp);
-  return temp.m_intersected;
+  bool is_intersected;
+  double temp_near, temp_far;
+  RayBoxIntersection(
+    is_intersected,
+    temp_near,
+    temp_far,
+    i_ray,
+    i_box);
+  return is_intersected;
   }

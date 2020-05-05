@@ -46,5 +46,13 @@ namespace Parallel
       std::condition_variable m_wait_condition;
       bool m_stop;
     };
+
+  inline ThreadPool* ThreadPool::GetInstance()
+    {
+    if (!m_instance)
+      m_instance = new ThreadPool();
+    return m_instance;
+    }
   }
+
 #include <ThreadPool_impl.h>

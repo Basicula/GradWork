@@ -32,18 +32,6 @@ Color ColorMaterial::GetLightInfluence(
   return m_color * std::max(0.0, -i_normal.Dot(light_direction)) * m_diffuse;
   }
 
-Color ColorMaterial::GetMultiLightInfluence(
-  const Vector3d& i_point,
-  const Vector3d& i_normal,
-  const std::vector<std::shared_ptr<ILight>>& i_lights) const
-  {
-  const double light_coef = 1.0 / i_lights.size();
-  Color res = Color(0);
-  for (const auto& light : i_lights)
-    res = res + GetLightInfluence(i_point,i_normal, light) * light_coef;
-  return res;
-  }
-
 Color ColorMaterial::GetResultColor(
   const Vector3d& i_normal, 
   const Vector3d& i_light, 

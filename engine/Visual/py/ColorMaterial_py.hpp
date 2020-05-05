@@ -35,20 +35,6 @@ namespace
         i_light
       );
       }
-    Color GetMultiLightInfluence(
-      const Vector3d& i_point,
-      const Vector3d& i_normal, 
-      const std::vector<std::shared_ptr<ILight>>& i_lights) const override
-      {
-      PYBIND11_OVERLOAD_PURE(
-        Color,
-        ColorMaterial,
-        GetMultiLightInfluence,
-        i_point,
-        i_normal,
-        i_lights
-      );
-      }
     };
   }
 

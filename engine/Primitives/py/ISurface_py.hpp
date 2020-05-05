@@ -14,7 +14,7 @@ namespace
       }
 
     bool _IntersectWithRay(
-      RaySurfaceIntersection& o_intersection,
+      IntersectionRecord& o_intersection,
       const Ray& i_ray) const override
       {
       PYBIND11_OVERLOAD_PURE(

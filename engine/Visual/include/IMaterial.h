@@ -15,10 +15,6 @@ class IMaterial
       const Vector3d& i_point,
       const Vector3d& i_normal, 
       std::shared_ptr<ILight> i_light) const = 0;
-    virtual Color GetMultiLightInfluence(
-      const Vector3d& i_point,
-      const Vector3d& i_normal, 
-      const std::vector<std::shared_ptr<ILight>>& i_lights) const = 0;
     virtual ~IMaterial() = default;
   };
 

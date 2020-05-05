@@ -7,14 +7,14 @@ Sphere::Sphere(const Vector3d& i_center, double i_radius)
   {}
 
 bool Sphere::_IntersectWithRay(
-  RaySurfaceIntersection& o_intersection, 
+  IntersectionRecord& o_intersection,
   const Ray& i_ray) const
   {
   const auto& ray_origin = i_ray.GetOrigin();
   const auto& ray_direction = i_ray.GetDirection();
-  const auto& start_to_center = m_center - ray_origin;
 
-  const double to_sphere = start_to_center.Dot(ray_direction);
+  const double to_sphere = 
+    m_center.Dot(ray_direction) - ray_origin.Dot(ray_direction);
 
   if (to_sphere - m_radius > o_intersection.m_distance)
     return false;

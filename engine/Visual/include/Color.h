@@ -19,6 +19,7 @@ public:
   Color operator*(double i_factor) const;
   Color operator*(const Vector3d& i_factor) const;
   Color operator+(const Color& i_other) const;
+  Color& operator+=(const Color& i_other);
 
   bool operator==(const Color& i_other) const;
   bool operator!=(const Color& i_other) const;

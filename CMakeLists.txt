@@ -3,11 +3,12 @@ cmake_minimum_required(VERSION 3.8)
 project(engine)
 
 set(CMAKE_CXX_STANDARD 11)
+set(OpenGL_GL_PREFERENCE LEGACY)
 
 if(MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
 else()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -pthread")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -pthread -lGL -lGLU -lglut")
 endif()
 
 # for python integration

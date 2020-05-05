@@ -62,12 +62,6 @@ class Scene
       double i_offset_x, 
       double i_offset_y) const;
 
-    bool _RenderSlow(
-      Image& o_image,
-      const Camera& i_camera,
-      double i_offset_x,
-      double i_offset_y) const;
-
   private:
     std::size_t m_active_camera;
     std::string m_name;

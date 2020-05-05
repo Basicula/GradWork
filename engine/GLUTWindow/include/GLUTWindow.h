@@ -7,7 +7,7 @@
 class GLUTWindow
   {
   public:
-    GLUTWindow(int i_width, int i_height, char* i_title = "New window");
+    GLUTWindow(int i_width, int i_height, const char* i_title = "New window");
 
     void SetImageSource(const Image* ip_source);
     void SetUpdateImageFunc(std::function<void()> i_func);
@@ -25,7 +25,7 @@ class GLUTWindow
   private:
     int m_width;
     int m_height;
-    char* m_title;
+    const char* m_title;
 
     int m_iterations_for_mandelbrot;
     bool m_new_mandelbrot;
