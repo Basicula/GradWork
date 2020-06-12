@@ -14,7 +14,7 @@ def create_scene_sample(camera_cnt = 1, obj_cnt = 1, light_cnt = 1):
     scene = Scene("example")
     
     for i in range(camera_cnt):
-        scene.addCamera(Camera(Vector3d(2*i+1,3*i+1,4*i+1),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1))
+        scene.addCamera(Camera(Vector3d(2*i+1,3*i+1,4*i+1),Vector3d(0,0,0),Vector3d(0,1,0),60,4/3,1), True)
         
     ruby_material = ColorMaterial(Color(255, 0, 0)
                         , Vector3d(0.1745, 0.01175, 0.01175)
@@ -37,15 +37,17 @@ def dump_scene_image(scene):
     for y in range(height):
         row = []
         for x in range(width):
-            pixel = image.getPixel(x,y)
+            pixel = Color(image.getPixel(x,y))
             row.append([pixel.red, pixel.green, pixel.blue])
         img.append(row)
     img.reverse()
     plt.imshow(img)
     plt.savefig('test.png')
     
-def test():
-    scene = Scene("example")
+def test(name = "example"):
+    width = 640
+    height = 480
+    scene = Scene(name, width, height)
     
     ruby_material = ColorMaterial(Color(255, 0, 0)
                             , Vector3d(0.1745, 0.01175, 0.01175)
@@ -53,15 +55,45 @@ def test():
                             , Vector3d(0.727811, 0.626959, 0.626959)
                             , 76.8)
     
-    scene.addObject(RenderableObject(Sphere(Vector3d(0,0,0), 3), ruby_material))
-    scene.addObject(RenderableObject(Sphere(Vector3d(4,4,-4), 1), ruby_material))
+    scene.addObject(RenderableObject(Sphere(Vector3d(0), 2), ruby_material))
+    #scene.addObject(RenderableObject(Sphere(Vector3d(4,4,-4), 1), ruby_material))
     
     #scene.addLight(SpotLight(Vector3d(10,10,10)))
     scene.addLight(SpotLight(Vector3d(5,6,-6)))
     
-    scene.addCamera(Camera(Vector3d(0,0,-25),Vector3d(0,0,0),Vector3d(0,-1,0),60,4/3,1))
+    scene.addCamera(Camera(
+      Vector3d(0, 7, 7),
+      Vector3d(0, 0, 0),
+      Vector3d(0, -1, 1).normalized(),
+      75,
+      width * 1.0 / height,
+      2), True)
+      
+    scene.addCamera(Camera(
+      Vector3d(0, 10, 0),
+      Vector3d(0, 0, 0),
+      Vector3d(0, 0, 1),
+      75,
+      width * 1.0 / height,
+      2), False)
+      
+    scene.addCamera(Camera(
+      Vector3d(10, 0, 0),
+      Vector3d(0, 0, 0),
+      Vector3d(0, -1, 0),
+      75,
+      width * 1.0 / height,
+      2), False)
+      
+    scene.addCamera(Camera(
+      Vector3d(0, 0, 10),
+      Vector3d(0, 0, 0),
+      Vector3d(0, -1, 0),
+      75,
+      width * 1.0 / height,
+      2), False)
     
-    with open('simple_example.json','w') as f:
+    with open(name+'.json','w') as f:
         json.dump(json.loads(repr(scene)), f)
     
     dump_scene_image(scene)

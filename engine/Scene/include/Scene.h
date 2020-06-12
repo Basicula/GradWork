@@ -31,6 +31,7 @@ class Scene
     void ClearLights();
 
     bool SetActiveCamera(std::size_t i_id);
+    std::size_t GetActiveCamera() const;
 
     bool SetOnOffLight(std::size_t i_id, bool i_state);
 
@@ -45,12 +46,12 @@ class Scene
     bool RenderFrame(
       Image& o_image,
       int i_offset_x = 0,
-      int i_offset_y = 0) const;
+      int i_offset_y = 0);
     bool RenderCameraFrame(
       Image& o_image, 
       std::size_t i_camera,
       int i_offset_x = 0,
-      int i_offset_y = 0) const;
+      int i_offset_y = 0);
 
     void Update();
 
@@ -58,9 +59,13 @@ class Scene
   private:
     bool _Render(
       Image& o_image, 
-      const Camera& i_camera, 
-      double i_offset_x, 
-      double i_offset_y) const;
+      std::size_t i_camera, 
+      int i_offset_x, 
+      int i_offset_y);
+
+    Color _CastRay(std::size_t i_ray_id);
+
+    void _UpdateRaysForActiveCamera();
 
   private:
     std::size_t m_active_camera;
@@ -70,6 +75,18 @@ class Scene
     KDTree m_object_tree;
     std::vector<Camera> m_cameras;
     std::vector<std::shared_ptr<ILight>> m_lights;
+
+    // cache intersection record 
+    // for cases when we need to know intersection 
+    // but intrsection details don't interested for us
+    // to decrease time and memory
+    static IntersectionRecord m_dummy_intersection;
+
+    // we can create all rays for camera image
+    // only once and then if it needed
+    // reset their origin and dirs
+    std::vector<Ray> m_rays;
+    std::vector<IntersectionRecord> m_intersection_records;
   };
 
 inline void Scene::AddObject(IRenderableSPtr i_object)
@@ -79,9 +96,9 @@ inline void Scene::AddObject(IRenderableSPtr i_object)
 
 inline void Scene::AddCamera(const Camera& i_camera, bool i_set_active)
   {
-  if (i_set_active)
-    m_active_camera = m_cameras.size();
   m_cameras.push_back(i_camera);
+  if (i_set_active)
+    SetActiveCamera(m_cameras.size()-1);
   }
 
 inline void Scene::AddLight(std::shared_ptr<ILight> i_light)
@@ -109,9 +126,15 @@ inline bool Scene::SetActiveCamera(std::size_t i_id)
   if (i_id < m_cameras.size())
     {
     m_active_camera = i_id;
+    _UpdateRaysForActiveCamera();
     return true;
     }
   return false;
+  }
+
+inline std::size_t Scene::GetActiveCamera() const
+  {
+  return m_active_camera;
   }
 
 inline std::string Scene::GetName() const
@@ -153,19 +176,32 @@ inline std::string Scene::Serialize() const
   {
   std::string res = "{ \"Scene\" : { ";
   res += "\"Name\" : \"" + m_name + "\", ";
-  res += "\"Objects\" : [ ";
+
   const auto& objects = m_object_tree.GetObjects();
   const auto object_cnt = m_object_tree.Size();
-  for (auto i = 0u; i < object_cnt; ++i)
-    res += objects[i]->Serialize() + (i == object_cnt - 1 ? " ], " : ", ");
-  res += "\"Cameras\" : [ ";
+  if (object_cnt != 0)
+    {
+    res += "\"Objects\" : [ ";
+    for (auto i = 0u; i < object_cnt; ++i)
+      res += objects[i]->Serialize() + (i == object_cnt - 1 ? " ], " : ", ");
+    }
+
   const auto cameras_cnt = m_cameras.size();
-  for (auto i = 0u; i < cameras_cnt; ++i)
-    res += m_cameras[i].Serialize() + (i == cameras_cnt - 1 ? " ], " : ", ");
-  res += "\"Lights\" : [ ";
+  if (cameras_cnt != 0)
+    {
+    res += "\"Cameras\" : [ ";
+    for (auto i = 0u; i < cameras_cnt; ++i)
+      res += m_cameras[i].Serialize() + (i == cameras_cnt - 1 ? " ], " : ", ");
+    }
+
   const auto lights_cnt = m_lights.size();
-  for (auto i = 0u; i < lights_cnt; ++i)
-    res += m_lights[i]->Serialize() + (i == lights_cnt - 1 ? " ], " : ", ");
+  if (lights_cnt != 0)
+    {
+    res += "\"Lights\" : [ ";
+    for (auto i = 0u; i < lights_cnt; ++i)
+      res += m_lights[i]->Serialize() + (i == lights_cnt - 1 ? " ], " : ", ");
+    }
+
   res += "\"ActiveCamera\" : " + std::to_string(m_active_camera) + ", ";
   res += "\"FrameWidth\" : " + std::to_string(m_frame_width) + ", ";
   res += "\"FrameHeight\" : " + std::to_string(m_frame_height);
