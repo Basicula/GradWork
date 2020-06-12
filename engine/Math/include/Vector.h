@@ -24,7 +24,6 @@ class Vector
     Vector(ElementType i_elem);
     Vector(const Vector& i_other) = default;
 
-    //can throw exception
     ElementType& operator[](std::size_t i_index);
     const ElementType& operator[](std::size_t i_index) const;
     

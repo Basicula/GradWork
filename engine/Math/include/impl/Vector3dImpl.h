@@ -3,10 +3,15 @@
 
 template<>
 inline Vector3d::Vector(double i_elem)
+  : m_coords{i_elem, i_elem, i_elem}
   {
-  m_coords[0] = i_elem;
-  m_coords[1] = i_elem;
-  m_coords[2] = i_elem;
+  }
+
+template<>
+template<>
+inline Vector3d::Vector(double i_x, double i_y, double i_z)
+  : m_coords{ i_x, i_y, i_z }
+  {
   }
 
 template<>
