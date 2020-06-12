@@ -65,7 +65,6 @@ class ColorMaterial : public IMaterial
     
     //[0,1]
     double m_reflection;
-
     double m_refraction;
   };
 

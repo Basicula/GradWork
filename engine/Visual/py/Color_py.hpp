@@ -18,8 +18,8 @@ static void AddColor(py::module& io_module)
   {
   py::class_<Color>(io_module, "Color")
     .def(py::init<>())
-    .def(py::init<uint>())
-    .def(py::init<uchar, uchar, uchar>())
+    .def(py::init<std::uint32_t>())
+    .def(py::init<std::uint8_t, std::uint8_t, std::uint8_t>())
     .def(py::self * double())
     .def(py::self * Vector3d())
     .def(py::self + py::self)
@@ -39,7 +39,7 @@ static void AddColor(py::module& io_module)
       &Color::SetRGB)
     .def("fromDict", [](py::dict i_dict)
       {
-      uint value = i_dict["Color"].cast<uint>();
+      std::uint32_t value = i_dict["Color"].cast<std::uint32_t>();
       return Color(value);
       })
     .def("__repr__", &Color::Serialize)
