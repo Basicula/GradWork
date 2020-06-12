@@ -20,6 +20,8 @@ class KDTree
 
     void AddObject(IRenderableSPtr i_object);
 
+    void Update();
+
   private:
     KDNodePtr m_root;
     Objects m_objects;
@@ -51,6 +53,14 @@ inline Objects KDTree::GetObjects() const
 inline void KDTree::AddObject(IRenderableSPtr i_object)
   {
   m_objects.push_back(i_object);
+  m_root->Clear();
+  m_root.reset(new KDNode(m_objects));
+  }
+
+inline void KDTree::Update()
+  {
+  for (auto& object : m_objects)
+    object->Update();
   m_root->Clear();
   m_root.reset(new KDNode(m_objects));
   }

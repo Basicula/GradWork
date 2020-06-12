@@ -28,6 +28,7 @@ class KDNode
     KDNode();
     KDNode(const Objects& i_objects);
 
+    void UpdateBBox();
     bool IntersectWithRay(
       IntersectionRecord& io_intersection, 
       const Ray& i_ray) const;
@@ -39,6 +40,11 @@ class KDNode
     void _Reset();
 
     static KDNode::Axis _DetectSplitingAxis(const BoundingBox& i_current_bbox);
+    BoundingBox _GetNodeBoundingBox() const;
+
+    bool _LeafIntersectWithRay(
+      IntersectionRecord& io_intersection,
+      const Ray& i_ray) const;
 
   private:
     NodeType m_type;
