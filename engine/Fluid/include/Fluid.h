@@ -9,7 +9,7 @@
 class Fluid : public IRenderable
   {
   public:
-    Fluid(const BoundingBox& i_box);
+    Fluid(std::size_t i_num_particles);
 
     virtual bool IntersectWithRay(
       IntersectionRecord& o_intersection,
@@ -20,19 +20,22 @@ class Fluid : public IRenderable
     virtual void Update() override;
 
     double GetTimeStep();
+    std::size_t GetNumParticles() const;
 
   private:
-    void _InitParticles();
+    void _UpdateBBox();
 
   private:
     BoundingBox m_bbox;
     SPHSimulation m_simulation;
+
+    std::shared_ptr<IMaterial> m_material;
   };
 
 inline std::string Fluid::Serialize() const
   {
   std::string res = "{ \"Fluid\" : { ";
-  res += "\"Box\" : " + m_bbox.Serialize();
+  res += "\"NumOfParticles\" : " + std::to_string(GetNumParticles());
   res += "} }";
   return res;
   }
@@ -47,7 +50,13 @@ inline double Fluid::GetTimeStep()
   return m_simulation.GetTimeStep();
   }
 
+inline std::size_t Fluid::GetNumParticles() const
+  {
+  return m_simulation.GetParticleSystem().GetNumOfParticles();
+  }
+
 inline void Fluid::Update()
   {
   m_simulation.Update();
+  _UpdateBBox();
   }

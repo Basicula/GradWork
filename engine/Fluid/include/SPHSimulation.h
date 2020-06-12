@@ -8,10 +8,7 @@ class SPHSimulation : public Simulation
   public:
     SPHSimulation(std::size_t i_num_particles);
 
-    SPHSystem GetParticleSystem() const;
-
-    //TODO: delete
-    SPHSystem& GetParticleSystem();
+    const SPHSystem& GetParticleSystem() const;
 
     double GetEOSExponent() const;
     void SetEOSExponent(double i_eos_exponent);
@@ -25,11 +22,19 @@ class SPHSimulation : public Simulation
     virtual void _PostProcessing() override;
 
   private:
+    void _InitParticles();
+
     void _AccumulateExternalForces();
+
+    void _AccumulateViscosityForce();
+
     void _ComputePressure();
     void _AccumulatePressureForeces();
+
     void _TimeIntegration();
+
     void _UpdatePositionsAndVelocities();
+
     void _ResolveCollisions();
 
   private:
@@ -42,12 +47,7 @@ class SPHSimulation : public Simulation
     double m_negative_pressure_scale;
   };
 
-inline SPHSystem SPHSimulation::GetParticleSystem() const
-  {
-  return m_particle_system;
-  }
-
-inline SPHSystem& SPHSimulation::GetParticleSystem()
+inline const SPHSystem& SPHSimulation::GetParticleSystem() const
   {
   return m_particle_system;
   }

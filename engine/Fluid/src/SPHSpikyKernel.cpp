@@ -27,7 +27,7 @@ double SPHSpikyKernel::FirstDerivative(double i_distance) const
   else
     {
     double x = 1.0 - i_distance / m_h;
-    return -45.0 / (PI * m_h4) * x * x;
+    return -45.0 * x * x / (PI * m_h4);
     }
   }
 

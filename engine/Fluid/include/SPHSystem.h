@@ -9,26 +9,41 @@ class SPHSystem : public ParticleSystem
     SPHSystem(
       std::size_t i_num_particles = 1024,
       double i_system_density = WATER_DENSITY,
+      double i_viscosity = VISCOSITY,
       double i_radius = SMOOTHING_RADIUS,
       double i_mass = PARTICLE_MASS);
 
-    VectorDataIteratorC GetPositions() const;
-    VectorDataIterator GetPositions();
+    VectorDataIteratorC BeginPositions() const;
+    VectorDataIteratorC EndPositions() const;
+    VectorDataIterator BeginPositions();
+    VectorDataIterator EndPositions();
 
-    VectorDataIteratorC GetVelocities() const;
-    VectorDataIterator GetVelocities();
+    VectorDataIteratorC BeginVelocities() const;
+    VectorDataIteratorC EndVelocities() const;
+    VectorDataIterator BeginVelocities();
+    VectorDataIterator EndVelocities();
 
-    VectorDataIteratorC GetForces() const;
-    VectorDataIterator GetForces();
+    VectorDataIteratorC BeginForces() const;
+    VectorDataIteratorC EndForces() const;
+    VectorDataIterator BeginForces();
+    VectorDataIterator EndForces();
+    void ClearForces();
 
-    ScalarDataIteratorC GetDensities() const;
-    ScalarDataIterator GetDensities();
+    ScalarDataIteratorC BeginDensities() const;
+    ScalarDataIteratorC EndDensities() const;
+    ScalarDataIterator BeginDensities();
+    ScalarDataIterator EndDensities();
 
-    ScalarDataIteratorC GetPressures() const;
-    ScalarDataIterator GetPressures();
+    ScalarDataIteratorC BeginPressures() const;
+    ScalarDataIteratorC EndPressures() const;
+    ScalarDataIterator BeginPressures();
+    ScalarDataIterator EndPressures();
 
     double GetSystemDensity() const;
     void SetSystemDensity(double i_system_density);
+
+    double GetViscosity() const;
+    void SetViscosity(double i_viscosity);
 
     double GetRadius() const;
     void SetRadius(double i_radius);
@@ -54,6 +69,7 @@ class SPHSystem : public ParticleSystem
     std::size_t m_pressures_id;
 
     double m_system_density;
+    double m_viscosity;
 
     double m_radius;
     double m_mass;
@@ -62,54 +78,104 @@ class SPHSystem : public ParticleSystem
     std::vector<std::vector<std::size_t>> m_neighbors_list;
   };
 
-inline ParticleSystem::VectorDataIteratorC SPHSystem::GetPositions() const
+inline ParticleSystem::VectorDataIteratorC SPHSystem::BeginPositions() const
   {
-  return _GetVectorDataAt(m_positions_id);
+  return _BeginVectorDataAt(m_positions_id);
   }
 
-inline ParticleSystem::VectorDataIterator SPHSystem::GetPositions()
+inline ParticleSystem::VectorDataIteratorC SPHSystem::EndPositions() const
   {
-  return _GetVectorDataAt(m_positions_id);
+  return _EndVectorDataAt(m_positions_id);
   }
 
-inline ParticleSystem::VectorDataIteratorC SPHSystem::GetVelocities() const
+inline ParticleSystem::VectorDataIterator SPHSystem::BeginPositions()
   {
-  return _GetVectorDataAt(m_velocities_id);
+  return _BeginVectorDataAt(m_positions_id);
   }
 
-inline ParticleSystem::VectorDataIterator SPHSystem::GetVelocities()
+inline ParticleSystem::VectorDataIterator SPHSystem::EndPositions()
   {
-  return _GetVectorDataAt(m_velocities_id);
+  return _EndVectorDataAt(m_positions_id);
   }
 
-inline ParticleSystem::VectorDataIteratorC SPHSystem::GetForces() const
+inline ParticleSystem::VectorDataIteratorC SPHSystem::BeginVelocities() const
   {
-  return _GetVectorDataAt(m_forces_id);
+  return _BeginVectorDataAt(m_velocities_id);
   }
 
-inline ParticleSystem::VectorDataIterator SPHSystem::GetForces()
+inline ParticleSystem::VectorDataIteratorC SPHSystem::EndVelocities() const
   {
-  return _GetVectorDataAt(m_forces_id);
+  return _EndVectorDataAt(m_velocities_id);
   }
 
-inline ParticleSystem::ScalarDataIteratorC SPHSystem::GetDensities() const
+inline ParticleSystem::VectorDataIterator SPHSystem::BeginVelocities()
   {
-  return _GetScalarDataAt(m_densities_id);
+  return _BeginVectorDataAt(m_velocities_id);
   }
 
-inline ParticleSystem::ScalarDataIterator SPHSystem::GetDensities()
+inline ParticleSystem::VectorDataIterator SPHSystem::EndVelocities()
   {
-  return _GetScalarDataAt(m_densities_id);
+  return _EndVectorDataAt(m_velocities_id);
   }
 
-inline ParticleSystem::ScalarDataIteratorC SPHSystem::GetPressures() const
+inline ParticleSystem::VectorDataIteratorC SPHSystem::BeginForces() const
   {
-  return _GetScalarDataAt(m_pressures_id);
+  return _BeginVectorDataAt(m_forces_id);
   }
 
-inline ParticleSystem::ScalarDataIterator SPHSystem::GetPressures()
+inline ParticleSystem::VectorDataIteratorC SPHSystem::EndForces() const
   {
-  return _GetScalarDataAt(m_pressures_id);
+  return _EndVectorDataAt(m_forces_id);
+  }
+
+inline ParticleSystem::VectorDataIterator SPHSystem::BeginForces()
+  {
+  return _BeginVectorDataAt(m_forces_id);
+  }
+
+inline ParticleSystem::VectorDataIterator SPHSystem::EndForces()
+  {
+  return _EndVectorDataAt(m_forces_id);
+  }
+
+inline ParticleSystem::ScalarDataIteratorC SPHSystem::BeginDensities() const
+  {
+  return _BeginScalarDataAt(m_densities_id);
+  }
+
+inline ParticleSystem::ScalarDataIteratorC SPHSystem::EndDensities() const
+  {
+  return _EndScalarDataAt(m_densities_id);
+  }
+
+inline ParticleSystem::ScalarDataIterator SPHSystem::BeginDensities()
+  {
+  return _BeginScalarDataAt(m_densities_id);
+  }
+
+  inline ParticleSystem::ScalarDataIterator SPHSystem::EndDensities()
+  {
+  return _EndScalarDataAt(m_densities_id);
+  }
+
+inline ParticleSystem::ScalarDataIteratorC SPHSystem::BeginPressures() const
+  {
+  return _BeginScalarDataAt(m_pressures_id);
+  }
+
+inline ParticleSystem::ScalarDataIteratorC SPHSystem::EndPressures() const
+  {
+  return _EndScalarDataAt(m_pressures_id);
+  }
+
+inline ParticleSystem::ScalarDataIterator SPHSystem::BeginPressures()
+  {
+  return _BeginScalarDataAt(m_pressures_id);
+  }
+
+inline ParticleSystem::ScalarDataIterator SPHSystem::EndPressures()
+  {
+  return _EndScalarDataAt(m_pressures_id);
   }
 
 inline double SPHSystem::GetSystemDensity() const
@@ -120,6 +186,16 @@ inline double SPHSystem::GetSystemDensity() const
 inline void SPHSystem::SetSystemDensity(double i_system_density)
   {
   m_system_density = i_system_density;
+  }
+
+inline double SPHSystem::GetViscosity() const
+  {
+  return m_viscosity;
+  }
+
+inline void SPHSystem::SetViscosity(double i_viscosity)
+  {
+  m_viscosity = i_viscosity;
   }
 
 inline double SPHSystem::GetMass() const

@@ -2,14 +2,17 @@
 #include <SPHSystem.h>
 #include <SPHStandartKernel.h>
 #include <ParallelUtils.h>
+#include <ThreadPool.h>
 
 SPHSystem::SPHSystem(
   std::size_t i_num_particles,
   double i_system_density,
+  double i_viscosity,
   double i_radius,
   double i_mass)
   : ParticleSystem(i_num_particles)
   , m_system_density(i_system_density)
+  , m_viscosity(i_viscosity)
   , m_radius(i_radius)
   , m_mass(i_mass)
   , mp_neighbor_searcher(nullptr)
@@ -26,13 +29,16 @@ SPHSystem::SPHSystem(
 void SPHSystem::BuildNeighborSearcher()
   {
   mp_neighbor_searcher = std::make_shared<BFPointSearcher>(
-    _GetVectorDataAt(m_positions_id), m_num_particles);
+    BeginPositions(), m_num_particles);
   }
 
 void SPHSystem::BuildNeighborsList()
   {
-  auto points = GetPositions();
-  for (auto i = 0u; i < m_num_particles; ++i)
+  const auto points = BeginPositions();
+  ThreadPool::GetInstance()->ParallelFor(
+    static_cast<std::size_t>(0),
+    m_num_particles,
+    [&](std::size_t i)
     {
     const Vector3d& origin = points[i];
     m_neighbors_list[i].clear();
@@ -47,20 +53,20 @@ void SPHSystem::BuildNeighborsList()
         m_neighbors_list[i].push_back(j);
         }
       });
-    }
+    });
   }
 
 void SPHSystem::UpdateDensities()
   {
-  auto positions = GetPositions();
-  auto densities = GetDensities();
+  const auto positions = BeginPositions();
+  auto densities = BeginDensities();
 
-  Parallel::ParallelFor(
+  ThreadPool::GetInstance()->ParallelFor(
     static_cast<std::size_t>(0), 
     m_num_particles, 
     [&](std::size_t i)
     {
-    double sum = _SumOfKernelsNearby(positions[i]);
+    const double sum = _SumOfKernelsNearby(positions[i]);
     densities[i] = m_mass * sum;
     });
   }
@@ -74,8 +80,15 @@ double SPHSystem::_SumOfKernelsNearby(const Vector3d& i_origin) const
     m_radius, 
     [&](std::size_t, const Vector3d& i_neighbor)
     {
-    double dist = i_origin.SquareDistance(i_neighbor);
+    const double dist = i_origin.SquareDistance(i_neighbor);
     sum += kernel(dist);
     });
   return sum;
+  }
+
+void SPHSystem::ClearForces()
+  {
+  auto forces = BeginForces();
+  for (auto i = 0u; i < m_num_particles; ++i, ++forces)
+    *forces = Vector3d(0.0);
   }

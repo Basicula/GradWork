@@ -52,6 +52,7 @@ target_link_libraries(Fluid PRIVATE Common)
 target_link_libraries(Fluid PRIVATE Visual)
 target_link_libraries(Fluid PRIVATE Primitives)
 
+if (WIN32)
 add_executable(Fluidexe src/main.cpp)
 
 target_include_directories(Fluidexe PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -64,3 +65,5 @@ target_link_libraries(Fluidexe PRIVATE Visual)
 target_link_libraries(Fluidexe PRIVATE Primitives)
 target_link_libraries(Fluidexe PRIVATE Fluid)
 target_link_libraries(Fluidexe PRIVATE Scene)
+target_link_libraries(Fluidexe PRIVATE GLUTWindow)
+endif()
