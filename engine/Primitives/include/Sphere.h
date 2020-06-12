@@ -28,7 +28,6 @@ class Sphere : public ISurface
   private:
     Vector3d m_center;
     double m_radius;
-    std::shared_ptr<IMaterial> m_material;
   };
 
 inline Vector3d Sphere::GetCenter() const 
