@@ -17,6 +17,11 @@ from engine.Visual.Material import ColorMaterial
 from engine.Primitives import Sphere
 from engine.Math.Vector import Vector3d
 
+from enum import Enum
+class Scenario(Enum):
+    CAMERA_PER_WORKER = 1
+    PART_OF_SCREEN_PER_WORKER = 2
+
 def start(conf):
     log.info("Starting...")
     app.node = Node.create_node(conf,"./parcsv2/Scenes")
@@ -32,6 +37,7 @@ app = Flask(__name__)
 app.debug = False
 app.node = None
 app.inited = False
+app.scenario = Scenario.CAMERA_PER_WORKER
 
 def bad_request():
     return Response(status=400)
@@ -80,12 +86,38 @@ def simulation(filename):
 def simulation_update():
     session = FuturesSession()
     responses = []
-    for worker in app.node.workers:
-        responses.append(session.get('http://%s:%s/api/internal/worker/scene/update' % (worker.ip, worker.port)))
-    image = ""
-    for response in responses:
-        image += response.result().json()['image']
-    return {"image":image, "width" : app.node.scene.frameWidth, "height" : app.node.scene.frameHeight}
+    
+    result_images = []
+    if app.scenario == Scenario.CAMERA_PER_WORKER:
+        num_of_res = 0;
+        for worker in app.node.workers:
+            responses.append(session.get('http://%s:%s/api/internal/worker/scene/update/camera/%d' % (worker.ip, worker.port, num_of_res)))
+            num_of_res += 1
+        
+        for response in responses:
+            response_json = response.result().json()
+            if not 'image' in response_json:
+                continue
+            image = {}
+            image['image'] = response_json['image']
+            image['width'] = response_json['width']
+            image['height'] = response_json['height']
+            result_images.append(image)
+    else:
+        num_of_res = 0;
+        for worker in app.node.workers:
+            responses.append(session.get('http://%s:%s/api/internal/worker/scene/update' % (worker.ip, worker.port)))
+            num_of_res += 1
+        
+        # get result frames from all workers
+        image = ""
+        for response in responses:
+            image += response.result().json()['image']
+            image += chr(0) * 3 * app.node.scene.frameWidth
+        
+        result_images.append({"image":image, "width" : app.node.scene.frameWidth, "height" : app.node.scene.frameHeight + num_of_res})
+    
+    return {'images' : result_images}
 
 # Inernal api
 @app.route('/api/internal/heartbeat')
@@ -113,7 +145,7 @@ def scene_init(filename):
             if filename in file:
                 with open(addr+'/'+file,'r') as f:
                     app.node.scene = Scene.fromDict(json.load(f))
-                    app.node.scene.addObject(Fluid(BoundingBox(Vector3d(-5),Vector3d(5))))
+                    app.node.scene.addObject(Fluid(32))
     app.image = Image(app.node.scene.frameWidth, app.node.scene.frameHeight)
     return ok()
     
@@ -121,14 +153,18 @@ def scene_init(filename):
 def scene_update():
     width = app.node.scene.frameWidth
     height = app.node.scene.frameHeight
-    x = random.uniform(-20, 20)
-    y = random.uniform(-20, 20)
-    z = random.uniform(-10, 0)
-    #app.node.scene.addObject(
-    #    Sphere(
-    #        Vector3d(x,y,z),
-    #        2,
-    #        ColorMaterial(Color(random.randint(0,0xffffff)))))
+    app.node.scene.getFrame(app.image)
+    return {"image":app.image.rgbDataStr(), "width" : width, "height" : height}
+
+@app.route('/api/internal/worker/scene/update/camera/<camera_id>', methods = ['GET'])
+def scene_camera_update(camera_id):
+    camera_id = int(camera_id)
+    if camera_id >= app.node.scene.camCnt:
+        return {}
+
+    width = app.node.scene.frameWidth
+    height = app.node.scene.frameHeight
+    app.node.scene.activeCamera = camera_id
     app.node.scene.getFrame(app.image)
     app.node.scene.update()
-    return {"image":str(app.image), "width" : width, "height" : height}
+    return {"image":app.image.rgbDataStr(), "width" : width, "height" : height}    

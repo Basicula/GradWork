@@ -41,7 +41,16 @@
   margin : 0;
 }
 
-.canvas {
+canvas {
   width : 100%;
   height : 100%;
+  border: 1px solid black;
+}
+
+.canvas_container_wrapper{
+  display : grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 480px;
+  grid-auto-columns: 640px;
+  grid-gap: 1%;
 }
