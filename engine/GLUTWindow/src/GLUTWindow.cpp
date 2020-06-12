@@ -62,7 +62,6 @@ void GLUTWindow::_DisplayFunc()
   glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   if (mp_source)
     {
-    const auto& raw_data = mp_source->GetRawData();
     gluBuild2DMipmaps(
       GL_TEXTURE_2D, 
       3, 
@@ -70,7 +69,7 @@ void GLUTWindow::_DisplayFunc()
       static_cast<GLint>(mp_source->GetHeight()), 
       GL_RGB, 
       GL_UNSIGNED_BYTE, 
-      raw_data.data());
+      mp_source->GetRGBData());
     }
 
   glEnable(GL_TEXTURE_2D);

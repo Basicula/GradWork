@@ -13,7 +13,7 @@ class TestImageConstructor(unittest.TestCase):
         self.assertEqual(image.width, width)
         self.assertEqual(image.height, height)
         
-        default_color = Color(0)
+        default_color = 0x000000
         for x in range(width):
             for y in range(height):
                 self.assertEqual(image.getPixel(x,y), default_color)
@@ -22,18 +22,18 @@ class TestImageConstructor(unittest.TestCase):
         print("\nCustom constructor", end = "")
         width = 12
         height = 32
-        image = Image(width, height, Color(0xffffff))
+        image = Image(width, height, 0xffffff)
         
         self.assertEqual(image.width, width)
         self.assertEqual(image.height, height)
         
-        custom_color = Color(0xffffff)
+        custom_color = 0xffffff
         for x in range(width):
             for y in range(height):
                 self.assertEqual(image.getPixel(x,y), custom_color)
                 
 class TestImageProperties(unittest.TestCase):
-    def test_properties(self):
+    def test_size_properties(self):
         print("\nProperties", end = "")
         width = 123
         height = 321
@@ -47,34 +47,58 @@ class TestImageProperties(unittest.TestCase):
             
         self.assertEqual(image.width, width)
         self.assertEqual(image.height, height)
+        self.assertEqual(image.size, height * width)
             
-        with self.assertRaises(AttributeError):
-            image.data = 123
+    def test_image_data(self):
+        print("\nImage data", end = "")
             
-        #with self.assertRaises(AttributeError):
-        #    image.data[0][0] = Color(0)
+        width = 40
+        height = 40
+        image = Image(width, height, 0x123456)
             
-        self.assertEqual(image.data[0][0], Color(0))
+        image_data = image.data()
+        self.assertEqual(image_data[0], 0x123456)
+            
+    def test_image_rgb_data(self):
+        print("\nImage rgb data", end = "")
+            
+        width = 40
+        height = 40
+        image = Image(width, height, 0x123456)
         
-        with self.assertRaises(AttributeError):
-            image.rawData = 123
+        image_rgb_data = image.rgbData()
+        self.assertEqual(image_rgb_data[0], 0x12)
+        self.assertEqual(image_rgb_data[1], 0x34)
+        self.assertEqual(image_rgb_data[2], 0x56)
+        
+    def test_image_rgb_str_data(self):
+        print("\nImage rgb data as str", end = "")
             
-        self.assertEqual(image.rawData[0], 0)
+        width = 40
+        height = 40
+        image = Image(width, height, 0x123456)
+        
+        image_rgb_str_data = image.rgbDataStr()
+        self.assertEqual(image_rgb_str_data[0], chr(0x12))
+        self.assertEqual(image_rgb_str_data[1], chr(0x34))
+        self.assertEqual(image_rgb_str_data[2], chr(0x56))
+        
+        self.assertEqual(image_rgb_str_data, (chr(0x12) + chr(0x34) + chr(0x56)) * image.size)
         
 class TestImageFunctionality(unittest.TestCase):
     def test_pixel_manipulation(self):
         print("\nPixel manipulation", end = "")
         width = 22
         height = 33
-        image = Image(width, height, Color(0xff0000))
+        image = Image(width, height, 0xff0000)
         
-        expected_color = Color(0x00ff00)
-        image.setPixel(11,11,expected_color)
+        expected_color = 0x00ff00
+        image.setPixel(11, 11, expected_color)
         self.assertEqual(image.getPixel(11,11), expected_color)
         
-        self.assertEqual(image.getPixel(123,123), Color(0))
+        self.assertEqual(image.getPixel(123,123), 0x000000)
         
-        image.setPixel(123,1312,Color(0))
+        image.setPixel(123, 1312, 0x000000)
 
 
 if __name__ == "__main__":
