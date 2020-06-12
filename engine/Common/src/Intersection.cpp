@@ -3,6 +3,7 @@
 #include <Ray.h>
 #include <DefinesAndConstants.h>
 
+#include <iostream>
 namespace
   {
   void RayBoxIntersection(
@@ -17,15 +18,16 @@ namespace
     const auto& origin = i_ray.GetOrigin();
     const auto& ray_direction = i_ray.GetDirection();
 
-    o_near = 0;
+    o_near = -MAX_DOUBLE;
     o_far = MAX_DOUBLE;
     for (auto i = 0; i < 3; ++i)
       {
-      double ttmin = (min_corner[i] - origin[i]) / ray_direction[i];
-      double ttmax = (max_corner[i] - origin[i]) / ray_direction[i];
-
-      if (ttmin > ttmax)
-        std::swap(ttmin, ttmax);
+      const double inv_dir = 1.0 / ray_direction[i];
+      const double t1 = (min_corner[i] - origin[i]) * inv_dir;
+      const double t2 = (max_corner[i] - origin[i]) * inv_dir;
+      const bool cond = (t1 < t2);
+      const double ttmin = cond ? t1: t2;
+      const double ttmax = cond ? t2: t1;
 
       if (ttmin > o_near)
         o_near = ttmin;
@@ -71,6 +73,13 @@ RayBoxIntersectionRecord::RayBoxIntersectionRecord()
   , m_tmax(-MAX_DOUBLE)
   , m_tmin(MAX_DOUBLE)
   {}
+
+void RayBoxIntersectionRecord::Reset()
+  {
+  m_intersected = false;
+  m_tmax = -MAX_DOUBLE;
+  m_tmin = MAX_DOUBLE;
+  }
 
 void RayBoxIntersection(
   const Ray & i_ray,

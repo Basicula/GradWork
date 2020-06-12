@@ -26,6 +26,8 @@ struct RayBoxIntersectionRecord
   double m_tmax;
 
   RayBoxIntersectionRecord();
+
+  void Reset();
   };
 
 class BoundingBox;
