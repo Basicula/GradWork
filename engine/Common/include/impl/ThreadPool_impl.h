@@ -9,14 +9,7 @@ void ThreadPool::ParallelFor(
   const Function& i_function)
   {
   const std::size_t num_of_tasks = static_cast<std::size_t>(i_end - i_start + 1);
-  // we don't want to use all workers 
-  // if we have more than 8 workers
-  // often 8 is quite enough for this task
-  const auto num_of_workers = 
-    std::min(m_workers.size(), static_cast<std::size_t>(8));
-  auto bucket_size = static_cast<std::size_t>(
-    std::round(num_of_tasks / static_cast<double>(num_of_workers)));
-  bucket_size = std::max(bucket_size, static_cast<std::size_t>(1));
+  auto bucket_size = (num_of_tasks + m_workers.size() - 1) / m_workers.size();
 
   auto worker_task = [&i_function](IndexType i_start, IndexType i_end)
     {
@@ -27,14 +20,12 @@ void ThreadPool::ParallelFor(
   std::vector<std::future<typename std::result_of<Function(IndexType)>::type>> results;
   IndexType i1 = i_start;
   IndexType i2 = std::min(i_start + bucket_size, i_end);
-  for (auto i = 0u; i + 1 < num_of_workers && i1 < i_end; ++i)
+  for (auto i = 0u; i1 < i_end; ++i)
     {
     results.push_back(Enqueue(worker_task, i1, i2));
     i1 = i2;
     i2 = std::min(i1 + bucket_size, i_end);
     }
-  if (i1 < i_end)
-    results.push_back(Enqueue(worker_task, i1, i_end));
   for (auto& reslult : results)
     reslult.get();
   }
@@ -55,10 +46,6 @@ inline auto ThreadPool::Enqueue(Function&& i_function, Args&&... i_args)
     std::unique_lock<std::mutex> lock(m_mutex);
     m_tasks.emplace([task](){(*task)();});
     }
-  if (m_in_progress_cnt == m_workers.size() 
-    && m_workers.size() < m_max_workers
-    && m_tasks.size() > m_workers.size())
-    _AddWorker();
   m_wait_condition.notify_one();
   return result;
   }
